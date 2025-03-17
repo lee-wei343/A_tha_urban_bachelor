@@ -1,0 +1,119 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library('tidyverse')
+```
+
+------------------------------------------------------------------------
+
+Changed 171-1 to 171 on row 1522 column 1 in "Transplanting_exp.csv". Removed row 1348-1353.
+
+```{r}
+tplant <- read_csv(file = "Transplanting_exp.csv", 
+                   col_types = cols(
+                     ID = col_character(),
+                     Pop = col_integer(),
+                     Replicate = col_character(),
+                     Tray = col_factor(),
+                     Row = col_integer(),
+                     Column = col_integer(),
+                     Harvest_date = col_character(),
+                     FT = col_character()
+                   ))
+
+tplant
+```
+
+```{r}
+# Summing up replicats for each population
+summed_pop <- tplant |>
+  group_by(Pop) |>
+  summarise(total_repl = n()) 
+
+summed_pop
+
+```
+
+```{r}
+# add label for threshold of total replicats above 5
+summed_pop_above_4 <- summed_pop |>
+  mutate(pop_above_4 = ifelse(total_repl < 4, FALSE, TRUE))
+
+summed_pop_above_4
+```
+
+```{r}
+summed_pop_above_4 |>
+  filter(pop_above_4 == T) |>
+  nrow()
+```
+
+Out of the 162 populations 114 have more than 4 replicates, 48 less.
+
+The following Population have not 5 replicates.
+
+```{r}
+# Populations below threshold of replicates
+tplant_pop_below_4 <- summed_pop_above_4 |>
+  filter(pop_above_4 == F) 
+
+tplant_pop_below_4$Pop
+```
+
+------------------------------------------------------------------------
+
+In the data set **Flowering_time_in-situ** you have the FT of the population IN THE CITY - in-situ.
+
+You are interested in the column:
+
+\- **Site_ID** the population number
+
+\- **Type** the type of urban habitat
+
+\- **First_FT_julianday**
+the first flowering individual of the population transformed into
+Julian day (counting the day of the year from 1 to 365, 1 being the 1st
+of January and 365 the 31th December). It is the F3 generation here.
+
+```{r}
+ft_situ <- read_csv(file = "Flowering_time_in-situ.csv")
+
+ft_situ
+```
+
+------------------------------------------------------------------------
+
+In the data set **FT_table_final** it
+is Gaëlle data set of the FT CONTROLLED CONDITIONS - ex-situ. She was
+working with the generation F4 sampled in 2023 and **you are working with
+the generation F5** from 2025
+
+\- **Column A - H** are the same as your data set!
+
+To extract the FT of the date set you need to do **Sowing date - Flowering date**
+
+Gaëlle also compare the FT in-situ and ex-situ this is the F3/F4 correlation at the end of her script.
+
+```{r}
+f4_gaelle <- read_csv(file = "FT_table_final.csv")
+
+f4_gaelle
+```
+
+```{r}
+# A-H are same so reproducing ID from tplant to join
+colnames(f4_gaelle) <- paste0(colnames(f4_gaelle), "_F4")
+f4_gaelle_w_id <- f4_gaelle |>
+  mutate(ID = paste0(as.character(Population_F4), "-", as.character(Replicate_F4)))
+
+
+
+tplant_w_f4 <- tplant |>
+  left_join(f4_gaelle_w_id, by = "ID")
+
+tplant_w_f4
+```
