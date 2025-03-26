@@ -5,25 +5,31 @@ editor: visual
 ---
 
 ```{r}
+#| message: false
 library('tidyverse')
 ```
 
 ------------------------------------------------------------------------
 
-Changed 171-1 to 171 on row 1522 column 1 in "Transplanting_exp.csv". Removed row 1348-1353.
-
 ```{r}
-tplant <- read_csv(file = "Transplanting_exp.csv", 
+tplant <- read_csv(file = "data/tplant_observations - main.csv",
+                   na = "Na",
                    col_types = cols(
                      ID = col_character(),
-                     Pop = col_integer(),
-                     Replicate = col_character(),
                      Tray = col_factor(),
                      Row = col_integer(),
                      Column = col_integer(),
-                     Harvest_date = col_character(),
-                     FT = col_character()
-                   ))
+                     n_shoot_axis = col_integer(),
+                     Leaf_shape = col_factor(),
+                     Leaf_edge = col_factor(),
+                     Absent = col_logical(),
+                     is_A_tha = col_logical(),
+                     Comments = col_character()
+                   )) |>
+  filter(!(is.na(ID))) |>
+  mutate(Pop = stringi::stri_extract(ID, regex = "^.*(?=-)"),
+         Replicate = stringi::stri_extract(ID, regex = "(?<=-).*$")) |>
+  select(ID, Pop, Replicate, everything()) 
 
 tplant
 ```
@@ -31,17 +37,19 @@ tplant
 ```{r}
 # Summing up replicats for each population
 summed_pop <- tplant |>
+  filter(is_A_tha %in% c(T, NA),
+         Absent %in% c(F, NA))|>
   group_by(Pop) |>
-  summarise(total_repl = n()) 
+  summarise(total_repl = n()) |>
+  arrange(desc(total_repl))
 
 summed_pop
-
 ```
 
 ```{r}
 # add label for threshold of total replicats above 5
 summed_pop_above_4 <- summed_pop |>
-  mutate(pop_above_4 = ifelse(total_repl < 4, FALSE, TRUE))
+  mutate(pop_above_4 = ifelse(total_repl > 4, T, F))
 
 summed_pop_above_4
 ```
@@ -52,7 +60,7 @@ summed_pop_above_4 |>
   nrow()
 ```
 
-Out of the 162 populations 114 have more than 4 replicates, 48 less.
+Out of the 164 populations 95 have more than 4 replicates, x less.
 
 The following Population have not 5 replicates.
 
@@ -62,6 +70,36 @@ tplant_pop_below_4 <- summed_pop_above_4 |>
   filter(pop_above_4 == F) 
 
 tplant_pop_below_4$Pop
+```
+
+```{r}
+# Add the above to the tplant df
+tplant <- tplant |>
+  group_by(Pop) |>
+  filter(is_A_tha %in% c(T, NA),
+         Absent %in% c(F, NA))|>
+  mutate(total_repl_in_pop = n()) |>
+  ungroup() |>
+  mutate(pop_above_4 = ifelse(total_repl_in_pop > 4, T, F)) 
+
+
+tplant
+```
+
+What Populations are in the first Batch, primarily Tray 1-7:
+
+```{r}
+Pop_of_batch_1 <- tplant |>
+  filter(Tray == 1:7) |>
+  select(Pop) 
+
+
+tplant_batch_1 <- tplant |>
+  filter(Pop %in% Pop_of_batch_1$Pop) |>
+  arrange(Pop) |>
+  filter(pop_above_4 == T)
+
+tplant_batch_1
 ```
 
 ------------------------------------------------------------------------
@@ -74,23 +112,143 @@ You are interested in the column:
 
 \- **Type** the type of urban habitat
 
-\- **First_FT_julianday**
-the first flowering individual of the population transformed into
-Julian day (counting the day of the year from 1 to 365, 1 being the 1st
-of January and 365 the 31th December). It is the F3 generation here.
+\- **First_FT_julianday** the first flowering individual of the population transformed into Julian day (counting the day of the year from 1 to 365, 1 being the 1st of January and 365 the 31th December). It is the F3 generation here. The **first Julianday for 01.01.2023 is 2459946**.
 
 ```{r}
-ft_situ <- read_csv(file = "Flowering_time_in-situ.csv")
+ft_insitu_raw <- read_csv(file = "data/Flowering_time_in-situ.csv",
+                    col_types = cols(
+                      Site_ID = col_character(),
+                      Type = col_factor()
+                      )
+                    )
 
-ft_situ
+missing_type <- read_csv(file = "data/Missing_type.csv",
+                         col_types = cols(
+                           Site_ID = col_character(),
+                           Type = col_factor()
+                         ))
+
+First_FT_julianday_raw <- read_csv(file = "data/Phenology_field.csv",
+                               col_types = cols(
+                                 Site_ID = col_character(),
+                                 Type = col_factor(),
+                                 First_FT_julianday = col_double()
+                               )) |>
+  select(Site_ID, Type, First_FT_julianday)
+
+# join the raw in-situ table with the missing types. Add the total days from julianday to First_FT_Julianday
+ft_insitu_with_pheno_raw <- ft_insitu_raw |>
+  rows_append(missing_type)|>
+  left_join(First_FT_julianday_raw, by = "Site_ID", suffix = c("_insitu", "_Pheno_field"))
+
+# add First_FT_julianday from Phenology_field df where missing in FT_insitu
+ft_insitu <- ft_insitu_with_pheno_raw |>
+  mutate(
+    First_FT_julianday_raw = ifelse(
+      is.na(First_FT_julianday_insitu),
+      First_FT_julianday_Pheno_field,
+      First_FT_julianday_insitu
+    )
+  ) |> 
+  mutate(First_FT_julianday = First_FT_julianday_raw + 2459946,
+         Type = Type_insitu) |>
+  select(-Type_Pheno_field, -First_FT_julianday_Pheno_field, -First_FT_julianday_insitu, -Type_insitu)
+
+ft_insitu
+```
+
+Join the in-situ data with the transplanted plants (tplant) data set by population where the column `Site_ID` is equal to the column `Population`.
+
+```{r}
+pop_per_env <- summed_pop_above_4 |>
+  left_join(ft_insitu, join_by(Pop == Site_ID))
+
+pop_per_env
+```
+
+```{r}
+pop_above_4_per_env <- pop_per_env |>
+  filter(pop_above_4 == T) |>
+  drop_na(Type, First_FT_julianday)
+
+pop_above_4_per_env
+```
+
+### Statistical model
+
+```{r}
+mod_first <- glm(First_FT_julianday ~ Type, data=pop_above_4_per_env, family=gaussian)
+summary(mod_first)
+car::Anova(mod_first, type="III")
+qqnorm(resid(mod_first))
+```
+
+```{r}
+library(emmeans)  # Für emmGrid-Objekte
+library(multcomp) # Für die cld()-Funktion
+
+# function to convert numbers into letter for Tukey comparison of means
+convert_to_letters <- function(group) {
+  # Remove any spaces in the group string
+  group <- gsub(" ", "", group)
+  
+  # Split the group into individual numbers
+  group_numbers <- strsplit(as.character(group), "")[[1]]
+  
+  # Convert numbers to letters (1 -> a, 2 -> b, ..., 26 -> z)
+  group_letters <- sapply(group_numbers, function(x) letters[as.numeric(x)])
+  
+  # Combine the letters back into a single string
+  paste(group_letters, collapse = "")
+}
+
+# Calculate least square means and Tukey comparisons
+leastsquare <- lsmeans::lsmeans(mod_first, pairwise ~ Type, adjust = "tukey")
+tukey_results <- leastsquare$contrasts
+
+# Generate compact letter display
+cld_results <- cld(leastsquare)
+cld_results
+
+# Extract the compact letter display results
+tukey_letters_first <- as.data.frame(cld_results)
+
+# Ensure the Type column is a factor and matches the levels in your data
+tukey_letters_first$Type <- factor(tukey_letters_first$Type, levels = levels(pop_above_4_per_env$Type))
+
+#convert numbers to letters
+tukey_letters_first$group_letters <- sapply(tukey_letters_first$.group, convert_to_letters)
+```
+
+```{r}
+ggplot(data = pop_above_4_per_env, mapping = aes(x = Type, y = First_FT_julianday, fill = Type)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("meadow" = "#6a176e", "pavement" = "#bc3754", "tree bed" = "#f37819", "wall" = "#f8cd37")) +
+  geom_jitter(shape = 21, size = 1.5, fill = "black", position = position_jitter(0.2)) +
+  labs(y = "Flowering time (days) in situ", x = NULL) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 14, family = "Times New Roman"),
+    axis.title.y = element_text(size = 14, family = "Times New Roman")
+  )  +
+  geom_text(data = tukey_letters_first, aes(label = group_letters, y = max(pop_above_4_per_env$First_FT_julianday, na.rm = TRUE) + -100), size = 6, family = "Times New Roman")
+```
+
+How many replicates do we have per type of environment.
+
+```{r}
+pop_per_env_sum <- pop_per_env |>
+  filter(pop_above_4 == T) |>
+  group_by(Type) |>
+  summarise(n_pop = n())
+  
+pop_per_env_sum
 ```
 
 ------------------------------------------------------------------------
 
-In the data set **FT_table_final** it
-is Gaëlle data set of the FT CONTROLLED CONDITIONS - ex-situ. She was
-working with the generation F4 sampled in 2023 and **you are working with
-the generation F5** from 2025
+In the data set **FT_table_final** it is Gaëlle data set of the FT CONTROLLED CONDITIONS - ex-situ. She was working with the generation F4 sampled in 2023 and **you are working with the generation F5** from 2025
 
 \- **Column A - H** are the same as your data set!
 
@@ -99,7 +257,7 @@ To extract the FT of the date set you need to do **Sowing date - Flowering date*
 Gaëlle also compare the FT in-situ and ex-situ this is the F3/F4 correlation at the end of her script.
 
 ```{r}
-f4_gaelle <- read_csv(file = "FT_table_final.csv")
+f4_gaelle <- read_csv(file = "data/FT_table_final.csv")
 
 f4_gaelle
 ```
@@ -116,4 +274,12 @@ tplant_w_f4 <- tplant |>
   left_join(f4_gaelle_w_id, by = "ID")
 
 tplant_w_f4
+```
+
+```{r}
+ft_insitu
+```
+
+```{r}
+
 ```
