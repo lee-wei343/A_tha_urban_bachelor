@@ -1,6 +1,9 @@
 ---
 title: "Untitled"
-format: html
+format:
+  html:
+    embed-resources: true
+    toc: true
 editor: visual
 ---
 
@@ -231,8 +234,6 @@ tplant <- tplant |>
 tplant
 ```
 
-
-
 ```{r}
 # Add the ecosystem type to the tplant df
 Phenology <- read_csv(file = "data/Phenology_field_2.csv",
@@ -256,6 +257,7 @@ tplant <- tplant |>
 ```
 
 ## EDA of Leaf Shape and Leaf Edge per Environment
+
 ```{r}
 Ecotype_colors <- c(
   "wall" = "#f8cd37",
@@ -490,7 +492,8 @@ ggplot(data = dist_sampled_pop_per_eco,
 ```
 
 ## First Statistical analysis of Leaf Shape and Leaf Edge per Environment
-Since the ~2000 plants are coming from Populations, individuals from the same Population are more similar to each other, creating non-independence. To address this a proportion of the type of leaf edge and shape is calculated per population.
+
+Since the \~2000 plants are coming from Populations, individuals from the same Population are more similar to each other, creating non-independence. To address this a proportion of the type of leaf edge and shape is calculated per population.
 
 ```{r}
 prop_trait_per_pop <- tplant |>
@@ -499,30 +502,30 @@ prop_trait_per_pop <- tplant |>
   summarise(
     n_L = sum(Leaf_shape == "L"),
     n_O = sum(Leaf_shape == "O"),
-    # avoid division by 0 by adding 0.5
-    proportion_L_O = log((n_L + 0.5) / (n_O + 0.5)),
-    # zero means same proportion, positive number means more elongated leaf shape (L), negative oval leaf shape (O)
-    
     n_S = sum(Leaf_edge == "S"),
     n_G = sum(Leaf_edge == "G"),
-    proportion_S_G = log((n_S + 0.5) / (n_G + 0.5))
+    
+    # avoid division by 0 by adding 0.5
+    log_ratio_L_O = log((n_L + 0.5) / (n_O + 0.5)),
+    # zero means same proportion, positive number means more elongated leaf shape (L), negative oval leaf shape (O)
+    log_ratio_S_G = log((n_S + 0.5) / (n_G + 0.5)),
   ) |>
   mutate(Type = as.factor(Type)) 
 
 # bad results, perhaps because of uneven pop per envs
-# leaf_shape_model <- glm(proportion_L_O ~ Type,
+# leaf_shape_model <- glm(log_ratio_L_O ~ Type,
 #                         data = prop_trait_per_pop,
 #                         family = gaussian())
 # summary.lm(leaf_shape_model)
 # # R**2 = 3%, not sign.
 # 
-# leaf_edge_model <- glm(proportion_S_G ~ Type,
+# leaf_edge_model <- glm(log_ratio_S_G ~ Type,
 #                        data = prop_trait_per_pop,
 #                        family = gaussian())
 # summary.lm(leaf_edge_model)
 # # R**2 6%, sign.
 # 
-# trait_interaction <- glm(proportion_S_G ~ proportion_L_O * Type,
+# trait_interaction <- glm(log_ratio_S_G ~ log_ratio_L_O * Type,
 #                         family = gaussian(),
 #                         data = prop_trait_per_pop)
 # summary.lm(trait_interaction)
@@ -541,24 +544,26 @@ balanced_prop_trait_per_pop <- prop_trait_per_pop |>
   sample_n(min_pop_per_type) |>
   ungroup()
 ```
+
 The number of Populations where evened by random subsampling to the lowest number of population per Type.
 
 ```{r}
-leaf_shape_by_type_model <- glm(proportion_L_O ~ Type,
+leaf_shape_by_type_model <- glm(log_ratio_L_O ~ Type,
                         data = balanced_prop_trait_per_pop,
                         family = gaussian())
-summary.lm(leaf_shape_by_type_model)
+summary(leaf_shape_by_type_model)
 # positive number means more elongated leaf shape (L), negative oval
 
-leaf_shape_by_total_repl_in_pop_model <- glm(proportion_L_O ~ total_repl_in_pop,
-                        data = balanced_prop_trait_per_pop,
-                        family = gaussian())
-summary.lm(leaf_shape_by_total_repl_in_pop_model)
+# leaf_shape_by_total_repl_in_pop_model <- glm(log_ratio_L_O ~ total_repl_in_pop,
+#                         data = balanced_prop_trait_per_pop,
+#                         family = gaussian())
+# summary(leaf_shape_by_total_repl_in_pop_model)
 ```
-The Populations showed a significant difference in leaf shape based on the environment (Adjusted R-squared:  0.134, F_{3,80}= 5.28, p-value = 0.002). Plants that lived in the `Wall` environment had significantly more round leaf shapes (p = 0.006) and plants from the `Pavement` had a significantly more elongated leaf shape (p = 0.01). The number of replicates per population explained only 3 % of the difference in leaf shape compared to the 13 % of the Type of environment. This indicates that environmental filtering plays a larger role in determining the type of leaf shape than genetic drift. 86 % of the difference in leaf shape can't be explained by the model, hinting at different factors that influence the leaf shape as well.
+
+
 
 ```{r}
-ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = proportion_L_O, color = Type)) +
+ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = log_ratio_L_O, color = Type)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.4, size = 2) +
   geom_hline(yintercept = 0, linetype = "dashed") +
@@ -570,23 +575,24 @@ ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = proportion_L_O, color = Ty
   theme(legend.position = "none")
 ```
 
-
 ```{r}
-leaf_edge_model <- glm(proportion_S_G ~ Type,
+leaf_edge_model <- glm(log_ratio_S_G ~ Type,
                        data = balanced_prop_trait_per_pop,
                        family = gaussian())
-summary.lm(leaf_edge_model)
-
-trait_interaction <- glm(proportion_S_G ~ proportion_L_O * Type,
-                        family = gaussian(),
-                        data = balanced_prop_trait_per_pop)
-summary.lm(trait_interaction)
+summary(leaf_edge_model)
 ```
-The transplanted plants showed a significant difference in leaf edge by environment (Adjusted R-squared: 0.068, F_{3,80} = 3.009, p-value = 0.035). Plants that lived in the `Wall` environment showed significantly less serrated leafs.
 
+The transplanted plants showed a significant difference in leaf edge by environment (Adjusted R-squared: 0.068, F\_{3,80} = 3.009, p-value = 0.035). Plants that lived in the `Wall` environment showed significantly less serrated leafs.
 
 ```{r}
-ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = proportion_S_G, color = Type)) +
+trait_interaction <- glm(log_ratio_S_G ~ log_ratio_L_O * Type,
+                        family = gaussian(),
+                        data = balanced_prop_trait_per_pop)
+summary(trait_interaction)
+```
+
+```{r}
+ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = log_ratio_S_G, color = Type)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.4, size = 2) +
   geom_hline(yintercept = 0, linetype = "dashed") +
@@ -607,23 +613,16 @@ ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = proportion_S_G, color = Ty
 trait_per_pop <- prop_trait_per_pop |>
   mutate(
     pop_weights = total_repl_in_pop / 40,
-    leaf_shape_catg = if_else(proportion_L_O > 0, "Elongated", "Rounded", missing = NA),
-    leaf_edge_catg = if_else(proportion_S_G > 0, "Serrated", "Not_Serrated", missing = NA),
+    leaf_shape_catg = if_else(log_ratio_L_O > 0, "Elongated", "Rounded", missing = NA),
+    leaf_edge_catg = if_else(log_ratio_S_G > 0, "Serrated", "Not_Serrated", missing = NA),
     trait_combo = paste0(leaf_shape_catg, "_", leaf_edge_catg)
   )
 ```
-
 
 ```{r}
 library(lme4)
 library(car)
 library(multcomp)
-
-log_odds_to_prob <- function(logg_odds) {
-  return(
-    exp(logg_odds) / (1 + logg_odds)
-  )
-}
 
 # Does the type of environment effect the leaf shape of rosette leafs of A. thaliana populations, while taking into effect the uneven distribution of Populations over the types of environment and the difference in size of population?
 shape_model1 <- glmer(
@@ -696,16 +695,17 @@ shape_model1 <- glmer(
 # more compressed scale is better for the model?
 
 overdisp <- sum(residuals(shape_model1, type="pearson")^2) / df.residual(shape_model1)
-overdisp  # Should be close to 1 if no overdispersion
+cat("overdispersion: ", overdisp)  # Should be close to 1 if no overdispersion
 
 summary(shape_model1)
 Anova(shape_model1, type = "II")
 summary(glht(shape_model1,linfct = mcp(Type="Tukey")))
 ```
+
 Low AIC of 183.6, and underdispersion. Weighing larger Populations in stronger increases the model, but it is capped at 40.
 
 ```{r}
-# Does the type of environment effect the leaf shape of rosette leafs of A. thaliana populations, while taking into effect the uneven distribution of Populations over the types of environment and the difference in size of population?
+# Does the type of environment effect the leaf edge of rosette leafs of A. thaliana populations, while taking into effect the uneven distribution of Populations over the types of environment and the difference in size of population?
 edge_model1 <- glmer(
   cbind(n_S, n_G) ~ Type + (1 | Pop), # Pop uneven distributed across types of env
   family = binomial(link = "logit"),
@@ -719,17 +719,16 @@ edge_model1 <- glmer(
 
 
 overdisp <- sum(residuals(edge_model1, type="pearson")^2) / df.residual(edge_model1)
-overdisp  # Should be close to 1 if no overdispersion
+cat("overdispersion: ", overdisp)  # Should be close to 1 if no overdispersion
 
 summary(edge_model1)
 Anova(edge_model1, type = "II")
 summary(glht(edge_model1,linfct = mcp(Type="Tukey")))
 ```
 
-
 ```{r}
 # # Test for interaction between traits
-# model_interaction <- glmer(cbind(n_S, n_G) ~ proportion_L_O + (1|Pop),
+# model_interaction <- glmer(cbind(n_S, n_G) ~ log_ratio_L_O + (1|Pop),
 #                            family = binomial(link = "logit"),
 #   weights = trait_per_pop$pop_weights, # total_repl_in_pop / 40,
 #   data = prop_trait_per_pop,
@@ -743,193 +742,34 @@ summary(glht(edge_model1,linfct = mcp(Type="Tukey")))
 # Anova(model_interaction, type = "II")
 # summary(glht(model_interaction,linfct = mcp(Type="Tukey")))
 
-# too complex for binomial model
+# maybe too complex for binomial model
 ```
 
 ```{r}
-cor.test(trait_per_pop$proportion_L_O, trait_per_pop$proportion_S_G)
+cor.test(trait_per_pop$log_ratio_L_O, trait_per_pop$log_ratio_S_G)
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-## \# README: skipp following for now
-
-In the data set **Flowering_time_in-situ** you have the FT of the population IN THE CITY - in-situ.
-
-You are interested in the column:
-
-\- **Site_ID** the population number
-
-\- **Type** the type of urban habitat
-
-\- **First_FT_julianday** the first flowering individual of the population transformed into Julian day (counting the day of the year from 1 to 365, 1 being the 1st of January and 365 the 31th December). It is the F3 generation here. The **first Julianday for 01.01.2023 is 2459946**.
-
+Traits positive correlated.
+### Account for multiple testing
 ```{r}
-ft_insitu_raw <- read_csv(file = "data/Flowering_time_in-situ.csv",
-                    col_types = cols(
-                      Site_ID = col_character(),
-                      Type = col_factor()
-                      )
-                    )
+# p-value from main hypothesis
+shape_type_pvalue <- Anova(shape_model1, type = "II")["Type", "Pr(>Chisq)"]
+edge_type_pvalue <- Anova(edge_model1, type = "II")["Type", "Pr(>Chisq)"]
+correlation_pvalue <- cor.test(trait_per_pop$log_ratio_L_O, trait_per_pop$log_ratio_S_G)$p.value
 
-missing_type <- read_csv(file = "data/Missing_type.csv",
-                         col_types = cols(
-                           Site_ID = col_character(),
-                           Type = col_factor()
-                         ))
+all_pvalues <- c(shape_type_pvalue, edge_type_pvalue, correlation_pvalue)
 
-First_FT_julianday_raw <- read_csv(file = "data/Phenology_field.csv",
-                               col_types = cols(
-                                 Site_ID = col_character(),
-                                 Type = col_factor(),
-                                 First_FT_julianday = col_double()
-                               )) |>
-  select(Site_ID, Type, First_FT_julianday)
+adjusted_pvalues_bonf <- p.adjust(all_pvalues, method = "bonferroni")
 
-# join the raw in-situ table with the missing types. Add the total days from julianday to First_FT_Julianday
-ft_insitu <- ft_insitu_raw |>
-  rows_append(missing_type)|>
-  select(-Type, -First_FT_julianday) |>
-  left_join(First_FT_julianday_raw, by = c("Site_ID") )
-
-|>
-  mutate(First_FT_julianday = First_FT_julianday + 2459946)
-
-
-
-ft_insitu
+results_df <- data.frame(
+  Test = c("Shape ~ Type", "Edge ~ Type", "Shape-Edge Correlation"),
+  Original_p = all_pvalues,
+  Bonferroni_p = adjusted_pvalues_bonf
+) |>
+  mutate(Significant = case_when(
+    Bonferroni_p < 0.05 ~ "Significant",
+    Bonferroni_p > 0.05 ~ "N.S.",
+  ))
+print(results_df)
 ```
 
-Join the in-situ data with the transplanted plants (tplant) data set by population where the column `Site_ID` is equal to the column `Population`.
-
-```{r}
-pop_per_env <- summed_pop_above_4 |>
-  left_join(ft_insitu, join_by(Pop == Site_ID))
-
-pop_per_env
-```
-
-```{r}
-pop_above_4_per_env <- pop_per_env |>
-  filter(pop_above_4 == T) |>
-  filter(!(is.na(Type)),
-         !(is.na(First_FT_julianday))) |>
-  drop_na(Type)
-
-pop_above_4_per_env
-```
-
-### Statistical model
-
-```{r}
-mod_first <- glm(First_FT_julianday ~ Type, data=pop_above_4_per_env, family=gaussian)
-summary(mod_first)
-Anova(mod_first, type="III")
-qqnorm(resid(mod_first))
-```
-
-```{r}
-# Calculate least square means and Tukey comparisons
-leastsquare <- lsmeans(mod_first, pairwise ~ Type, adjust = "tukey")
-tukey_results <- leastsquare$contrasts
-
-# Generate compact letter display
-cld_results <- cld(leastsquare)
-cld_results
-
-# Extract the compact letter display results
-tukey_letters_first <- as.data.frame(cld_results)
-
-# Ensure the Type column is a factor and matches the levels in your data
-tukey_letters_first$Type <- factor(tukey_letters_first$Type, levels = levels(FT_pop_df$Type))
-
-#convert numbers to letters
-tukey_letters_first$group_letters <- sapply(tukey_letters_first$.group, convert_to_letters)
-```
-
-```{r}
-ggplot(data = pop_above_4_per_env, mapping = aes(x = Type, y = First_FT_julianday, fill = Type)) +
-  geom_boxplot() +
-  scale_fill_manual(values = c("meadow" = "#6a176e", "pavement" = "#bc3754", "tree bed" = "#f37819", "wall" = "#f8cd37")) +
-  geom_jitter(shape = 21, size = 2, fill = "black", position = position_jitter(0.2)) +
-  labs(y = "Flowering time (days) in situ", x = NULL) +
-  theme_minimal() +
-  theme(
-    legend.position = "none",
-    axis.text.x = element_text(size = 14, family = "Times New Roman"),
-    axis.title.y = element_text(size = 14, family = "Times New Roman")
-  ) 
-```
-
-How many replicates do we have per type of environment.
-
-```{r}
-pop_per_env_sum <- pop_per_env |>
-  filter(pop_above_4 == T) |>
-  group_by(Type) |>
-  summarise(n_pop = n())
-  
-pop_per_env_sum
-```
-
-## Third
-
-```{r}
-tplant <- tplant |>
-  mutate(is_long_leaf = case_when(Leaf_shape == "L" ~ 1,
-                                  Leaf_shape == "O" ~ 0,
-                                  TRUE ~ NA_real_),
-         is_serrated_leaf = case_when(Leaf_edge == "S" ~ 1,
-                                      Leaf_edge == "G" ~ 0,
-                                      TRUE ~ NA_real_))
-```
-
-
-------------------------------------------------------------------------
-
-In the data set **FT_table_final** it is Gaëlle data set of the FT CONTROLLED CONDITIONS - ex-situ. She was working with the generation F4 sampled in 2023 and **you are working with the generation F5** from 2025
-
-\- **Column A - H** are the same as your data set!
-
-To extract the FT of the date set you need to do **Sowing date - Flowering date**
-
-Gaëlle also compare the FT in-situ and ex-situ this is the F3/F4 correlation at the end of her script.
-
-```{r}
-f4_gaelle <- read_csv(file = "data/FT_table_final.csv")
-
-f4_gaelle
-```
-
-```{r}
-# A-H are same so reproducing ID from tplant to join
-colnames(f4_gaelle) <- paste0(colnames(f4_gaelle), "_F4")
-f4_gaelle_w_id <- f4_gaelle |>
-  mutate(ID = paste0(as.character(Population_F4), "-", as.character(Replicate_F4)))
-
-
-
-tplant_w_f4 <- tplant |>
-  left_join(f4_gaelle_w_id, by = "ID")
-
-tplant_w_f4
-```
-
-```{r}
-ft_insitu
-```
-
-```{r}
-
-```
