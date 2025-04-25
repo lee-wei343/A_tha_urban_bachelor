@@ -705,21 +705,50 @@ summary(glht(shape_model1,linfct = mcp(Type="Tukey")))
 Low AIC of 183.6, and underdispersion. Weighing larger Populations in stronger increases the model, but it is capped at 40.
 
 ```{r}
-# edge_model <- glmer(
-#   cbind(n_S, n_G) ~ Type + (1 | Pop),
-#   family = binomial(link = "logit"),
-#   weights = trait_per_pop$pop_weights,
-#   data = prop_trait_per_pop,
-#   control = glmerControl(optimizer = "bobyqa")
-# )
-# summary(edge_model)
-# Anova(edge_model, type = "II")
-# 
-# summary(glht(edge_model, linfct = mcp(Type="Tukey")))
+# Does the type of environment effect the leaf shape of rosette leafs of A. thaliana populations, while taking into effect the uneven distribution of Populations over the types of environment and the difference in size of population?
+edge_model1 <- glmer(
+  cbind(n_S, n_G) ~ Type + (1 | Pop), # Pop uneven distributed across types of env
+  family = binomial(link = "logit"),
+  weights = trait_per_pop$pop_weights, # total_repl_in_pop / 40,
+  data = prop_trait_per_pop,
+  control = glmerControl(optimizer = "bobyqa")
+)
+# AIC decreases with threshold increasing, meaning that the model predictions get more accurate when
+# giving larger populations more weight e.g. pop_weights = pmin(total_repl_in_pop, 40) / 40,
+  
+
+
+overdisp <- sum(residuals(edge_model1, type="pearson")^2) / df.residual(edge_model1)
+overdisp  # Should be close to 1 if no overdispersion
+
+summary(edge_model1)
+Anova(edge_model1, type = "II")
+summary(glht(edge_model1,linfct = mcp(Type="Tukey")))
 ```
 
 
+```{r}
+# # Test for interaction between traits
+# model_interaction <- glmer(cbind(n_S, n_G) ~ proportion_L_O + (1|Pop),
+#                            family = binomial(link = "logit"),
+#   weights = trait_per_pop$pop_weights, # total_repl_in_pop / 40,
+#   data = prop_trait_per_pop,
+#   control = glmerControl(optimizer = "bobyqa")
+#   )
+# 
+# overdisp <- sum(residuals(model_interaction, type="pearson")^2) / df.residual(model_interaction)
+# overdisp  # Should be close to 1 if no overdispersion
+# 
+# summary(model_interaction)
+# Anova(model_interaction, type = "II")
+# summary(glht(model_interaction,linfct = mcp(Type="Tukey")))
 
+# too complex for binomial model
+```
+
+```{r}
+cor.test(trait_per_pop$proportion_L_O, trait_per_pop$proportion_S_G)
+```
 
 
 
@@ -853,6 +882,19 @@ pop_per_env_sum <- pop_per_env |>
   
 pop_per_env_sum
 ```
+
+## Third
+
+```{r}
+tplant <- tplant |>
+  mutate(is_long_leaf = case_when(Leaf_shape == "L" ~ 1,
+                                  Leaf_shape == "O" ~ 0,
+                                  TRUE ~ NA_real_),
+         is_serrated_leaf = case_when(Leaf_edge == "S" ~ 1,
+                                      Leaf_edge == "G" ~ 0,
+                                      TRUE ~ NA_real_))
+```
+
 
 ------------------------------------------------------------------------
 
