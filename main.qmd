@@ -11,34 +11,179 @@ library('tidyverse')
 
 ------------------------------------------------------------------------
 
-```{r}
-tplant <- read_csv(file = "data/tplant_observations - main.csv",
-                   na = "Na",
-                   col_types = cols(
-                     ID = col_character(),
-                     Tray = col_factor(),
-                     Row = col_integer(),
-                     Column = col_integer(),
-                     n_shoot_axis = col_integer(),
-                     Leaf_shape = col_factor(),
-                     Leaf_edge = col_factor(),
-                     Absent = col_logical(),
-                     is_A_tha = col_logical(),
-                     Comments = col_character()
-                   )) |>
-  filter(!(is.na(ID))) |>
-  mutate(Pop = stringi::stri_extract(ID, regex = "^.*(?=-)"),
-         Replicate = stringi::stri_extract(ID, regex = "(?<=-).*$")) |>
-  select(ID, Pop, Replicate, everything()) 
+## Data Preprocessing
 
-tplant
+```{r}
+tplant <- read_csv(
+  file = "data/tplant_observations - main_2025-04-09.csv",
+  na = c("Na", "n", "na"),
+  col_types = cols(
+    ID = col_character(),
+    Tray = col_factor(),
+    Row = col_integer(),
+    Column = col_integer(),
+    n_shoot_axis = col_integer(),
+    Leaf_shape = col_factor(),
+    Leaf_edge = col_factor(),
+    Comments = col_character()
+  )
+) |>
+  filter(!(is.na(ID))) |> # remove plants without ID/label
+  mutate(
+    # change pop 165 to 156
+    ID = case_when(ID == "165-1" ~ "156-1",
+                   ID == "165-2" ~ "156-2",
+                   ID == "165-3" ~ "156-3",
+                   TRUE ~ ID),
+    Pop = stringi::stri_extract(ID, regex = "^.*(?=-)"),
+    # extract Population number from the ID
+    Replicate = stringi::stri_extract(ID, regex = "(?<=-).*$"),
+    # extract Replicate number from the ID
+    Leaf_shape = case_when(Leaf_shape == "o" ~ "O", Leaf_shape == "l" ~ "L", TRUE ~ Leaf_shape),
+    Leaf_edge = case_when(Leaf_edge == "s" ~ "S", Leaf_edge == "g" ~ "G", TRUE ~ Leaf_edge)
+  ) |>
+  select(ID, Pop, Replicate, everything()) 
 ```
 
 ```{r}
-# Summing up replicats for each population
+ID_is_not_alive_A_tha <- c(
+  "384-20",
+  "486-7",
+  "463-5",
+  "384-12",
+  "346-15",
+  "384-15",
+  "472-6",
+  "408-5",
+  "408-9",
+  "346-16",
+  "482-5",
+  "247-1",
+  "465-1",
+  "409-12",
+  "409-18",
+  "409-19",
+  "409-5",
+  "409-14",
+  "494-18",
+  "406-15",
+  "406-17",
+  "438-9",
+  "466-21",
+  "346-14",
+  "463-1",
+  "345-7",
+  "471-8",
+  "452-5",
+  "406-18",
+  "452-8",
+  "345-10",
+  "342-13",
+  "406-19",
+  "406-20",
+  "342-12",
+  "345-20",
+  "159-5",
+  "459-13",
+  "451-16",
+  "375-1",
+  "471-9",
+  "475-3",
+  "45-18",
+  "471-5",
+  "344-10",
+  "471-6",
+  "454-1",
+  "7-5",
+  "375-5",
+  "487-10",
+  "479-20",
+  "468-1",
+  "375-4",
+  "442-4",
+  "408-8",
+  "346-8",
+  "409-13",
+  "375-2",
+  "346-12",
+  "480-10",
+  "346-13",
+  "409-6",
+  "409-20",
+  "205-1",
+  "470-3",
+  "34-16",
+  "176-2",
+  "360-1",
+  "160-2",
+  "345-4",
+  "345-13",
+  "472-13",
+  "345-18",
+  "213-6",
+  "494-19",
+  "486-16",
+  "494-17",
+  "347-17",
+  "104-9",
+  "213-4",
+  "408-7",
+  "205-5",
+  "184-1",
+  "187-2",
+  "433-1",
+  "475-6",
+  "409-10",
+  "494-16",
+  "409-7",
+  "180-8",
+  "488-19",
+  "409-9",
+  "409-8",
+  "409-17",
+  "267-21",
+  "407-14",
+  "465-2",
+  "468-2",
+  "494-7",
+  "100-1",
+  "348-18",
+  "7-17",
+  "468-15",
+  "491-4",
+  "406-10",
+  "493-1"
+)
+
+Pop_pool_sampled <- c("1", "7", "8", "24", "27", "34", "35", "41", "45", "47", "49", "102", "104", "105", "113", "122", "159", "168", "169", "172", "173", "177", "180", "183", "184", "203", "232", "233", "258", "263", "264", "265", "267", "282", "310", "342", "344", "345", "346", "347", "348", "357", "359", "384", "405", "406", "408", "428", "433", "438", "439", "447", "448", "449", "451", "453", "458", "459", "466", "468", "472", "474", "477", "478", "479", "480", "481", "482", "483", "484", "486", "487", "488", "489", "491", "494")
+
+Pop_indv_sampled <- c("19", "24", "29", "41", "45", "94", "105", "106", "113", "120", "122", "161", "167", "177", "182", "187", "191", "205", "206", "213", "233", "241", "255", "264", "357", "359", "361", "375", "407", "409", "424", "429", "438", "441", "444", "450", "452", "454", "456", "462", "463", "469", "470", "471", "475", "476")
+# Pop 409 changed from Pool to individual sampled, sampled 1, 2, 3, 4, 11; Pop 407 changed from Pool to individual
+
+#ID_skipped_sampling <- c("172-5", "180-3", "180-4", "180-7", "180-11", "184-1", "184-5", "122-18", "122-20", "408-7", "346-16", "408-7", "120-2", "182-4", "205-1", "205-5", "24-5", "24-12", "24-18", "24-20", "1-13", "7-5", "7-8", "45-8", "45-10", "45-11", "45-12", "45-20", "159-3", "159-4", "159-9", "159-10", "159-13", "168-12", "168-14", "168-16", "177-4", "177-8", "177-9", "177-10", "177-12", "177-13", "177-14", "177-16", "177-18", "177-20", "233-7", "468-12", "408-3")
+
+# the column sampletype shows the assigned type of sampling per population, but
+# gives no information if the replicate was sampled or not
+tplant <- tplant |>
+  mutate(is_alive_A_tha = case_when(!(ID %in% ID_is_not_alive_A_tha) ~ "TRUE", TRUE ~ "FALSE")) |>
+  mutate(
+    sampletype = case_when(
+      Pop %in% Pop_pool_sampled &
+        Pop %in% Pop_indv_sampled ~ "Pool_and_Indv",
+      Pop %in% Pop_pool_sampled &
+        !(Pop %in% Pop_indv_sampled) ~ "Pool",
+      !(Pop %in% Pop_pool_sampled) &
+        Pop %in% Pop_indv_sampled ~ "Indv",
+      TRUE ~ "Not_sampled"
+    )
+  )
+  
+```
+
+```{r}
+# Summing up replicates for each population
 summed_pop <- tplant |>
-  filter(is_A_tha %in% c(T, NA),
-         Absent %in% c(F, NA))|>
+  filter(is_alive_A_tha == TRUE)|>
   group_by(Pop) |>
   summarise(total_repl = n()) |>
   arrange(desc(total_repl))
@@ -48,61 +193,548 @@ summed_pop
 
 ```{r}
 # add label for threshold of total replicats above 5
-summed_pop_above_4 <- summed_pop |>
-  mutate(pop_above_4 = ifelse(total_repl > 4, T, F))
+summed_pop_above_3 <- summed_pop |>
+  mutate(pop_above_3 = ifelse(total_repl > 3, T, F))
 
-summed_pop_above_4
+summed_pop_above_3
 ```
 
 ```{r}
-summed_pop_above_4 |>
-  filter(pop_above_4 == T) |>
+summed_pop_above_3 |>
+  filter(pop_above_3 == T) |>
   nrow()
 ```
 
-Out of the 164 populations 95 have more than 4 replicates, x less.
+Out of the 164 populations 110 have more than 3 replicates, 54 less.
 
-The following Population have not 5 replicates.
+The following Population have not 4 replicates.
 
 ```{r}
 # Populations below threshold of replicates
-tplant_pop_below_4 <- summed_pop_above_4 |>
-  filter(pop_above_4 == F) 
+tplant_pop_below_3 <- summed_pop_above_3 |>
+  filter(pop_above_3 == F) 
 
-tplant_pop_below_4$Pop
+tplant_pop_below_3$Pop
 ```
 
 ```{r}
 # Add the above to the tplant df
 tplant <- tplant |>
   group_by(Pop) |>
-  filter(is_A_tha %in% c(T, NA),
-         Absent %in% c(F, NA))|>
+  filter(is_alive_A_tha == TRUE)|>
   mutate(total_repl_in_pop = n()) |>
   ungroup() |>
-  mutate(pop_above_4 = ifelse(total_repl_in_pop > 4, T, F)) 
+  mutate(pop_above_3 = ifelse(total_repl_in_pop > 3, T, F)) |>
+  relocate(Comments, .after = last_col())
 
 
 tplant
 ```
 
-What Populations are in the first Batch, primarily Tray 1-7:
+
 
 ```{r}
-Pop_of_batch_1 <- tplant |>
-  filter(Tray == 1:7) |>
-  select(Pop) 
+# Add the ecosystem type to the tplant df
+Phenology <- read_csv(file = "data/Phenology_field_2.csv",
+                               col_types = cols(
+                                 Site_ID = col_character(),
+                                 Type = col_factor(),
+                                 First_FT_julianday = col_double()
+                               )) |>
+  select(Site_ID, Type)
 
-
-tplant_batch_1 <- tplant |>
-  filter(Pop %in% Pop_of_batch_1$Pop) |>
-  arrange(Pop) |>
-  filter(pop_above_4 == T)
-
-tplant_batch_1
+tplant <- tplant |>
+  left_join(Phenology, join_by("Pop" == "Site_ID")) |>
+  mutate(
+    Type = case_when(
+      Type == "wall" ~ "Wall",
+      Type == "grass" ~ "Grass",
+      Type == "pavement" ~ "Pavement",
+      TRUE ~ Type
+    )
+  )
 ```
 
-------------------------------------------------------------------------
+## EDA of Leaf Shape and Leaf Edge per Environment
+```{r}
+Ecotype_colors <- c(
+  "wall" = "#f8cd37",
+  "grass" = "#6a176e",
+  "pavement" = "#bc3754",
+  "Tree bed" = "#f37819"
+)
+
+# Hist pop per eco type
+pop_per_eco <- tplant |>
+  distinct(Pop, .keep_all = TRUE) |>
+  select(Pop, Type) |>
+  group_by(Type) |>
+  summarise(n_pop_per_eco = n())
+
+ggplot(data = pop_per_eco,
+       mapping = aes(y = n_pop_per_eco, x = Type, fill = Type)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c(
+  "Wall" = "#f8cd37",
+  "Grass" = "#6a176e",
+  "Pavement" = "#bc3754",
+  "Tree bed" = "#f37819"
+)) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title.y = element_text(size = 25, family = "Times New Roman")
+  ) +
+  labs(y = "Number of Populations per Type")
+```
+
+```{r}
+# Hist replicates per eco type
+repl_per_eco <- tplant |>
+  select(Replicate, Type) |>
+  group_by(Type) |>
+  summarise(n_repl_per_eco = n())
+
+ggplot(data = repl_per_eco,
+       mapping = aes(y = n_repl_per_eco, x = Type, fill = Type)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c(
+  "Wall" = "#f8cd37",
+  "Grass" = "#6a176e",
+  "Pavement" = "#bc3754",
+  "Tree bed" = "#f37819"
+)) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title.y = element_text(size = 25, family = "Times New Roman")
+  ) +
+  labs(y = "Total Individuals of the Populations by Type")
+```
+
+```{r}
+leaf_shape_proportions <- tplant |> 
+  drop_na(Leaf_shape) |>
+  count(Type, Leaf_shape, name = "count") |> 
+  group_by(Type) |> 
+  mutate(proportion = round(count / sum(count), 2)) |> 
+  select(-count) |> 
+  pivot_wider(
+    names_from = Leaf_shape, 
+    values_from = proportion,
+    names_prefix = "prop_",  
+    values_fill = 0
+  ) |> 
+  ungroup() |>
+  select(-prop_)
+
+leaf_shape_long <- leaf_shape_proportions |> 
+  pivot_longer(
+    cols = c(prop_L, prop_O),
+    names_to = "Leaf_shape",
+    values_to = "Proportion"
+  )
+
+ggplot(leaf_shape_long, 
+       aes(x = Type, y = Proportion, fill = Leaf_shape)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  scale_fill_manual(
+    values = c("prop_L" = "#6a176e", "prop_O" = "#f8cd37"),
+    labels = c("Elongated", "Oval")
+  ) +
+  labs(x = "Type", y = "Proportion", fill = "Leaf Shape") +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title = element_text(size = 25, family = "Times New Roman")
+  )
+```
+
+```{r}
+leaf_edge_proportions <- tplant |> 
+  drop_na(Leaf_edge) |>
+  count(Type, Leaf_edge, name = "count") |> 
+  group_by(Type) |> 
+  mutate(proportion = round(count / sum(count), 2)) |> 
+  select(-count) |> 
+  pivot_wider(
+    names_from = Leaf_edge, 
+    values_from = proportion,
+    names_prefix = "prop_",  
+    values_fill = 0
+  ) |> 
+  ungroup() |>
+  select(-prop_)
+
+leaf_edge_long <- leaf_edge_proportions |> 
+  pivot_longer(
+    cols = c(prop_G, prop_S),
+    names_to = "Leaf_edge",
+    values_to = "Proportion"
+  )
+
+ggplot(leaf_edge_long, 
+       aes(x = Type, y = Proportion, fill = Leaf_edge)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  scale_fill_manual(
+    values = c("prop_G" = "#6a176e", "prop_S" = "#f8cd37"),
+    labels = c("Smooth", "Serrated")
+  ) +
+  labs(x = "Type", y = "Proportion", fill = "Leaf Edge") +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title = element_text(size = 25, family = "Times New Roman")
+  )
+```
+
+```{r}
+leaf_edge_shape_proportions <- tplant |> 
+  drop_na(Leaf_edge, Leaf_shape) |>
+  mutate(Leaf_edge_shape = paste0(Leaf_shape, Leaf_edge)) |>
+  count(Type, Leaf_edge_shape, name = "count") |> 
+  group_by(Type) |> 
+  mutate(proportion = round(count / sum(count), 2)) |> 
+  select(-count) |> 
+  pivot_wider(
+    names_from = Leaf_edge_shape, 
+    values_from = proportion,
+    names_prefix = "prop_",  
+    values_fill = 0
+  ) |> 
+  ungroup() |>
+  select(-prop_, -prop_Lx)
+
+leaf_edge_shape_long <- leaf_edge_shape_proportions |> 
+  pivot_longer(
+    cols = c(prop_LG, prop_LS, prop_OG, prop_OS),
+    names_to = "Leaf_edge_shape",
+    values_to = "Proportion"
+  )
+
+ggplot(leaf_edge_shape_long, 
+       aes(x = Type, y = Proportion, fill = Leaf_edge_shape)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  scale_fill_manual(
+    values = c("prop_LG" = "#6a176e", "prop_LS" = "#f8cd37",
+               "prop_OG" = "#bc3754", "prop_OS" = "#f37819"),
+    labels = c("Long Smooth", "Long Serrated", "Oval Smooth", "Oval Serrated")
+  ) +
+  labs(x = "Type", y = "Proportion", fill = "Leaf Edge Shape") +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title = element_text(size = 25, family = "Times New Roman")
+  )
+
+
+
+```
+
+```{r}
+# Hist replicates per eco type
+axis_per_eco <- tplant |>
+  select(n_shoot_axis, Type) |>
+  drop_na(Type, n_shoot_axis) |>
+  group_by(Type) |>
+  summarise(mean_axis = round(mean(n_shoot_axis), 1))
+
+ggplot(data = axis_per_eco,
+       mapping = aes(y = mean_axis, x = Type, fill = Type)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c(
+  "Wall" = "#f8cd37",
+  "Grass" = "#6a176e",
+  "Pavement" = "#bc3754",
+  "Tree bed" = "#f37819"
+)) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title.y = element_text(size = 25, family = "Times New Roman")
+  ) +
+  labs(y = "Average Shoot Axis per Type")
+```
+
+```{r}
+# distribution of sampled pop across ecotpy?
+dist_sampled_pop_per_eco <- tplant |>
+  filter(pop_above_3 == T,
+         sampletype != "Not_sampled") |>
+  distinct(Pop, .keep_all = T) |>
+  group_by(Type) |>
+  summarise(n_sampled_pop = n() )
+
+ggplot(data = dist_sampled_pop_per_eco,
+       mapping = aes(y = n_sampled_pop, x = Type, fill = Type)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c(
+  "Wall" = "#f8cd37",
+  "Grass" = "#6a176e",
+  "Pavement" = "#bc3754",
+  "Tree bed" = "#f37819"
+)) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title.y = element_text(size = 25, family = "Times New Roman")
+  ) +
+  labs(y = "Populations with Leafs Sampled from")
+```
+
+## First Statistical analysis of Leaf Shape and Leaf Edge per Environment
+Since the ~2000 plants are coming from Populations, individuals from the same Population are more similar to each other, creating non-independence. To address this a proportion of the type of leaf edge and shape is calculated per population.
+
+```{r}
+prop_trait_per_pop <- tplant |>
+  drop_na(Leaf_shape, Leaf_edge) |>
+  group_by(Pop, Type, total_repl_in_pop) |> # group by Pop but include Type and total_repl_in_pop in sum table
+  summarise(
+    n_L = sum(Leaf_shape == "L"),
+    n_O = sum(Leaf_shape == "O"),
+    # avoid division by 0 by adding 0.5
+    proportion_L_O = log((n_L + 0.5) / (n_O + 0.5)),
+    # zero means same proportion, positive number means more elongated leaf shape (L), negative oval leaf shape (O)
+    
+    n_S = sum(Leaf_edge == "S"),
+    n_G = sum(Leaf_edge == "G"),
+    proportion_S_G = log((n_S + 0.5) / (n_G + 0.5))
+  ) |>
+  mutate(Type = as.factor(Type)) 
+
+# bad results, perhaps because of uneven pop per envs
+# leaf_shape_model <- glm(proportion_L_O ~ Type,
+#                         data = prop_trait_per_pop,
+#                         family = gaussian())
+# summary.lm(leaf_shape_model)
+# # R**2 = 3%, not sign.
+# 
+# leaf_edge_model <- glm(proportion_S_G ~ Type,
+#                        data = prop_trait_per_pop,
+#                        family = gaussian())
+# summary.lm(leaf_edge_model)
+# # R**2 6%, sign.
+# 
+# trait_interaction <- glm(proportion_S_G ~ proportion_L_O * Type,
+#                         family = gaussian(),
+#                         data = prop_trait_per_pop)
+# summary.lm(trait_interaction)
+
+# create balanced dataset through random subsampling
+min_pop_per_type <- min(table(prop_trait_per_pop$Type))
+
+# table(prop_trait_per_pop$Type)
+# 
+#    Grass Pavement Tree bed     Wall 
+#       21       53       30       42 
+
+set.seed(123)
+balanced_prop_trait_per_pop <- prop_trait_per_pop |>
+  group_by(Type) |>
+  sample_n(min_pop_per_type) |>
+  ungroup()
+```
+The number of Populations where evened by random subsampling to the lowest number of population per Type.
+
+```{r}
+leaf_shape_by_type_model <- glm(proportion_L_O ~ Type,
+                        data = balanced_prop_trait_per_pop,
+                        family = gaussian())
+summary.lm(leaf_shape_by_type_model)
+# positive number means more elongated leaf shape (L), negative oval
+
+leaf_shape_by_total_repl_in_pop_model <- glm(proportion_L_O ~ total_repl_in_pop,
+                        data = balanced_prop_trait_per_pop,
+                        family = gaussian())
+summary.lm(leaf_shape_by_total_repl_in_pop_model)
+```
+The Populations showed a significant difference in leaf shape based on the environment (Adjusted R-squared:  0.134, F_{3,80}= 5.28, p-value = 0.002). Plants that lived in the `Wall` environment had significantly more round leaf shapes (p = 0.006) and plants from the `Pavement` had a significantly more elongated leaf shape (p = 0.01). The number of replicates per population explained only 3 % of the difference in leaf shape compared to the 13 % of the Type of environment. This indicates that environmental filtering plays a larger role in determining the type of leaf shape than genetic drift. 86 % of the difference in leaf shape can't be explained by the model, hinting at different factors that influence the leaf shape as well.
+
+```{r}
+ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = proportion_L_O, color = Type)) +
+  geom_boxplot(alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.4, size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(
+    y = "Log Ratio (Elongated/Rounded Leaves)",
+    x = "Environment Type"
+  ) +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+
+
+```{r}
+leaf_edge_model <- glm(proportion_S_G ~ Type,
+                       data = balanced_prop_trait_per_pop,
+                       family = gaussian())
+summary.lm(leaf_edge_model)
+
+trait_interaction <- glm(proportion_S_G ~ proportion_L_O * Type,
+                        family = gaussian(),
+                        data = balanced_prop_trait_per_pop)
+summary.lm(trait_interaction)
+```
+The transplanted plants showed a significant difference in leaf edge by environment (Adjusted R-squared: 0.068, F_{3,80} = 3.009, p-value = 0.035). Plants that lived in the `Wall` environment showed significantly less serrated leafs.
+
+
+```{r}
+ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = proportion_S_G, color = Type)) +
+  geom_boxplot(alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.4, size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(
+    y = "Log Ratio (Serrated/Not Serrated Leaves)",
+    x = "Environment Type"
+  ) +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+
+## Second attempt at Statistical analysis of Leaf Shape and Leaf Edge per Environment
+
+```{r}
+# Create weights based on the size of the populations to take into effect that about one third of 
+# the populations have 3 or lss replicates
+# Create Categories of Trait and Trait combo per pop
+trait_per_pop <- prop_trait_per_pop |>
+  mutate(
+    pop_weights = total_repl_in_pop / 40,
+    leaf_shape_catg = if_else(proportion_L_O > 0, "Elongated", "Rounded", missing = NA),
+    leaf_edge_catg = if_else(proportion_S_G > 0, "Serrated", "Not_Serrated", missing = NA),
+    trait_combo = paste0(leaf_shape_catg, "_", leaf_edge_catg)
+  )
+```
+
+
+```{r}
+library(lme4)
+library(car)
+library(multcomp)
+
+log_odds_to_prob <- function(logg_odds) {
+  return(
+    exp(logg_odds) / (1 + logg_odds)
+  )
+}
+
+# Does the type of environment effect the leaf shape of rosette leafs of A. thaliana populations, while taking into effect the uneven distribution of Populations over the types of environment and the difference in size of population?
+shape_model1 <- glmer(
+  cbind(n_L, n_O) ~ Type + (1 | Pop), # Pop uneven distributed across types of env
+  family = binomial(link = "logit"),
+  weights = trait_per_pop$pop_weights, # total_repl_in_pop / 40,
+  data = prop_trait_per_pop,
+  control = glmerControl(optimizer = "bobyqa")
+)
+# AIC decreases with threshold increasing, meaning that the model predictions get more accurate when
+# giving larger populations more weight e.g. pop_weights = pmin(total_repl_in_pop, 40) / 40,
+  
+# shape_model2 <- glmer(cbind(n_L, n_O) ~ Type + (1|Pop), 
+#                         family = binomial(link = "logit"),
+#                         data = prop_trait_per_pop)
+# 
+# AIC(shape_model1, shape_model2)
+# shape_model1 is better than 2
+
+# shape_model3 <- glm(cbind(n_L, n_O) ~ Type, 
+#                     family = quasibinomial(link = "logit"),
+#                     data = prop_trait_per_pop)
+# 
+# AIC(shape_model1, shape_model3)
+# 
+# summary(shape_model3)
+# 
+# shape_model4 <- glmer(cbind(n_L, n_O) ~ Type + (1|Pop), 
+#                     family = binomial(link = "logit"),
+#                     data = prop_trait_per_pop,
+#                     control = glmerControl(optimizer = "bobyqa"))
+# 
+# AIC(shape_model1, shape_model4)
+
+# shape_model5 <- glmer(
+#   cbind(n_L, n_O) ~ Type + scale(total_repl_in_pop) + (1 | Pop),
+#   family = binomial(link = "logit"),
+#   data = prop_trait_per_pop,
+#   control = glmerControl(optimizer = "bobyqa")
+# )
+# 
+# AIC(shape_model1, shape_model5)
+
+# shape_model6 <- glmer(
+#   cbind(n_L, n_O) ~ Type + (1 | Pop / total_repl_in_pop),
+#   family = binomial(link = "logit"),
+#   data = prop_trait_per_pop,
+#   control = glmerControl(optimizer = "bobyqa")
+# )
+# 
+# AIC(shape_model1, shape_model6)
+
+# shape_model7 <- glmer(
+#   cbind(n_L, n_O) ~ Type + (0 + factor(total_repl_in_pop) | Pop),
+#   family = binomial(link = "logit"),
+#   data = prop_trait_per_pop,
+#   control = glmerControl(optimizer = "bobyqa")
+# )
+# 
+# AIC(shape_model1, shape_model7)
+
+# shape_model8 <- glmer(
+#   cbind(n_L, n_O) ~ Type + (1 | Pop), # Pop uneven distributed across types of env
+#   family = binomial(link = "logit"),
+#   weights = trait_per_pop$pop_max_weights, # pop_max_weights = total_repl_in_pop / max(total_repl_in_pop),
+#   data = prop_trait_per_pop,
+#   control = glmerControl(optimizer = "bobyqa")
+# )
+# performs worse than with capped threshold. Larger populations give more information but a
+# more compressed scale is better for the model?
+
+overdisp <- sum(residuals(shape_model1, type="pearson")^2) / df.residual(shape_model1)
+overdisp  # Should be close to 1 if no overdispersion
+
+summary(shape_model1)
+Anova(shape_model1, type = "II")
+summary(glht(shape_model1,linfct = mcp(Type="Tukey")))
+```
+Low AIC of 183.6, and underdispersion. Weighing larger Populations in stronger increases the model, but it is capped at 40.
+
+```{r}
+# edge_model <- glmer(
+#   cbind(n_S, n_G) ~ Type + (1 | Pop),
+#   family = binomial(link = "logit"),
+#   weights = trait_per_pop$pop_weights,
+#   data = prop_trait_per_pop,
+#   control = glmerControl(optimizer = "bobyqa")
+# )
+# summary(edge_model)
+# Anova(edge_model, type = "II")
+# 
+# summary(glht(edge_model, linfct = mcp(Type="Tukey")))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## \# README: skipp following for now
 
 In the data set **Flowering_time_in-situ** you have the FT of the population IN THE CITY - in-situ.
 
@@ -137,22 +769,15 @@ First_FT_julianday_raw <- read_csv(file = "data/Phenology_field.csv",
   select(Site_ID, Type, First_FT_julianday)
 
 # join the raw in-situ table with the missing types. Add the total days from julianday to First_FT_Julianday
-ft_insitu_with_pheno_raw <- ft_insitu_raw |>
+ft_insitu <- ft_insitu_raw |>
   rows_append(missing_type)|>
-  left_join(First_FT_julianday_raw, by = "Site_ID", suffix = c("_insitu", "_Pheno_field"))
+  select(-Type, -First_FT_julianday) |>
+  left_join(First_FT_julianday_raw, by = c("Site_ID") )
 
-# add First_FT_julianday from Phenology_field df where missing in FT_insitu
-ft_insitu <- ft_insitu_with_pheno_raw |>
-  mutate(
-    First_FT_julianday_raw = ifelse(
-      is.na(First_FT_julianday_insitu),
-      First_FT_julianday_Pheno_field,
-      First_FT_julianday_insitu
-    )
-  ) |> 
-  mutate(First_FT_julianday = First_FT_julianday_raw + 2459946,
-         Type = Type_insitu) |>
-  select(-Type_Pheno_field, -First_FT_julianday_Pheno_field, -First_FT_julianday_insitu, -Type_insitu)
+|>
+  mutate(First_FT_julianday = First_FT_julianday + 2459946)
+
+
 
 ft_insitu
 ```
@@ -169,7 +794,9 @@ pop_per_env
 ```{r}
 pop_above_4_per_env <- pop_per_env |>
   filter(pop_above_4 == T) |>
-  drop_na(Type, First_FT_julianday)
+  filter(!(is.na(Type)),
+         !(is.na(First_FT_julianday))) |>
+  drop_na(Type)
 
 pop_above_4_per_env
 ```
@@ -179,31 +806,13 @@ pop_above_4_per_env
 ```{r}
 mod_first <- glm(First_FT_julianday ~ Type, data=pop_above_4_per_env, family=gaussian)
 summary(mod_first)
-car::Anova(mod_first, type="III")
+Anova(mod_first, type="III")
 qqnorm(resid(mod_first))
 ```
 
 ```{r}
-library(emmeans)  # Für emmGrid-Objekte
-library(multcomp) # Für die cld()-Funktion
-
-# function to convert numbers into letter for Tukey comparison of means
-convert_to_letters <- function(group) {
-  # Remove any spaces in the group string
-  group <- gsub(" ", "", group)
-  
-  # Split the group into individual numbers
-  group_numbers <- strsplit(as.character(group), "")[[1]]
-  
-  # Convert numbers to letters (1 -> a, 2 -> b, ..., 26 -> z)
-  group_letters <- sapply(group_numbers, function(x) letters[as.numeric(x)])
-  
-  # Combine the letters back into a single string
-  paste(group_letters, collapse = "")
-}
-
 # Calculate least square means and Tukey comparisons
-leastsquare <- lsmeans::lsmeans(mod_first, pairwise ~ Type, adjust = "tukey")
+leastsquare <- lsmeans(mod_first, pairwise ~ Type, adjust = "tukey")
 tukey_results <- leastsquare$contrasts
 
 # Generate compact letter display
@@ -214,7 +823,7 @@ cld_results
 tukey_letters_first <- as.data.frame(cld_results)
 
 # Ensure the Type column is a factor and matches the levels in your data
-tukey_letters_first$Type <- factor(tukey_letters_first$Type, levels = levels(pop_above_4_per_env$Type))
+tukey_letters_first$Type <- factor(tukey_letters_first$Type, levels = levels(FT_pop_df$Type))
 
 #convert numbers to letters
 tukey_letters_first$group_letters <- sapply(tukey_letters_first$.group, convert_to_letters)
@@ -224,15 +833,14 @@ tukey_letters_first$group_letters <- sapply(tukey_letters_first$.group, convert_
 ggplot(data = pop_above_4_per_env, mapping = aes(x = Type, y = First_FT_julianday, fill = Type)) +
   geom_boxplot() +
   scale_fill_manual(values = c("meadow" = "#6a176e", "pavement" = "#bc3754", "tree bed" = "#f37819", "wall" = "#f8cd37")) +
-  geom_jitter(shape = 21, size = 1.5, fill = "black", position = position_jitter(0.2)) +
+  geom_jitter(shape = 21, size = 2, fill = "black", position = position_jitter(0.2)) +
   labs(y = "Flowering time (days) in situ", x = NULL) +
   theme_minimal() +
   theme(
     legend.position = "none",
     axis.text.x = element_text(size = 14, family = "Times New Roman"),
     axis.title.y = element_text(size = 14, family = "Times New Roman")
-  )  +
-  geom_text(data = tukey_letters_first, aes(label = group_letters, y = max(pop_above_4_per_env$First_FT_julianday, na.rm = TRUE) + -100), size = 6, family = "Times New Roman")
+  ) 
 ```
 
 How many replicates do we have per type of environment.
