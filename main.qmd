@@ -286,7 +286,7 @@ ggplot(data = pop_per_eco,
   theme(
     legend.position = "none",
     axis.text.x = element_text(size = 25, family = "Times New Roman"),
-    axis.title.y = element_text(size = 25, family = "Times New Roman")
+    axis.title = element_text(size = 25, family = "Times New Roman")
   ) +
   labs(y = "Number of Populations per Type")
 ```
@@ -459,7 +459,7 @@ ggplot(data = axis_per_eco,
   theme(
     legend.position = "none",
     axis.text.x = element_text(size = 25, family = "Times New Roman"),
-    axis.title.y = element_text(size = 25, family = "Times New Roman")
+    axis.title = element_text(size = 25, family = "Times New Roman")
   ) +
   labs(y = "Average Shoot Axis per Type")
 ```
@@ -554,6 +554,7 @@ leaf_shape_by_type_model <- glm(log_ratio_L_O ~ Type,
 summary(leaf_shape_by_type_model)
 # positive number means more elongated leaf shape (L), negative oval
 
+# genetic drift?
 # leaf_shape_by_total_repl_in_pop_model <- glm(log_ratio_L_O ~ total_repl_in_pop,
 #                         data = balanced_prop_trait_per_pop,
 #                         family = gaussian())
@@ -604,6 +605,8 @@ ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = log_ratio_S_G, color = Typ
   theme(legend.position = "none")
 ```
 
+
+
 ## Second attempt at Statistical analysis of Leaf Shape and Leaf Edge per Environment
 
 ```{r}
@@ -612,10 +615,20 @@ ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = log_ratio_S_G, color = Typ
 # Create Categories of Trait and Trait combo per pop
 trait_per_pop <- prop_trait_per_pop |>
   mutate(
-    pop_weights = total_repl_in_pop / 40,
+    pop_weights = total_repl_in_pop / 25,
     leaf_shape_catg = if_else(log_ratio_L_O > 0, "Elongated", "Rounded", missing = NA),
     leaf_edge_catg = if_else(log_ratio_S_G > 0, "Serrated", "Not_Serrated", missing = NA),
     trait_combo = paste0(leaf_shape_catg, "_", leaf_edge_catg)
+  )
+```
+
+```{r}
+ggplot(trait_per_pop, aes(x = n_O, y = n_L, color = Type, shape = leaf_edge_catg)) +
+  geom_jitter() +
+  theme_minimal() +
+  labs(
+    y = "Number of Elongated Leafs per Population",
+    x = "Number of Oval Leafs per Population",
   )
 ```
 
@@ -694,8 +707,10 @@ shape_model1 <- glmer(
 # performs worse than with capped threshold. Larger populations give more information but a
 # more compressed scale is better for the model?
 
+
+
 overdisp <- sum(residuals(shape_model1, type="pearson")^2) / df.residual(shape_model1)
-cat("overdispersion: ", overdisp)  # Should be close to 1 if no overdispersion
+cat("overdispersion: ", overdisp, "\n")  # Should be close to 1 if no overdispersion
 
 summary(shape_model1)
 Anova(shape_model1, type = "II")
