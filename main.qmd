@@ -538,6 +538,8 @@ min_pop_per_type <- min(table(prop_trait_per_pop$Type))
 #    Grass Pavement Tree bed     Wall 
 #       21       53       30       42 
 
+
+# not needed, try without
 set.seed(123)
 balanced_prop_trait_per_pop <- prop_trait_per_pop |>
   group_by(Type) |>
@@ -559,6 +561,12 @@ summary(leaf_shape_by_type_model)
 #                         data = balanced_prop_trait_per_pop,
 #                         family = gaussian())
 # summary(leaf_shape_by_total_repl_in_pop_model)
+
+#!!!
+leaf_shape_by_type_model2 <- glm(log_ratio_L_O ~ Type + log_ratio_S_G,
+                        data = balanced_prop_trait_per_pop,
+                        family = gaussian())
+summary(leaf_shape_by_type_model2)
 ```
 
 
@@ -774,7 +782,8 @@ correlation_pvalue <- cor.test(trait_per_pop$log_ratio_L_O, trait_per_pop$log_ra
 
 all_pvalues <- c(shape_type_pvalue, edge_type_pvalue, correlation_pvalue)
 
-adjusted_pvalues_bonf <- p.adjust(all_pvalues, method = "bonferroni")
+# adjust for multiple testing on the same data (conservatively)
+adjusted_pvalues_bonf <- p.adjust(all_pvalues, method = "bonferroni") 
 
 results_df <- data.frame(
   Test = c("Shape ~ Type", "Edge ~ Type", "Shape-Edge Correlation"),
@@ -787,4 +796,6 @@ results_df <- data.frame(
   ))
 print(results_df)
 ```
+
+
 
