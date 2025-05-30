@@ -602,50 +602,20 @@ ratio_trait_per_pop <- tplant |>
 ```
 
 ```{r}
-# compute a glm model to detect pattern between log ratio serrated with not serrated leaf edge and log ratio of elongated leaf shape over oval leaf shape in interaction with the type of environment
-trait_interaction <- glm(log_ratio_L_O ~ log_ratio_S_G * Type * log_ratio_plant_heigth,
-                        family = gaussian(),
-                        data = ratio_trait_per_pop)
-summary(trait_interaction)
-```
 
-```{r}
-model2 <- step(trait_interaction)
-```
-
-```{r}
-summary(model2)
-```
-
-```{r}
-# Manove to test if plants with an height above 18 cm, elongated and serated leafs occur in one of the types of environment more often
 Y <- cbind(
   ratio_trait_per_pop$is_above_18cm,
   ratio_trait_per_pop$log_ratio_L_O,
   ratio_trait_per_pop$log_ratio_S_G
 )
 
-model <- manova(Y ~ ratio_trait_per_pop$Type)
+type_pred_shape_edge_height <- manova(Y ~ ratio_trait_per_pop$Type)
 
-cat("MANOVA:\n")
-summary(model)
-
-cat("\nInteraction:\n")
-summary.aov(model)
+summary(type_pred_shape_edge_height)
 ```
 
 ```{r}
-# Pairwise MANOVA Post-Hoc Tests
-# This will test which specific environment pairs differ in their multivariate trait combinations
-
-# Your response matrix (same as before)
-Y <- cbind(
-  ratio_trait_per_pop$is_above_18cm,
-  ratio_trait_per_pop$log_ratio_L_O,
-  ratio_trait_per_pop$log_ratio_S_G
-)
-
-# Get unique environment types
+# Paiwise Manova Post-Hoc Test with Bonferoni to test if plants with an height above 18 cm, elongated and serated leafs occur in one of the types of environment more often
 environments <- unique(ratio_trait_per_pop$Type)
 n_env <- length(environments)
 
@@ -655,12 +625,8 @@ rownames(pairwise_results) <- environments
 colnames(pairwise_results) <- environments
 
 # Function to perform pairwise MANOVA
-cat("Pairwise MANOVA Results:\n")
-cat(paste(rep("=", 50), collapse=""), "\n")
-
-for(i in 1:(n_env-1)) {
-  for(j in (i+1):n_env) {
-    
+for (i in 1:(n_env - 1)) {
+  for (j in (i + 1):n_env) {
     # Get the two environments to compare
     env1 <- environments[i]
     env2 <- environments[j]
@@ -669,9 +635,6 @@ for(i in 1:(n_env-1)) {
     subset_indices <- ratio_trait_per_pop$Type %in% c(env1, env2)
     Y_subset <- Y[subset_indices, ]
     Type_subset <- ratio_trait_per_pop$Type[subset_indices]
-    
-    # Drop unused factor levels
-    Type_subset <- droplevels(Type_subset)
     
     # Perform MANOVA for just these two environments
     pairwise_manova <- manova(Y_subset ~ Type_subset)
@@ -683,39 +646,26 @@ for(i in 1:(n_env-1)) {
     # Store in results matrix
     pairwise_results[i, j] <- p_value
     pairwise_results[j, i] <- p_value
-    
-    # Print results
-    cat(sprintf("%s vs %s: p = %.4f", env1, env2, p_value))
-    if(p_value < 0.05) cat(" *")
-    if(p_value < 0.01) cat("*")
-    if(p_value < 0.001) cat("*")
-    cat("\n")
   }
 }
-
-cat("\nSignificance codes: *** p<0.001, ** p<0.01, * p<0.05\n\n")
-
-# Print the full results matrix
-cat("P-value Matrix:\n")
-print(round(pairwise_results, 4))
 
 # Apply Bonferroni correction for multiple comparisons
 n_comparisons <- choose(n_env, 2)  # Number of pairwise comparisons
 bonferroni_alpha <- 0.05 / n_comparisons
+cat("Bonferroni results of pairwise MANOVA (alpha = ",
+    round(bonferroni_alpha, 5),
+    "):\n")
 
-cat(sprintf("\nWith Bonferroni correction (α = %.4f):\n", bonferroni_alpha))
-cat(paste(rep("=", 40), collapse=""), "\n")
-
-for(i in 1:(n_env-1)) {
-  for(j in (i+1):n_env) {
+for (i in 1:(n_env - 1)) {
+  for (j in (i + 1):n_env) {
     env1 <- environments[i]
     env2 <- environments[j]
     p_value <- pairwise_results[i, j]
     
     cat(sprintf("%s vs %s: p = %.4f", env1, env2, p_value))
-    if(p_value < bonferroni_alpha) {
+    if (p_value < bonferroni_alpha) {
       cat(" *")
-    } 
+    }
     cat("\n")
   }
 }
