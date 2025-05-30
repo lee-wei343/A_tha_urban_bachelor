@@ -163,29 +163,13 @@ ID_is_not_alive_A_tha <- c(
   "308-19",
   "310-1",
   "315-3",
-  "308-10"
+  "308-10",
+  "308-4",
+  "308-3",
+  "310-19"
 )
 
-is_below_18cm_vector <- c(
-  "407-1",
-  "187-6",
-  "187-4",
-  "406-6",
-  "180-1",
-  "19-2",
-  "177-4",
-  "264-2",
-  "167-1",
-  "94-4",
-  "310-11",
-  "161-1",
-  "495-2",
-  "282-4",
-  "114-4",
-  "177-16",
-  "347-16",
-  "344-1"
-)
+is_below_18cm <- read_csv(file = "data/F5_below_18cm.csv")
 
 Pop_pool_sampled <- c("1", "7", "8", "24", "27", "34", "35", "41", "45", "47", "49", "102", "104", "105", "113", "122", "159", "168", "169", "172", "173", "177", "180", "183", "184", "203", "232", "233", "258", "263", "264", "265", "267", "282", "310", "342", "344", "345", "346", "347", "348", "357", "359", "384", "405", "406", "408", "428", "433", "438", "439", "447", "448", "449", "451", "453", "458", "459", "466", "468", "472", "474", "477", "478", "479", "480", "481", "482", "483", "484", "486", "487", "488", "489", "491", "494")
 
@@ -208,8 +192,8 @@ tplant <- tplant |>
         Pop %in% Pop_indv_sampled ~ "Indv",
       TRUE ~ "Not_sampled"
     ),
-    is_below_18cm = case_when(ID %in% is_below_18cm_vector ~ "TRUE",
-                              TRUE ~ "unknown")
+    is_above_18cm = case_when(ID %in% is_below_18cm$F5_is_below_18cm ~ FALSE,
+                              TRUE ~ TRUE)
   )
 
   
@@ -267,7 +251,7 @@ tplant <- tplant |>
 tplant
 ```
 
-## Table for Dormancy
+## Generating Table for Dormancy
 Initial random subsampling:
 ```{r}
 # dormancy2 <- tplant |>
@@ -278,74 +262,56 @@ Initial random subsampling:
 
 # saved as "dormancy_table_2025-05-08.csv"
 
-dormancy_selected_table_2025_05_14 <- data.frame(
-  ID = c("113-7", "486-1", "346-7", "429-5", "462-1", "484-7", "94-3", "444-3", "263-4", "105-10", "310-7", "232-14", "468-9", "282-19", "345-11", "264-8", "29-5", "458-4", "477-6", "479-11", "203-9", "451-7", "453-11", "452-1", "452-7", "433-15", "8-14", "424-4", "439-1", "8-9", "359-8", "474-4", "35-5", "452-9", "405-6", "454-6", "458-1", "468-6", "114-2", "361-5", "357-11", "165-17", "482-11", "114-3", "113-8", "106-3", "407-17", "172-15", "444-1", "463-2", "453-2", "258-3", "105-6", "173-6", "104-17", "102-11", "106-4", "94-1", "463-10", "264-11", "232-18", "348-12", "168-10", "172-12", "203-3", "159-6", "182-1", "447-9", "449-4", "49-5", "408-2", "47-17", "347-8", "169-12", "406-6", "407-1", "187-4", "187-6", "180-6", "182-3", "454-2", "120-4", "263-6", "448-7", "439-4", "459-9", "441-3", "484-16", "448-6", "449-9", "165-4", "408-4", "241-7", "310-11", "282-4", "253-3", "265-19", "357-4", "453-15", "469-3", "481-14", "348-14", "347-16", "177-16", "187-5", "191-4", "478-15", "342-10", "476-4", "477-14", "494-2", "310-13", "24-11", "102-2", "213-2", "409-2", "424-3", "428-17", "481-4", "255-1", "267-19", "265-16", "8-15", "491-17", "233-17", "45-6", "456-4", "456-5", "406-9", "433-13", "232-8", "447-4", "173-13", "161-3", "491-14", "459-3", "477-3", "167-2", "474-14", "475-4", "429-4", "468-12", "487-7", "482-15", "428-7", "428-2", "483-6", "476-6", "102-12", "19-3", "1-10", "165-8", "359-4", "168-11", "183-15", "346-10", "346-20", "106-2", "405-17", "344-19", "120-1", "489-13", "488-5", "45-4", "459-2", "408-10", "475-5", "463-8", "7-3", "24-7", "47-12", "405-10", "447-6", "241-6", "488-18", "265-10", "177-4", "49-1", "462-2", "345-5", "41-8", "180-10", "344-2", "466-2", "384-14", "384-6", "472-16", "480-5", "487-6", "480-11", "179-3", "94-4", "179-2", "407-8", "282-2", "19-1", "478-17", "122-13", "494-18", "167-1", "179-4", "342-8", "122-14", "481-6", "168-14", "159-10", "161-4", "177-10", "120-2", "161-2", "172-3", "159-12", "182-4", "180-4", "104-7", "49-17", "489-10", "487-2", "486-11", "486-15", "479-6", "479-2", "476-2", "462-5", "458-9", "438-8", "409-16", "348-25", "203-5", "173-7", "169-5", "105-12", "41-1", "34-5", "1-7", "255-6", "241-1", "206-4", "450-4", "471-2", "191-6", "183-17", "34-15", "469-2", "206-3", "448-4", "451-1", "34-6", "104-10", "35-8", "264-2", "441-1", "472-2", "345-14", "167-3", "406-14", "468-5", "206-2", "491-9", "29-6", "122-18", "47-5", "451-4", "450-1", "471-4", "466-1", "114-4", "429-1", "233-19", "484-21", "35-17", "45-7", "456-2", "424-2", "258-18", "1-1", "483-13", "472-3", "438-7", "441-4", "347-3", "29-2", "169-4", "483-7", "444-2", "454-9", "449-19", "474-15", "489-19", "488-16", "469-4", "480-7", "494-3", "41-15", "439-13", "342-18", "19-5", "267-7", "450-2", "357-13", "255-4", "359-5", "478-14", "191-8", "267-17", "7-7", "438-2", "471-3", "433-4", "24-8", "213-5", "468-12", "466-4", "27-6", "475-1", "361-1", "263-8", "258-20", "213-3", "361-3", "409-15", "113-1", "482-12", "7-2", "183-4", "233-7", "27-5", "27-12", "344-1", "384-10")
-)
+# dormancy_selected_table_2025_05_14 <- data.frame(
+#   ID = c("113-7", "486-1", "346-7", "429-5", "462-1", "484-7", "94-3", "444-3", "263-4", "105-10", "310-7", "232-14", "468-9", "282-19", "345-11", "264-8", "29-5", "458-4", "477-6", "479-11", "203-9", "451-7", "453-11", "452-1", "452-7", "433-15", "8-14", "424-4", "439-1", "8-9", "359-8", "474-4", "35-5", "452-9", "405-6", "454-6", "458-1", "468-6", "114-2", "361-5", "357-11", "165-17", "482-11", "114-3", "113-8", "106-3", "407-17", "172-15", "444-1", "463-2", "453-2", "258-3", "105-6", "173-6", "104-17", "102-11", "106-4", "94-1", "463-10", "264-11", "232-18", "348-12", "168-10", "172-12", "203-3", "159-6", "182-1", "447-9", "449-4", "49-5", "408-2", "47-17", "347-8", "169-12", "406-6", "407-1", "187-4", "187-6", "180-6", "182-3", "454-2", "120-4", "263-6", "448-7", "439-4", "459-9", "441-3", "484-16", "448-6", "449-9", "165-4", "408-4", "241-7", "310-11", "282-4", "253-3", "265-19", "357-4", "453-15", "469-3", "481-14", "348-14", "347-16", "177-16", "187-5", "191-4", "478-15", "342-10", "476-4", "477-14", "494-2", "310-13", "24-11", "102-2", "213-2", "409-2", "424-3", "428-17", "481-4", "255-1", "267-19", "265-16", "8-15", "491-17", "233-17", "45-6", "456-4", "456-5", "406-9", "433-13", "232-8", "447-4", "173-13", "161-3", "491-14", "459-3", "477-3", "167-2", "474-14", "475-4", "429-4", "468-12", "487-7", "482-15", "428-7", "428-2", "483-6", "476-6", "102-12", "19-3", "1-10", "165-8", "359-4", "168-11", "183-15", "346-10", "346-20", "106-2", "405-17", "344-19", "120-1", "489-13", "488-5", "45-4", "459-2", "408-10", "475-5", "463-8", "7-3", "24-7", "47-12", "405-10", "447-6", "241-6", "488-18", "265-10", "177-4", "49-1", "462-2", "345-5", "41-8", "180-10", "344-2", "466-2", "384-14", "384-6", "472-16", "480-5", "487-6", "480-11", "179-3", "94-4", "179-2", "407-8", "282-2", "19-1", "478-17", "122-13", "494-18", "167-1", "179-4", "342-8", "122-14", "481-6", "168-14", "159-10", "161-4", "177-10", "120-2", "161-2", "172-3", "159-12", "182-4", "180-4", "104-7", "49-17", "489-10", "487-2", "486-11", "486-15", "479-6", "479-2", "476-2", "462-5", "458-9", "438-8", "409-16", "348-25", "203-5", "173-7", "169-5", "105-12", "41-1", "34-5", "1-7", "255-6", "241-1", "206-4", "450-4", "471-2", "191-6", "183-17", "34-15", "469-2", "206-3", "448-4", "451-1", "34-6", "104-10", "35-8", "264-2", "441-1", "472-2", "345-14", "167-3", "406-14", "468-5", "206-2", "491-9", "29-6", "122-18", "47-5", "451-4", "450-1", "471-4", "466-1", "114-4", "429-1", "233-19", "484-21", "35-17", "45-7", "456-2", "424-2", "258-18", "1-1", "483-13", "472-3", "438-7", "441-4", "347-3", "29-2", "169-4", "483-7", "444-2", "454-9", "449-19", "474-15", "489-19", "488-16", "469-4", "480-7", "494-3", "41-15", "439-13", "342-18", "19-5", "267-7", "450-2", "357-13", "255-4", "359-5", "478-14", "191-8", "267-17", "7-7", "438-2", "471-3", "433-4", "24-8", "213-5", "468-12", "466-4", "27-6", "475-1", "361-1", "263-8", "258-20", "213-3", "361-3", "409-15", "113-1", "482-12", "7-2", "183-4", "233-7", "27-5", "27-12", "344-1", "384-10")
+# )
 ```
 
-## Table for Flowering Time
-
-
+## Generating Table for Flowering Time
 ```{r}
 # tplant_pop_above_3 <- tplant |> 
 #   group_by(Pop) |>
 #   slice_sample(n = 10) |>
 #   filter(pop_above_3 == T) 
 
-tplant <- tplant |>
-  mutate(
-    used_for_dormancy = ID %in% dormancy_selected_table_2025_05_14$ID
-  )
-
-tplant_sampled <- tplant |>
-  filter(pop_above_3 == TRUE) |>
-  group_by(Pop) |>
-  group_modify(~ {
-    dormancy <- filter(.x, used_for_dormancy == TRUE)
-    non_dormancy <- filter(.x, used_for_dormancy == FALSE)
-    needed <- 10 - nrow(dormancy)
-    if (needed > 0) {
-      sampled_non <- slice_sample(non_dormancy, n = needed)
-      bind_rows(dormancy, sampled_non)
-    } else {
-      slice_sample(dormancy, n = 10)
-    }
-  }) |>
-  ungroup()
-
-
-# # is removed id in dormancy table?
-# removed_ids <- anti_join(tplant |> filter(pop_above_3 == T), tplant_sampled, by = "ID")
-# removed_in_dormancy <- left_join(removed_ids, dormancy_selected_table_2025_05_14, by = "ID") |>
-#   drop_na(Pop.y)
-# # seems not so
+# tplant <- tplant |>
+#   mutate(
+#     used_for_dormancy = ID %in% dormancy_selected_table_2025_05_14$ID
+#   )
 # 
-# # has every pop 3 dormancy entries
-# has_3_dorm_entries <- tplant_sampled |>
+# tplant_sampled <- tplant |>
+#   filter(pop_above_3 == TRUE) |>
 #   group_by(Pop) |>
-#   summarise(dormancy_entries = sum(used_for_dormancy))
-
-# |>
-#   mutate(is_in_dormancy_table = case_when(ID %in% dormancy_selected_table_2025_05_14$ID ~ "TRUE",
-#                                           TRUE ~ "FALSE"))
-
-n_rows <- 7
-n_cols <- 5
-total_plants <- nrow(tplant_sampled)
-n_trays <- ceiling(total_plants / (n_cols * n_rows))
-pots_per_tray <- n_cols * n_rows
-
-tplant_F6_random <- tplant_sampled |>
-  select(ID, Pop, Replicate, total_repl_in_pop) |>
-  slice_sample(n = total_plants) |>  # randomization
-  mutate(
-    position = 1:n(),
-    Tray = ceiling(position / pots_per_tray),
-    position_in_tray = (position - 1) %% pots_per_tray,
-    Column = (position_in_tray %% n_cols) + 1,
-    Row = (position_in_tray %/% n_cols) + 1
-  ) |>
-  select(-position, -position_in_tray)  
+#   group_modify(~ {
+#     dormancy <- filter(.x, used_for_dormancy == TRUE)
+#     non_dormancy <- filter(.x, used_for_dormancy == FALSE)
+#     needed <- 10 - nrow(dormancy)
+#     if (needed > 0) {
+#       sampled_non <- slice_sample(non_dormancy, n = needed)
+#       bind_rows(dormancy, sampled_non)
+#     } else {
+#       slice_sample(dormancy, n = 10)
+#     }
+#   }) |>
+#   ungroup()
+# 
+# n_rows <- 7
+# n_cols <- 5
+# total_plants <- nrow(tplant_sampled)
+# n_trays <- ceiling(total_plants / (n_cols * n_rows))
+# pots_per_tray <- n_cols * n_rows
+# 
+# tplant_F6_random <- tplant_sampled |>
+#   select(ID, Pop, Replicate, total_repl_in_pop) |>
+#   slice_sample(n = total_plants) |>  # randomization
+#   mutate(
+#     position = 1:n(),
+#     Tray = ceiling(position / pots_per_tray),
+#     position_in_tray = (position - 1) %% pots_per_tray,
+#     Column = (position_in_tray %% n_cols) + 1,
+#     Row = (position_in_tray %/% n_cols) + 1
+#   ) |>
+#   select(-position, -position_in_tray)  
 ```
 
 
@@ -372,7 +338,6 @@ tplant <- tplant |>
 ```
 
 ## EDA of Leaf Shape and Leaf Edge per Environment
-
 ```{r}
 Ecotype_colors <- c(
   "wall" = "#f8cd37",
@@ -498,7 +463,7 @@ ggplot(leaf_edge_long,
   geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
   scale_fill_manual(
     values = c("prop_G" = "#6a176e", "prop_S" = "#f8cd37"),
-    labels = c("Smooth", "Serrated")
+    labels = c("Not Serrated", "Serrated")
   ) +
   labs(x = "Type", y = "Proportion", fill = "Leaf Edge") +
   theme_minimal() +
@@ -606,87 +571,209 @@ ggplot(data = dist_sampled_pop_per_eco,
   labs(y = "Populations with Leafs Sampled from")
 ```
 
-## First Statistical analysis of Leaf Shape and Leaf Edge per Environment
+## Analysis of Leaf Shape and Leaf Edge of the Transplanted F5 Generation
 
 Since the \~2000 plants are coming from Populations, individuals from the same Population are more similar to each other, creating non-independence. To address this a proportion of the type of leaf edge and shape is calculated per population.
 
 ```{r}
-prop_trait_per_pop <- tplant |>
-  drop_na(Leaf_shape, Leaf_edge) |>
-  group_by(Pop, Type, total_repl_in_pop) |> # group by Pop but include Type and total_repl_in_pop in sum table
+# compute a ratio of leaf shape and leaf edge for each population from the individuals in each population
+ratio_trait_per_pop <- tplant |>
+  drop_na(Leaf_shape, Leaf_edge) |> # remove plants, which could not be categorized
+  group_by(Pop, Type, total_repl_in_pop, is_above_18cm) |> # group by Population
   summarise(
-    n_L = sum(Leaf_shape == "L"),
-    n_O = sum(Leaf_shape == "O"),
-    n_S = sum(Leaf_edge == "S"),
-    n_G = sum(Leaf_edge == "G"),
-    
-    # avoid division by 0 by adding 0.5
-    log_ratio_L_O = log((n_L + 0.5) / (n_O + 0.5)),
+    # compute the log ratio of elongated leaf shape over oval leaf shape
+    n_L = sum(Leaf_shape == "L"), # sum up the count of elongated leaf per population
+    n_O = sum(Leaf_shape == "O"), # sum up the count of oval leaf per population
+    # avoid division by 0 by adding 0.01 (laplace smoothing)
+    log_ratio_L_O = log((n_L + 0.01) / (n_O + 0.01)),
     # zero means same proportion, positive number means more elongated leaf shape (L), negative oval leaf shape (O)
-    log_ratio_S_G = log((n_S + 0.5) / (n_G + 0.5)),
+    
+    # compute the log ratio of serrated leaf edge over not serrated leaf edge
+    n_S = sum(Leaf_edge == "S"),# sum up the count of serrated leaf per population
+    n_G = sum(Leaf_edge == "G"),# sum up the count of not serrated leaf per population
+    log_ratio_S_G = log((n_S + 0.01) / (n_G + 0.01)),
+    
+    # compute the log ratio of plant height
+    is_above_18cm = sum(is_above_18cm == T),
+    is_below_18cm = sum(is_above_18cm == F),
+    log_ratio_plant_heigth = log((is_above_18cm + 0.01) / (is_below_18cm + 0.01))
   ) |>
   mutate(Type = as.factor(Type)) 
-
-# bad results, perhaps because of uneven pop per envs
-# leaf_shape_model <- glm(log_ratio_L_O ~ Type,
-#                         data = prop_trait_per_pop,
-#                         family = gaussian())
-# summary.lm(leaf_shape_model)
-# # R**2 = 3%, not sign.
-# 
-# leaf_edge_model <- glm(log_ratio_S_G ~ Type,
-#                        data = prop_trait_per_pop,
-#                        family = gaussian())
-# summary.lm(leaf_edge_model)
-# # R**2 6%, sign.
-# 
-# trait_interaction <- glm(log_ratio_S_G ~ log_ratio_L_O * Type,
-#                         family = gaussian(),
-#                         data = prop_trait_per_pop)
-# summary.lm(trait_interaction)
-
-# create balanced dataset through random subsampling
-min_pop_per_type <- min(table(prop_trait_per_pop$Type))
-
-# table(prop_trait_per_pop$Type)
-# 
-#    Grass Pavement Tree bed     Wall 
-#       21       53       30       42 
-
-
-# not needed, try without
-balanced_prop_trait_per_pop <- prop_trait_per_pop |>
-  group_by(Type) |>
-  sample_n(min_pop_per_type) |>
-  ungroup()
 ```
 
-The number of Populations where evened by random subsampling to the lowest number of population per Type.
+```{r}
+# compute a glm model to detect pattern between log ratio serrated with not serrated leaf edge and log ratio of elongated leaf shape over oval leaf shape in interaction with the type of environment
+trait_interaction <- glm(log_ratio_L_O ~ log_ratio_S_G * Type * log_ratio_plant_heigth,
+                        family = gaussian(),
+                        data = ratio_trait_per_pop)
+summary(trait_interaction)
+```
 
 ```{r}
-leaf_shape_by_type_model <- glm(log_ratio_L_O ~ Type,
-                        data = balanced_prop_trait_per_pop,
-                        family = gaussian())
-summary(leaf_shape_by_type_model)
-# positive number means more elongated leaf shape (L), negative oval
+model2 <- step(trait_interaction)
+```
 
-# genetic drift?
-# leaf_shape_by_total_repl_in_pop_model <- glm(log_ratio_L_O ~ total_repl_in_pop,
-#                         data = balanced_prop_trait_per_pop,
-#                         family = gaussian())
-# summary(leaf_shape_by_total_repl_in_pop_model)
+```{r}
+summary(model2)
+```
 
-#!!!
-leaf_shape_by_type_model2 <- glm(log_ratio_L_O ~ Type + log_ratio_S_G,
-                        data = balanced_prop_trait_per_pop,
-                        family = gaussian())
-summary(leaf_shape_by_type_model2)
+```{r}
+# Manove to test if plants with an height above 18 cm, elongated and serated leafs occur in one of the types of environment more often
+Y <- cbind(
+  ratio_trait_per_pop$is_above_18cm,
+  ratio_trait_per_pop$log_ratio_L_O,
+  ratio_trait_per_pop$log_ratio_S_G
+)
+
+model <- manova(Y ~ ratio_trait_per_pop$Type)
+
+cat("MANOVA:\n")
+summary(model)
+
+cat("\nInteraction:\n")
+summary.aov(model)
+```
+
+```{r}
+# Pairwise MANOVA Post-Hoc Tests
+# This will test which specific environment pairs differ in their multivariate trait combinations
+
+# Your response matrix (same as before)
+Y <- cbind(
+  ratio_trait_per_pop$is_above_18cm,
+  ratio_trait_per_pop$log_ratio_L_O,
+  ratio_trait_per_pop$log_ratio_S_G
+)
+
+# Get unique environment types
+environments <- unique(ratio_trait_per_pop$Type)
+n_env <- length(environments)
+
+# Create results matrix for p-values
+pairwise_results <- matrix(NA, n_env, n_env)
+rownames(pairwise_results) <- environments
+colnames(pairwise_results) <- environments
+
+# Function to perform pairwise MANOVA
+cat("Pairwise MANOVA Results:\n")
+cat(paste(rep("=", 50), collapse=""), "\n")
+
+for(i in 1:(n_env-1)) {
+  for(j in (i+1):n_env) {
+    
+    # Get the two environments to compare
+    env1 <- environments[i]
+    env2 <- environments[j]
+    
+    # Subset data for just these two environments
+    subset_indices <- ratio_trait_per_pop$Type %in% c(env1, env2)
+    Y_subset <- Y[subset_indices, ]
+    Type_subset <- ratio_trait_per_pop$Type[subset_indices]
+    
+    # Drop unused factor levels
+    Type_subset <- droplevels(Type_subset)
+    
+    # Perform MANOVA for just these two environments
+    pairwise_manova <- manova(Y_subset ~ Type_subset)
+    manova_summary <- summary(pairwise_manova)
+    
+    # Extract p-value
+    p_value <- manova_summary$stats[1, "Pr(>F)"]
+    
+    # Store in results matrix
+    pairwise_results[i, j] <- p_value
+    pairwise_results[j, i] <- p_value
+    
+    # Print results
+    cat(sprintf("%s vs %s: p = %.4f", env1, env2, p_value))
+    if(p_value < 0.05) cat(" *")
+    if(p_value < 0.01) cat("*")
+    if(p_value < 0.001) cat("*")
+    cat("\n")
+  }
+}
+
+cat("\nSignificance codes: *** p<0.001, ** p<0.01, * p<0.05\n\n")
+
+# Print the full results matrix
+cat("P-value Matrix:\n")
+print(round(pairwise_results, 4))
+
+# Apply Bonferroni correction for multiple comparisons
+n_comparisons <- choose(n_env, 2)  # Number of pairwise comparisons
+bonferroni_alpha <- 0.05 / n_comparisons
+
+cat(sprintf("\nWith Bonferroni correction (α = %.4f):\n", bonferroni_alpha))
+cat(paste(rep("=", 40), collapse=""), "\n")
+
+for(i in 1:(n_env-1)) {
+  for(j in (i+1):n_env) {
+    env1 <- environments[i]
+    env2 <- environments[j]
+    p_value <- pairwise_results[i, j]
+    
+    cat(sprintf("%s vs %s: p = %.4f", env1, env2, p_value))
+    if(p_value < bonferroni_alpha) {
+      cat(" *")
+    } 
+    cat("\n")
+  }
+}
 ```
 
 
 
 ```{r}
-ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = log_ratio_L_O, color = Type)) +
+means_by_env <- aggregate(Y, by = list(ratio_trait_per_pop$Type), mean)
+colnames(means_by_env) <- c("Environment", "Height_log_ratio", "Leaf_Elongation", "Leaf_Serration")
+
+# Print means 
+means_by_env[, 2:4] <- round(means_by_env[, 2:4], 3)
+print(means_by_env)
+```
+
+
+
+```{r}
+plot(trait_interaction)
+```
+
+```{r}
+# Do taller plants have more serrated leafs in each environment?
+serration_model <- glm(log_ratio_S_G ~ Type * log_ratio_plant_heigth,
+                        family = gaussian(),
+                        data = ratio_trait_per_pop)
+summary(serration_model)
+```
+Taller plants do not tend to have more serrated leafs in each environment.
+
+```{r}
+# Do taller plants have more serrated leafs
+serration_model <- glm(log_ratio_S_G ~ Type + log_ratio_plant_heigth,
+                        family = gaussian(),
+                        data = ratio_trait_per_pop)
+summary(serration_model)
+```
+Taller plants have more serrated leafs.
+
+
+
+
+
+
+```{r}
+ggplot(ratio_trait_per_pop, aes(x = log_ratio_L_O, y = log_ratio_S_G, color = Type)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~Type) +
+  theme_minimal()
+```
+
+
+
+```{r}
+# plot for leaf shape
+ggplot(ratio_trait_per_pop, aes(x = Type, y = log_ratio_L_O, color = Type)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.4, size = 2) +
   geom_hline(yintercept = 0, linetype = "dashed") +
@@ -698,24 +785,11 @@ ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = log_ratio_L_O, color = Typ
   theme(legend.position = "none")
 ```
 
-```{r}
-leaf_edge_model <- glm(log_ratio_S_G ~ Type,
-                       data = balanced_prop_trait_per_pop,
-                       family = gaussian())
-summary(leaf_edge_model)
-```
 
-The transplanted plants showed a significant difference in leaf edge by environment (Adjusted R-squared: 0.068, F\_{3,80} = 3.009, p-value = 0.035). Plants that lived in the `Wall` environment showed significantly less serrated leafs.
 
 ```{r}
-trait_interaction <- glm(log_ratio_S_G ~ log_ratio_L_O * Type,
-                        family = gaussian(),
-                        data = balanced_prop_trait_per_pop)
-summary(trait_interaction)
-```
-
-```{r}
-ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = log_ratio_S_G, color = Type)) +
+# plot for leaf edge
+ggplot(ratio_trait_per_pop, aes(x = Type, y = log_ratio_S_G, color = Type)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.4, size = 2) +
   geom_hline(yintercept = 0, linetype = "dashed") +
@@ -727,197 +801,12 @@ ggplot(balanced_prop_trait_per_pop, aes(x = Type, y = log_ratio_S_G, color = Typ
   theme(legend.position = "none")
 ```
 
-
-
-## Second attempt at Statistical analysis of Leaf Shape and Leaf Edge per Environment
-
-```{r}
-# Create weights based on the size of the populations to take into effect that about one third of 
-# the populations have 3 or lss replicates
-# Create Categories of Trait and Trait combo per pop
-trait_per_pop <- prop_trait_per_pop |>
-  mutate(
-    pop_weights = total_repl_in_pop / 25,
-    leaf_shape_catg = if_else(log_ratio_L_O > 0, "Elongated", "Rounded", missing = NA),
-    leaf_edge_catg = if_else(log_ratio_S_G > 0, "Serrated", "Not_Serrated", missing = NA),
-    trait_combo = paste0(leaf_shape_catg, "_", leaf_edge_catg)
-  )
-```
-
-```{r}
-ggplot(trait_per_pop, aes(x = n_O, y = n_L, color = Type, shape = leaf_edge_catg)) +
-  geom_jitter() +
-  theme_minimal() +
-  labs(
-    y = "Number of Elongated Leafs per Population",
-    x = "Number of Oval Leafs per Population",
-  )
-```
-
-```{r}
-library(lme4)
-library(car)
-library(multcomp)
-
-# Does the type of environment effect the leaf shape of rosette leafs of A. thaliana populations, while taking into effect the uneven distribution of Populations over the types of environment and the difference in size of population?
-shape_model1 <- glmer(
-  cbind(n_L, n_O) ~ Type + (1 | Pop), # Pop uneven distributed across types of env
-  family = binomial(link = "logit"),
-  weights = trait_per_pop$pop_weights, # total_repl_in_pop / 40,
-  data = prop_trait_per_pop,
-  control = glmerControl(optimizer = "bobyqa")
-)
-# AIC decreases with threshold increasing, meaning that the model predictions get more accurate when
-# giving larger populations more weight e.g. pop_weights = pmin(total_repl_in_pop, 40) / 40,
-  
-# shape_model2 <- glmer(cbind(n_L, n_O) ~ Type + (1|Pop), 
-#                         family = binomial(link = "logit"),
-#                         data = prop_trait_per_pop)
-# 
-# AIC(shape_model1, shape_model2)
-# shape_model1 is better than 2
-
-# shape_model3 <- glm(cbind(n_L, n_O) ~ Type, 
-#                     family = quasibinomial(link = "logit"),
-#                     data = prop_trait_per_pop)
-# 
-# AIC(shape_model1, shape_model3)
-# 
-# summary(shape_model3)
-# 
-# shape_model4 <- glmer(cbind(n_L, n_O) ~ Type + (1|Pop), 
-#                     family = binomial(link = "logit"),
-#                     data = prop_trait_per_pop,
-#                     control = glmerControl(optimizer = "bobyqa"))
-# 
-# AIC(shape_model1, shape_model4)
-
-# shape_model5 <- glmer(
-#   cbind(n_L, n_O) ~ Type + scale(total_repl_in_pop) + (1 | Pop),
-#   family = binomial(link = "logit"),
-#   data = prop_trait_per_pop,
-#   control = glmerControl(optimizer = "bobyqa")
-# )
-# 
-# AIC(shape_model1, shape_model5)
-
-# shape_model6 <- glmer(
-#   cbind(n_L, n_O) ~ Type + (1 | Pop / total_repl_in_pop),
-#   family = binomial(link = "logit"),
-#   data = prop_trait_per_pop,
-#   control = glmerControl(optimizer = "bobyqa")
-# )
-# 
-# AIC(shape_model1, shape_model6)
-
-# shape_model7 <- glmer(
-#   cbind(n_L, n_O) ~ Type + (0 + factor(total_repl_in_pop) | Pop),
-#   family = binomial(link = "logit"),
-#   data = prop_trait_per_pop,
-#   control = glmerControl(optimizer = "bobyqa")
-# )
-# 
-# AIC(shape_model1, shape_model7)
-
-# shape_model8 <- glmer(
-#   cbind(n_L, n_O) ~ Type + (1 | Pop), # Pop uneven distributed across types of env
-#   family = binomial(link = "logit"),
-#   weights = trait_per_pop$pop_max_weights, # pop_max_weights = total_repl_in_pop / max(total_repl_in_pop),
-#   data = prop_trait_per_pop,
-#   control = glmerControl(optimizer = "bobyqa")
-# )
-# performs worse than with capped threshold. Larger populations give more information but a
-# more compressed scale is better for the model?
-
-
-
-overdisp <- sum(residuals(shape_model1, type="pearson")^2) / df.residual(shape_model1)
-cat("overdispersion: ", overdisp, "\n")  # Should be close to 1 if no overdispersion
-
-summary(shape_model1)
-Anova(shape_model1, type = "II")
-summary(glht(shape_model1,linfct = mcp(Type="Tukey")))
-```
-
-Low AIC of 183.6, and underdispersion. Weighing larger Populations in stronger increases the model, but it is capped at 40.
-
-```{r}
-# Does the type of environment effect the leaf edge of rosette leafs of A. thaliana populations, while taking into effect the uneven distribution of Populations over the types of environment and the difference in size of population?
-edge_model1 <- glmer(
-  cbind(n_S, n_G) ~ Type + (1 | Pop), # Pop uneven distributed across types of env
-  family = binomial(link = "logit"),
-  weights = trait_per_pop$pop_weights, # total_repl_in_pop / 40,
-  data = prop_trait_per_pop,
-  control = glmerControl(optimizer = "bobyqa")
-)
-# AIC decreases with threshold increasing, meaning that the model predictions get more accurate when
-# giving larger populations more weight e.g. pop_weights = pmin(total_repl_in_pop, 40) / 40,
-  
-
-
-overdisp <- sum(residuals(edge_model1, type="pearson")^2) / df.residual(edge_model1)
-cat("overdispersion: ", overdisp)  # Should be close to 1 if no overdispersion
-
-summary(edge_model1)
-Anova(edge_model1, type = "II")
-summary(glht(edge_model1,linfct = mcp(Type="Tukey")))
-```
-
-```{r}
-# # Test for interaction between traits
-# model_interaction <- glmer(cbind(n_S, n_G) ~ log_ratio_L_O + (1|Pop),
-#                            family = binomial(link = "logit"),
-#   weights = trait_per_pop$pop_weights, # total_repl_in_pop / 40,
-#   data = prop_trait_per_pop,
-#   control = glmerControl(optimizer = "bobyqa")
-#   )
-# 
-# overdisp <- sum(residuals(model_interaction, type="pearson")^2) / df.residual(model_interaction)
-# overdisp  # Should be close to 1 if no overdispersion
-# 
-# summary(model_interaction)
-# Anova(model_interaction, type = "II")
-# summary(glht(model_interaction,linfct = mcp(Type="Tukey")))
-
-# maybe too complex for binomial model
-```
-
-```{r}
-cor.test(trait_per_pop$log_ratio_L_O, trait_per_pop$log_ratio_S_G)
-```
-
-Traits positive correlated.
-
-### Account for multiple testing
-```{r}
-# p-value from main hypothesis
-shape_type_pvalue <- Anova(shape_model1, type = "II")["Type", "Pr(>Chisq)"]
-edge_type_pvalue <- Anova(edge_model1, type = "II")["Type", "Pr(>Chisq)"]
-correlation_pvalue <- cor.test(trait_per_pop$log_ratio_L_O, trait_per_pop$log_ratio_S_G)$p.value
-
-all_pvalues <- c(shape_type_pvalue, edge_type_pvalue, correlation_pvalue)
-
-# adjust for multiple testing on the same data (conservatively)
-adjusted_pvalues_bonf <- p.adjust(all_pvalues, method = "bonferroni") 
-
-results_df <- data.frame(
-  Test = c("Shape ~ Type", "Edge ~ Type", "Shape-Edge Correlation"),
-  Original_p = all_pvalues,
-  Bonferroni_p = adjusted_pvalues_bonf
-) |>
-  mutate(Significant = case_when(
-    Bonferroni_p < 0.05 ~ "Significant",
-    Bonferroni_p > 0.05 ~ "N.S.",
-  ))
-print(results_df)
-```
-
-
-
 # F6 Experiment
 Load in the table containing the random subsample of the urban cologne F5 line, which will be used in the following experiment. The table contains plants used for a new F6 generation. New ID's where given to the plants.
 
 ```{r}
+# Table for the plants that are sown to produce an F6 generation.
+# Plants were chosen from populations with more than 3 individuals and reduced to not carry more than 10 individuals, based on the information at hand at that time. If an individual was not at hand it was replaced by an individual at hand at random, producing the table.
 tplant_F6_random <- read_csv(file = "data/tplant_F6_random_2025_05_27.csv",
                              na = "na",
                              col_types = cols(
@@ -933,6 +822,7 @@ tplant_F6_random <- read_csv(file = "data/tplant_F6_random_2025_05_27.csv",
 
 ## Load Dormancy Count Table
 ```{r}
+# Count data of germination rate of seeds from the F5 generation
 dormancy_count <- read_csv(file = "data/dormancy count_2025_05_28.csv",
                            na = "na",
                            col_types = cols(
