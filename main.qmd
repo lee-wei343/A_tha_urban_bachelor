@@ -607,7 +607,7 @@ ratio_trait_per_pop <- tplant |>
 
 
 ```{r}
-# Paiwise Manova Post-Hoc Test with Bonferoni to test if plants with an height above 18 cm, elongated and serrated leafs occur in one of the types of environment more often
+# Paiwise Manova Post-Hoc Test with Bonferroni to test if plants with an height above 18 cm, elongated and serrated leafs occur in one of the types of environment more often
 Y <- cbind(
   ratio_trait_per_pop$is_above_18cm,
   ratio_trait_per_pop$log_ratio_L_O,
@@ -619,7 +619,13 @@ shapiro_test <- mvnormtest::mshapiro.test(t(Y))
 
 qqnorm(ratio_trait_per_pop$log_ratio_L_O, main = "Q-Q: log_ratio_L_O")
 qqline(ratio_trait_per_pop$log_ratio_L_O, col = "red")
-# ok'ish qqplot
+
+qqnorm(ratio_trait_per_pop$is_above_18cm, main = "Q-Q: log_ratio_L_O")
+qqline(ratio_trait_per_pop$is_above_18cm, col = "red")
+
+qqnorm(ratio_trait_per_pop$log_ratio_S_G, main = "Q-Q: log_ratio_L_O")
+qqline(ratio_trait_per_pop$log_ratio_S_G, col = "red")
+# ok'ish qqplots
 
 environments <- unique(ratio_trait_per_pop$Type)
 n_env <- length(environments)
@@ -669,7 +675,6 @@ for (i in 1:(n_env - 1)) {
   }
 }
 ```
-
 ```{r}
 ratio_trait_per_pop |>
   select(Type, is_above_18cm, log_ratio_L_O, log_ratio_S_G) |>
@@ -687,6 +692,9 @@ ratio_trait_per_pop |>
   ) 
 ```
 
+Plants differ in there leaf shape, leaf edge and height phenotypic plasticity across environments. _A. thaliana_ populations from wall environments where taller and showed increased smooth leaf edges when compared to populations growing on pavement. Both showed a similar preference for oval leafs. (Pavement vs Grass) When comparing populations grown on pavement with ones grown on grass, grassy populations tend to be taller, with a stronger tendency to develop oval leafs. There were more populations with serrated leafs on the pavement, also both favor smooth leaf edges overall.
+
+
 
 ```{r}
 # Are leaf shape and leaf edge correlated and have taller plants elongated leafs?
@@ -702,6 +710,7 @@ summary(model2)
 ```
 
 Leaf shape and leaf edge are correlated and...
+
 ```{r}
 ggplot(ratio_trait_per_pop, aes(x = log_ratio_L_O, y = log_ratio_S_G, color = Type)) +
   geom_point() +
