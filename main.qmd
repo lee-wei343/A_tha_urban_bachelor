@@ -595,6 +595,20 @@ perm_result <- vegan::adonis2(
 print(perm_result)
 ```
 
+##### Pairwise PERMANOVA
+```{r}
+library(pairwiseAdonis) # https://github.com/pmartinezarbizu/pairwiseAdonis
+
+pairwise_result <- pairwise.adonis2(
+  ratio_trait_per_pop[,c("log_ratio_L_O", "log_ratio_S_G", "log_ratio_plant_heigth")] ~ Type,
+  data = ratio_trait_per_pop,
+  method = "euclidean",
+  p.adjust.m = "bonferroni"  # or "holm", "fdr"
+)
+pairwise_result
+```
+
+
 ### Leaf Shape
 Is there a difference in the observed Leaf Shape (Elongated or not Elongated (Oval)) between the type of environment, while taking into account the different effect that Trays and Population have on the dependent variable.
 ```{r}
