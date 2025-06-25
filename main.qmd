@@ -636,28 +636,32 @@ testDispersion(simulationOutput)
 # no overdispersion
 ```
 
-# Make plots new for non pop-lvl analysis
+```{r}
+elongation_sum_df <- tplant |>
+  group_by(Type) |>
+  summarise(Elongated_leafs = sum(elongated, na.rm = T))
+```
 
 ```{r}
-# plot for leaf shape
-ggplot(ratio_trait_per_pop, aes(x = Type, y = log_ratio_L_O, color = Type)) +
-  geom_boxplot() +
-  geom_jitter() +
-  geom_hline(yintercept = 0, linetype = "dotted") +
-  labs(
-    y = "Log Ratio (Elongated/Rounded Leaves)",
-    x = "Environment Type"
+ggplot(data = elongation_sum_df,
+       mapping = aes(y = Elongated_leafs, x = Type, fill = Type)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c(
+  "Wall" = "#f8cd37",
+  "Grass" = "#6a176e",
+  "Pavement" = "#bc3754",
+  "Tree bed" = "#f37819"
+)) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title = element_text(size = 25, family = "Times New Roman")
   ) +
-  theme_classic() +
-  theme(legend.position = "none")
-
-# +
-#   theme(axis.title = element_text(size = 22),
-#         axis.text = element_text(size = 16),
-#         legend.text = element_text(size = 16),
-#         legend.title = element_text(size = 14),
-#         strip.text = element_text(size = 18))
+  labs(y = "Number of Elongated Leaves per Type")
 ```
+
+
 
 ### Leaf Edge
 Is there a difference in the observed Leaf Edge (Serrated or Smooth) between the type of environment, while taking into account the different effect that Trays and Population have on the dependent variable.
@@ -683,109 +687,39 @@ testDispersion(simulationOutput2)
 # no overdispersion
 ```
 
+```{r}
+serration_sum_df <- tplant |>
+  group_by(Type) |>
+  summarise(Serrated_leafs = sum(serrated, na.rm = T))
+
+serration_sum_df
+```
 
 ```{r}
-# plot for leaf edge
-ggplot(ratio_trait_per_pop, aes(x = Type, y = log_ratio_S_G, color = Type)) +
-  geom_boxplot() +
-  geom_jitter() +
-  geom_hline(yintercept = 0, linetype = "dotted") +
-  labs(
-    y = "Log Ratio (Serrated/Smooth Leaves)",
-    x = "Environment Type"
+ggplot(data = serration_sum_df,
+       mapping = aes(y = Serrated_leafs, x = Type, fill = Type)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c(
+  "Wall" = "#f8cd37",
+  "Grass" = "#6a176e",
+  "Pavement" = "#bc3754",
+  "Tree bed" = "#f37819"
+)) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title = element_text(size = 25, family = "Times New Roman")
   ) +
-  theme_classic() +
-  theme(legend.position = "none")
+  labs(y = "Number of Serrated Leaves per Type")
 ```
 
-
-### Leaf Shape * Leaf Edge
-```{r}
-corr_edge_shape_df <- tplant |>
-  drop_na(elongated, serrated)
-
-# Are leaf shape and leaf edge correlated?
-corr_edge_shape_model <- lme4::glmer(elongated ~ serrated + (1|Type) + (1|Tray),
-                               family = binomial(), data = corr_edge_shape_df)
-summary(corr_edge_shape_model)
-```
-
-```{r}
-# overdispersion?
-simulationOutput3 <- simulateResiduals(fittedModel = corr_edge_shape_model)
-testDispersion(simulationOutput3)
-# no overdispersion
-```
-
-```{r}
-plot(corr_edge_shape_model)
-# good
-```
-
-```{r}
-# Leaf shape vs leaf edge
-plot_leaf_shape_vs_elongation <- ggplot(ratio_trait_per_pop, aes(x = log_ratio_S_G, y = log_ratio_L_O)) +
-  geom_point(alpha = 0.6, aes(color = Type)) +
-  geom_smooth(method = "lm", se = TRUE) +
-  labs(x = "Population-level Log Serration Ratio", 
-       y = "Population-level Log Elongation Ratio") +
-  theme_minimal(base_size = 14) +
-  theme(axis.title = element_text(size = 22),
-        axis.text = element_text(size = 12),
-        legend.text = element_text(size = 12),
-        legend.title = element_text(size = 14))
-plot_leaf_shape_vs_elongation
-```
-
-### Plant Height * Leaf Elongation
-Do taller plants tend to have elongated leafs?
-
-```{r}
-# Are leaf height and leaf edge shape?
-corr_height_shape_model <- lme4::glmer(elongated ~ is_above_18cm + (1|Type) + (1|Tray),
-                               family = binomial(), data = elongated_df)
-summary(corr_height_shape_model)
-```
-Taller plants have elongated leafs.
-
-```{r}
-# overdispersion?
-simulationOutput4 <- simulateResiduals(fittedModel = corr_height_shape_model)
-testDispersion(simulationOutput4)
-# no overdispersion
-```
-
-```{r}
-plot(corr_height_shape_model)
-```
-
-
-
-### Plant Height * Leaf Edge
-```{r}
-# Do taller plants have more serrated leafs
-corr_height_edge_model <- lme4::glmer(serrated ~ is_above_18cm + (1|Type) + (1|Tray),
-                               family = binomial(), data = serrated_df)
-summary(corr_height_edge_model)
-```
-Indeed, taller plants tend to have more serrated leafs
-
-```{r}
-# overdispersion?
-simulationOutput5 <- simulateResiduals(fittedModel = corr_height_edge_model)
-testDispersion(simulationOutput5)
-# no overdispersion
-```
-```{r}
-plot(corr_height_edge_model)
-```
 
 ### Shoot Axis
 ```{r}
 hist(tplant$n_shoot_axis)
 # left skewed so choosing negative binomial family for glmm
 ```
-
 
 ```{r}
 axis_model <- glmmTMB::glmmTMB(n_shoot_axis ~ Type + (1|Tray),
@@ -795,6 +729,31 @@ axis_model <- glmmTMB::glmmTMB(n_shoot_axis ~ Type + (1|Tray),
 
 summary(axis_model)
 ```
+
+
+### Leaf morphology
+```{r}
+tplant <- tplant |>
+  mutate(leaf_morph = case_when(serrated == 1 & elongated == 1 ~ "Serrated & Elongated",
+                                serrated == 0 & elongated == 1 ~ "Smooth & Elongated",
+                                serrated == 1 & elongated == 0 ~ "Serrated & Oval",
+                                serrated == 0 & elongated == 0 ~ "Smooth & Oval",
+                                T ~ NA))
+```
+
+```{r}
+leaf_type_table <- table(tplant$leaf_morph, tplant$Type)
+print(leaf_type_table)
+
+# Perform the chi-square test
+chi_test <- chisq.test(leaf_type_table)
+print(chi_test)
+```
+```{r}
+corrplot::corrplot(chi_test$residuals, is.cor = FALSE)
+```
+Red circle means avoided by plant, blue circle means preferred. 
+
 
 # F6 Experiment
 Load in the table containing the random subsample of the urban cologne F5 line, which will be used in the following experiment. The table contains plants used for a new F6 generation. New ID's where given to the plants.
