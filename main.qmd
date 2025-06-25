@@ -603,7 +603,7 @@ pairwise_result <- pairwise.adonis2(
   ratio_trait_per_pop[,c("log_ratio_L_O", "log_ratio_S_G", "log_ratio_plant_heigth")] ~ Type,
   data = ratio_trait_per_pop,
   method = "euclidean",
-  p.adjust.m = "bonferroni"  # or "holm", "fdr"
+  p.adjust.m = "bonferroni"
 )
 pairwise_result
 ```
@@ -636,6 +636,7 @@ testDispersion(simulationOutput)
 # no overdispersion
 ```
 
+# Make plots new for non pop-lvl analysis
 
 ```{r}
 # plot for leaf shape
@@ -704,7 +705,7 @@ corr_edge_shape_df <- tplant |>
   drop_na(elongated, serrated)
 
 # Are leaf shape and leaf edge correlated?
-corr_edge_shape_model <- lme4::glmer(elongated ~ serrated + Type + (1|Tray),
+corr_edge_shape_model <- lme4::glmer(elongated ~ serrated + (1|Type) + (1|Tray),
                                family = binomial(), data = corr_edge_shape_df)
 summary(corr_edge_shape_model)
 ```
@@ -741,7 +742,7 @@ Do taller plants tend to have elongated leafs?
 
 ```{r}
 # Are leaf height and leaf edge shape?
-corr_height_shape_model <- lme4::glmer(elongated ~ is_above_18cm + Type + (1|Tray),
+corr_height_shape_model <- lme4::glmer(elongated ~ is_above_18cm + (1|Type) + (1|Tray),
                                family = binomial(), data = elongated_df)
 summary(corr_height_shape_model)
 ```
@@ -763,7 +764,7 @@ plot(corr_height_shape_model)
 ### Plant Height * Leaf Edge
 ```{r}
 # Do taller plants have more serrated leafs
-corr_height_edge_model <- lme4::glmer(serrated ~ is_above_18cm + Type + (1|Tray),
+corr_height_edge_model <- lme4::glmer(serrated ~ is_above_18cm + (1|Type) + (1|Tray),
                                family = binomial(), data = serrated_df)
 summary(corr_height_edge_model)
 ```
@@ -779,7 +780,21 @@ testDispersion(simulationOutput5)
 plot(corr_height_edge_model)
 ```
 
+### Shoot Axis
+```{r}
+hist(tplant$n_shoot_axis)
+# left skewed so choosing negative binomial family for glmm
+```
 
+
+```{r}
+axis_model <- glmmTMB::glmmTMB(n_shoot_axis ~ Type + (1|Tray),
+                      data = tplant,
+                      family = glmmTMB::nbinom2())
+
+
+summary(axis_model)
+```
 
 # F6 Experiment
 Load in the table containing the random subsample of the urban cologne F5 line, which will be used in the following experiment. The table contains plants used for a new F6 generation. New ID's where given to the plants.
