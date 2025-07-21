@@ -275,6 +275,7 @@ tplant <- tplant |>
 ```
 
 Make leaf shape and leaf edge binary:
+
 ```{r}
 tplant <- tplant |>
   mutate(elongated = case_when(Leaf_shape == "L" ~ 1,
@@ -285,10 +286,10 @@ tplant <- tplant |>
                                T ~ NA))
 ```
 
-
-
 ## F5 Analysis (Transplanted)
+
 ### EDA of Leaf Shape and Leaf Edge per Environment
+
 ```{r}
 Ecotype_colors <- c(
   "wall" = "#f8cd37",
@@ -449,12 +450,13 @@ leaf_edge_shape_long <- leaf_edge_shape_proportions |>
     values_to = "Proportion"
   )
 
+
 ggplot(leaf_edge_shape_long, 
        aes(x = Type, y = Proportion, fill = Leaf_edge_shape)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
   scale_fill_manual(
-    values = c("prop_LG" = "#6a176e", "prop_LS" = "#f8cd37",
-               "prop_OG" = "#bc3754", "prop_OS" = "#f37819"),
+    values = c("prop_LG" = "#440154", "prop_LS" = "#31688e",
+             "prop_OG" = "#35b779", "prop_OS" = "#fde725"),
     labels = c("Long Smooth", "Long Serrated", "Oval Smooth", "Oval Serrated")
   ) +
   labs(x = "Type", y = "Proportion", fill = "Leaf Edge Shape") +
@@ -556,6 +558,7 @@ ratio_trait_per_pop <- tplant |>
 ```
 
 #### MANOVA Assumptions
+
 ```{r}
 table(ratio_trait_per_pop$Type)
 
@@ -580,9 +583,11 @@ pairs(ratio_trait_per_pop[,c("log_ratio_L_O","log_ratio_S_G", "log_ratio_plant_h
 cor(ratio_trait_per_pop[,c("log_ratio_L_O","log_ratio_S_G", "log_ratio_plant_heigth")])
 
 ```
+
 MANOVA assumptions not met (normality violation). Using PERMANOVA instead.
 
 #### PERMANOVA
+
 ```{r}
 # Permutational MANOVA (PERMANOVA)
 perm_result <- vegan::adonis2(
@@ -596,6 +601,7 @@ print(perm_result)
 ```
 
 ##### Pairwise PERMANOVA
+
 ```{r}
 library(pairwiseAdonis) # https://github.com/pmartinezarbizu/pairwiseAdonis
 
@@ -608,130 +614,123 @@ pairwise_result <- pairwise.adonis2(
 pairwise_result
 ```
 
-
 ### Leaf Shape
+
 Is there a difference in the observed Leaf Shape (Elongated or not Elongated (Oval)) between the type of environment, while taking into account the different effect that Trays and Population have on the dependent variable.
+#### Pop
 ```{r}
-elongated_df <- tplant |>
-  drop_na(elongated)
+elongated_pop_model <- glm(elongated ~ Pop, family = "quasibinomial", data = tplant)
 
-elongated_model <- lme4::glmer(elongated ~ Type + (1|Tray),
-                               family = binomial(), data = elongated_df)
-# Pop droped not needed
 
-summary(elongated_model)
+summary(elongated_pop_model)
 ```
-Difference between types detected.
-
 ```{r}
-plot(elongated_model)
-# two clear lines expected from binomial data
+anova(elongated_pop_model, test = "F")
 ```
 
+#### Type
 
 ```{r}
-# overdispersion?
-simulationOutput <- simulateResiduals(fittedModel = elongated_model)
-testDispersion(simulationOutput)
-# no overdispersion
+elongated_type_model <- lme4::glmer(elongated ~  Type + (1|Pop) + (1|Tray),
+                                family = binomial(), data = tplant)
+
+summary(elongated_type_model)
 ```
-
 ```{r}
-elongation_sum_df <- tplant |>
-  group_by(Type) |>
-  summarise(Elongated_leafs = sum(elongated, na.rm = T))
+emmeans::contrast(emmeans::emmeans(elongated_type_model, ~ Type), method = "pairwise", adjust = "tukey")
 ```
-
 ```{r}
-ggplot(data = elongation_sum_df,
-       mapping = aes(y = Elongated_leafs, x = Type, fill = Type)) +
-  geom_bar(stat = "identity") +
-  scale_fill_manual(values = c(
-  "Wall" = "#f8cd37",
-  "Grass" = "#6a176e",
-  "Pavement" = "#bc3754",
-  "Tree bed" = "#f37819"
-)) +
+predictions <- emmeans::emmeans(elongated_type_model, ~ Type, type = "response") 
+cld_result <- multcomp::cld(predictions, Letters = letters, adjust = "tukey")
+```
+```{r}
+ggplot(cld_result |> as.data.frame(), aes(x = Type, y = prob)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), 
+                width = 0.2) +
+  geom_text(aes(label = trimws(.group), 
+                y = asymp.UCL + 0.1), 
+            size = 5) +
+  labs(x = "Surface Type",
+       y = "Probability of Elongation") +
   theme_minimal() +
+  ylim(0, 1) +
   theme(
     legend.position = "none",
     axis.text.x = element_text(size = 25, family = "Times New Roman"),
     axis.title = element_text(size = 25, family = "Times New Roman")
-  ) +
-  labs(y = "Number of Elongated Leaves per Type")
+  ) 
 ```
 
 
 
 ### Leaf Edge
+
 Is there a difference in the observed Leaf Edge (Serrated or Smooth) between the type of environment, while taking into account the different effect that Trays and Population have on the dependent variable.
-```{r}
-serrated_df <- tplant |>
-  drop_na(serrated)
 
-serrated_model <- lme4::glmer(elongated ~ Type + (1|Tray),
-                               family = binomial(), data = serrated_df)
-summary(serrated_model)
+#### Pop
+```{r}
+serrated_pop_model <- glm(serrated ~ Pop, family = "quasibinomial", data = tplant)
+
+
+summary(serrated_pop_model)
 ```
-Difference between types detected.
-
 ```{r}
-plot(serrated_model)
-# again, two lines
+anova(serrated_pop_model, test = "F")
 ```
 
+#### Type
 ```{r}
-# overdispersion?
-simulationOutput2 <- simulateResiduals(fittedModel = serrated_model)
-testDispersion(simulationOutput2)
-# no overdispersion
+serrated_type_model <- lme4::glmer(serrated ~  Type + (1|Pop) + (1|Tray),
+                                family = binomial(), data = tplant)
+
+summary(serrated_type_model)
 ```
 
 ```{r}
-serration_sum_df <- tplant |>
-  group_by(Type) |>
-  summarise(Serrated_leafs = sum(serrated, na.rm = T))
-
-serration_sum_df
+emmeans::contrast(emmeans::emmeans(serrated_type_model, ~ Type), method = "pairwise", adjust = "tukey")
 ```
 
 ```{r}
-ggplot(data = serration_sum_df,
-       mapping = aes(y = Serrated_leafs, x = Type, fill = Type)) +
-  geom_bar(stat = "identity") +
-  scale_fill_manual(values = c(
-  "Wall" = "#f8cd37",
-  "Grass" = "#6a176e",
-  "Pavement" = "#bc3754",
-  "Tree bed" = "#f37819"
-)) +
+predictions <- emmeans::emmeans(serrated_type_model, ~ Type, type = "response") 
+cld_result <- multcomp::cld(predictions, Letters = letters, adjust = "tukey")
+
+ggplot(cld_result |> as.data.frame(), aes(x = Type, y = prob)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), 
+                width = 0.2) +
+  geom_text(aes(label = trimws(.group), 
+                y = asymp.UCL + 0.1), 
+            size = 5) +
+  labs(x = "Surface Type",
+       y = "Probability of Serration") +
   theme_minimal() +
+  ylim(0, 1) +
   theme(
     legend.position = "none",
     axis.text.x = element_text(size = 25, family = "Times New Roman"),
     axis.title = element_text(size = 25, family = "Times New Roman")
-  ) +
-  labs(y = "Number of Serrated Leaves per Type")
+  ) 
 ```
 
-
 ### Shoot Axis
+
 ```{r}
-hist(tplant$n_shoot_axis)
+# hist(tplant$n_shoot_axis)
 # left skewed so choosing negative binomial family for glmm
 ```
 
 ```{r}
-axis_model <- glmmTMB::glmmTMB(n_shoot_axis ~ Type + (1|Tray),
-                      data = tplant,
-                      family = glmmTMB::nbinom2())
-
-
-summary(axis_model)
+# axis_model <- glmmTMB::glmmTMB(n_shoot_axis ~ Type + (1|Tray) + (1|Pop),
+#                       data = tplant,
+#                       family = glmmTMB::nbinom2())
+# 
+# 
+# summary(axis_model)
 ```
 
-
 ### Leaf morphology
+
 ```{r}
 tplant <- tplant |>
   mutate(leaf_morph = case_when(serrated == 1 & elongated == 1 ~ "Serrated & Elongated",
@@ -749,75 +748,212 @@ print(leaf_type_table)
 chi_test <- chisq.test(leaf_type_table)
 print(chi_test)
 ```
+
+```{r}
+
+leaf_type_table_df <- as.data.frame(leaf_type_table) |>
+  rename(Type = Var2,
+         Morphology = Var1)
+
+ggplot(leaf_type_table_df, 
+       aes(x = Type, y = Freq, fill = Morphology)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  scale_fill_manual(
+    values = c("Serrated & Elongated" = "#6a176e", "Serrated & Oval" = "#f8cd37",
+               "Smooth & Elongated" = "#bc3754", "Smooth & Oval" = "#f37819")) +
+  labs(x = "Type", y = "Count of Trait Combination", fill = "Leaf Morphology:") +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title = element_text(size = 25, family = "Times New Roman")
+  )
+
+
+
+```
+
 ```{r}
 corrplot::corrplot(chi_test$residuals, is.cor = FALSE)
 ```
-Red circle means avoided by plant, blue circle means preferred. 
 
+Red circle means avoided by plant, blue circle means preferred.
 
 # F6 Experiment
+
 Load in the table containing the random subsample of the urban cologne F5 line, which will be used in the following experiment. The table contains plants used for a new F6 generation. New ID's where given to the plants.
 
 ```{r}
 # Table for the plants that are sown to produce an F6 generation.
 # Plants were chosen from populations with more than 3 individuals and reduced to not carry more than 10 individuals, based on the information at hand at that time. If an individual was not at hand it was replaced by an individual at hand at random, producing the table.
-tplant_F6_random <- read_csv(file = "data/tplant_F6_random_2025_06_03.csv",
-                             na = "na",
-                             col_types = cols(
-                               ID = col_character(),
-                               ID_F5_parent = col_character(),
-                               Pop = col_character(),
-                               Individuum = col_character(),
-                               Tray = col_character(),
-                               Column = col_character(),
-                               Row = col_character(),
-                               not_germinated_til = col_date()
-                             )) 
+tplant_F6_random <- read_csv(
+  file = "data/tplant_F6_random_used_2025_07_07.csv",
+  na = "na",
+  col_types = cols(
+    ID = col_character(),
+    ID_F5_parent = col_character(),
+    Pop = col_character(),
+    Individuum = col_character(),
+    Tray = col_character(),
+    Column = col_character(),
+    Row = col_character(),
+    FT = col_date(),
+    sowing_date_then_stratification = col_date(),
+    brought_to_greenhouse = col_date(),
+    not_germinated_til_2025_06_02 = col_logical(),
+    not_germinated_til_2025_06_04 = col_logical(),
+    not_germinated_til_2025_07_04 = col_logical(),
+    leaf_shape = col_character(),
+    leaf_edge = col_character(),
+    n_shoot_axis = col_integer(),
+    height_stem = col_integer()
+  )
+) |>
+  mutate(
+    not_germinated_til_2025_06_02 = replace_na(not_germinated_til_2025_06_02, F),
+    not_germinated_til_2025_06_04 = replace_na(not_germinated_til_2025_06_04, F),
+    not_germinated_til_2025_07_04 = replace_na(not_germinated_til_2025_07_04, F),
+    n_shoot_axis = replace_na(n_shoot_axis, 0)
+  )
+
+tplant_F6_random <- tplant_F6_random |>
+  left_join(Phenology, join_by("Pop" == "Site_ID")) |>
+  mutate(
+    Type = case_when(
+      Type == "wall" ~ "Wall",
+      Type == "grass" ~ "Grass",
+      Type == "pavement" ~ "Pavement",
+      TRUE ~ Type
+    ),
+    Pop = stringi::stri_extract(ID_F5_parent, regex = "^.*(?=-)"),
+    height_stem = replace_na(height_stem, 0)
+  )
+
 ```
 
 ```{r}
-# not_germinated <- read_csv(file = "data/not_germinated_2025_06_02.csv")
-# tplant_F6_random2 <- tplant_F6_random |>
-#   mutate(germination_date = case_when(
-#     ID %in% not_germinated$not_germinated ~ not_germinated$date,
-#     TRUE ~ "not_germinated"
-#   ))
+ tplant_F6_random_germinated <- tplant_F6_random |>
+  filter(not_germinated_til_2025_07_04 == F)
 ```
+
 ```{r}
-tplant_F6_random |>
-  drop_na(not_germinated_til)
+tplant_F6_random_germinated <- tplant_F6_random_germinated |>
+  mutate(
+    light_till_FT = as.integer(FT - brought_to_greenhouse),
+    stratification_days = as.integer(brought_to_greenhouse - sowing_date_then_stratification),
+    FT_early = case_when(light_till_FT >= 1 ~ 1,
+                         T ~ 0),
+    light_till_FT_maxed = replace_na(light_till_FT, 100)
+  ) |>
+  dplyr::select(everything(), notes)
+```
+
+## Flowering Time (FT)
+
+### Binary Early- vs. Late Flowering
+
+```{r}
+FT_model <- lme4::glmer(FT_early ~ Type + (1|Pop) + (1|Tray) + (1|stratification_days),
+                               family = binomial(), data = tplant_F6_random_germinated)
+# Tray and stratification as random effect did not influence the model
+
+summary(FT_model)
+```
+
+```{r}
+plot(FT_model)
+```
+
+```{r}
+# overdispersion?
+simulationOutput <- simulateResiduals(fittedModel = FT_model)
+testDispersion(simulationOutput)
+# no overdispersion
+```
+
+### Maxed FT
+
+Not germinated plants flowering time is set to 100
+
+#### Pop
+
+```{r}
+FT_maxed_model <- lme4::glmer(light_till_FT_maxed ~ Type + (1|Pop) + (1|Tray) + (1|stratification_days),
+                               family = poisson(), data = tplant_F6_random_germinated)
+
+summary(FT_maxed_model)
+```
+
+```{r}
+anova(FT_maxed_pop_model, test = "Chisq")
+```
+
+#### Type
+```{r}
+FT_maxed_type_model <- lme4::glmer(light_till_FT_maxed ~ Type + (1|Pop) + (1|Tray) + (1|stratification_days),
+                               family = poisson(), data = tplant_F6_random_germinated)
+
+summary(FT_maxed_type_model)
+```
+
+```{r}
+car::Anova(FT_maxed_type_model, type = "III")
 ```
 
 
 ## Load Dormancy Count Table
+
 ```{r}
 # Count data of germination rate of seeds from the F5 generation
-dormancy_count <- read_csv(file = "data/dormancy count_2025_06_11.csv",
-                           na = "na",
-                           col_types = cols(
-                             ID_F5_parent = col_character(),
-                             seed_count_germinated = col_integer(),
-                             seed_count_total = col_integer(),
-                             has_fungi = col_logical(),
-                             has_strong_fungi = col_logical(),
-                             dormtest_start = col_date(),
-                             dormtest_end = col_date(),
-                             group = col_integer(),
-                             run = col_integer(),
-                             Notes = col_character()
-                           )) |>
-  mutate(ID_F5_parent = case_when(ID_F5_parent == "165-4" ~ "156-4",
-                                  ID_F5_parent == "165-8" ~ "156-8",
-                                  ID_F5_parent == "165-17" ~ "156-17",
-                                  TRUE ~ ID_F5_parent))
+dormancy_count <- read_csv(
+  file = "data/dormancy count_2025_07_09_a.csv",
+  na = "na",
+  col_types = cols(
+    ID_F5_parent = col_character(),
+    seed_count_germinated = col_integer(),
+    seed_count_total = col_integer(),
+    has_fungi = col_logical(),
+    has_strong_fungi = col_logical(),
+    dormtest_start = col_date(),
+    dormtest_end = col_date(),
+    group = col_factor(),
+    run = col_character(),
+    Notes = col_character()
+  )
+) |>
+  mutate(
+    ID_F5_parent = case_when(
+      ID_F5_parent == "165-4" ~ "156-4",
+      ID_F5_parent == "165-8" ~ "156-8",
+      ID_F5_parent == "165-17" ~ "156-17",
+      TRUE ~ ID_F5_parent
+    ),
+    Pop = as.factor(stringi::stri_extract(ID_F5_parent, regex = "^.*(?=-)")),
+  ) |>
+  left_join(Phenology, join_by("Pop" == "Site_ID")) |>
+  mutate(
+    Type = as.factor(case_when(
+      Type == "wall" ~ "Wall",
+      Type == "grass" ~ "Grass",
+      Type == "pavement" ~ "Pavement",
+      TRUE ~ Type)
+    )
+  )
+```
 
+```{r}
 # find duplicates
 # dormancy_count$ID_F5_parent[duplicated(dormancy_count$ID_F5_parent)]
 
 # add new F6 ID to the table
 dormancy_count <- dormancy_count |>
-  left_join(tplant_F6_random |> dplyr::select(ID, ID_F5_parent), join_by("ID_F5_parent"))
+  left_join(tplant_F6_random |> 
+              dplyr::select(ID, ID_F5_parent), join_by("ID_F5_parent"), relationship = "many-to-many") |>
+  dplyr::select(ID, ID_F5_parent, Pop, everything()) |>
+  mutate(Pop = as.factor(Pop),
+         ID = as.factor(ID))
 ```
+
 
 ```{r}
 # get germination ratio
@@ -826,17 +962,582 @@ dormancy_germ_ratio_no_fungi <- dormancy_count |>
   mutate(
     germ_ratio = case_when(
       seed_count_germinated == 0 ~ 0,
-      seed_count_germinated != 0 ~ seed_count_germinated / (seed_count_total - seed_count_germinated)
+      seed_count_germinated == seed_count_total ~ 1,
+      TRUE ~ seed_count_germinated / seed_count_total
+      ),
+    weeks_elapsed = case_when(run == 1 ~ 0, run == 2 ~ 3, run == 3 ~ 6) |> as.factor(),
+    run = as.factor(run),
+    group = as.factor(group)
+  )
+```
+
+## Dormancy model
+mmrm = Mixed model for repeated measurements
+
+```{r}
+library(mmrm)
+```
+
+#### Pop
+##### glm
+```{r}
+dormancy_pop_model <- glm(
+  germ_ratio ~ Pop, family = gaussian(),
+  data = dormancy_germ_ratio_no_fungi |> filter(run == 3)
+)
+summary(dormancy_pop_model)
+```
+
+```{r}
+car::Anova(dormancy_pop_model, type = "III")
+```
+
+
+##### MMRM
+
+```{r}
+mmrm_dormancy_pop_model <- mmrm(
+  germ_ratio ~ Pop + us(run | ID),
+  data = dormancy_germ_ratio_no_fungi
+)
+
+summary(mmrm_dormancy_pop_model)
+```
+
+```{r}
+car::Anova(mmrm_dormancy_pop_model, type = "III")
+```
+
+#### Type
+
+##### mmrm
+```{r}
+mmrm_dormancy_type_model <- mmrm(
+  germ_ratio ~ Type + us(run | ID),
+  data = dormancy_germ_ratio_no_fungi
+)
+
+summary(mmrm_dormancy_type_model)
+```
+
+```{r}
+car::Anova(mmrm_dormancy_pop_model, type = "III")
+```
+
+```{r}
+time_summary <- dormancy_germ_ratio_no_fungi %>%
+  group_by(run, Type) %>%
+  summarise(
+    mean_germ = mean(germ_ratio, na.rm = TRUE),
+    se_germ = sd(germ_ratio, na.rm = TRUE) / sqrt(n()),
+    n = n()
+  ) %>%
+  mutate(weeks_elapsed = case_when(
+    run == "1" ~ 0,
+    run == "2" ~ 3,
+    run == "3" ~ 6
+  ))
+```
+
+```{r}
+ggplot(time_summary, aes(x = weeks_elapsed, y = mean_germ, color = Type)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean_germ - se_germ, ymax = mean_germ + se_germ), 
+                width = 0.2) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(breaks = c(0, 3, 6), labels = c("Run 1", "Run 2", "Run 3")) +
+  scale_color_manual(values = c(
+    "Wall" = "#f8cd37",
+    "Grass" = "#6a176e",
+    "Pavement" = "#bc3754",
+    "Tree bed" = "#f37819"
+  )) +
+  labs(
+    x = "Time (weeks)",
+    y = "Mean Germination Ratio",
+    title = "Dormancy Loss Over Time by Environment Type"
+  ) +
+  theme_minimal()
+```
+
+### Dormancy Model for each run
+
+Run 1:
+
+```{r}
+dormancy_model_run_1 <- lme4::glmer(germ_ratio ~ 
+                       Type + (1|Pop) + (1|group),
+                       family = gaussian(), 
+                       data = dormancy_germ_ratio_no_fungi |> filter(run == 1))
+
+summary(dormancy_model_run_1)
+```
+
+Run 2:
+
+```{r}
+dormancy_model_run_2 <- lme4::glmer(germ_ratio ~ 
+                       Type + (1|Pop) + (1|group),
+                       family = gaussian(), 
+                       data = dormancy_germ_ratio_no_fungi |> filter(run == 2))
+
+summary(dormancy_model_run_2)
+```
+
+Run 3:
+
+```{r}
+dormancy_model_run_3 <- lme4::glmer(germ_ratio ~ 
+                       Type + (1|Pop) + (1|group),
+                       family = gaussian(), 
+                       data = dormancy_germ_ratio_no_fungi |> filter(run == 3))
+
+summary(dormancy_model_run_3)
+```
+
+```{r}
+emmeans::contrast(emmeans::emmeans(dormancy_model_run_3, ~ Type), method = "pairwise", adjust = "tukey")
+```
+
+```{r}
+# overdispersion?
+simulationOutput2 <- simulateResiduals(fittedModel = dormancy_model_run_3)
+testDispersion(simulationOutput2)
+# no overdispersion
+```
+
+## Leaf Morphology of F6
+
+### Leaf Edge
+
+```{r}
+# simplify leaf morphology:
+# WS = weak serrated
+# H = half the leaf is serrated, from where the petiole meets the blade to the 
+# middle of the blade
+# S = serrated
+# 
+# all will be considered serrated
+
+# G is not serrated but smooth leaf margin
+
+tplant_F6_random_germinated <- tplant_F6_random_germinated |>
+  mutate(leaf_edge_simple = case_when(leaf_edge %in% c("WS", "H") ~ "S",
+                                      T ~ leaf_edge),
+         serrated = case_when(leaf_edge_simple == "S" ~ 1,
+                               leaf_edge_simple == "G" ~ 0,
+                               T ~ NA))
+```
+
+#### Pop
+```{r}
+serrated_pop2_model <- glm(serrated ~ Pop, family = "quasibinomial", data = tplant_F6_random_germinated)
+
+
+summary(serrated_pop2_model)
+```
+
+```{r}
+anova(serrated_pop2_model, test = "F")
+```
+
+#### Type
+```{r}
+serrated_type2_model <- lme4::glmer(
+  serrated ~ Type + (1|Tray) + (1|Pop),
+  family = binomial(),
+  data = tplant_F6_random_germinated
+)
+summary(serrated_type2_model)
+```
+
+```{r}
+emmeans::contrast(emmeans::emmeans(serrated_type2_model, ~ Type), method = "pairwise", adjust = "tukey")
+```
+```{r}
+predictions <- emmeans::emmeans(serrated_type2_model, ~ Type, type = "response") 
+cld_result <- multcomp::cld(predictions, Letters = letters, adjust = "tukey")
+
+ggplot(cld_result |> as.data.frame(), aes(x = Type, y = prob)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), 
+                width = 0.2) +
+  geom_text(aes(label = trimws(.group), 
+                y = asymp.UCL - 0.1), 
+            size = 5) +
+  labs(x = "Surface Type",
+       y = "Probability of Serration") +
+  theme_minimal() +
+  ylim(0, 1) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title = element_text(size = 25, family = "Times New Roman")
+  ) 
+```
+
+
+### Leaf Shape
+
+```{r}
+# simplify leaf morphology:
+# OL = Oval but also elongated
+# O+L = Rosette contains Oval and elongated leaves
+#
+# they will be excluded
+#
+# L = elongated
+# O = oval or round leaf shape
+
+tplant_F6_random_germinated <- tplant_F6_random_germinated |>
+  mutate(elongated = case_when(leaf_shape == "L" ~ 1,
+                               leaf_shape == "O" ~ 0,
+                               T ~ NA))
+```
+
+#### Pop
+```{r}
+elongated_pop2_model <- glm(elongated ~ Pop, family = "quasibinomial", data = tplant_F6_random_germinated)
+
+
+summary(elongated_pop2_model)
+```
+
+```{r}
+anova(elongated_pop2_model, test = "F") # it is genetically determined
+```
+
+#### Type
+```{r}
+elongated_type2_model <- lme4::glmer(elongated ~ Type + (1|Tray) + (1|Pop),
+                                     family = binomial(),
+                                     data = tplant_F6_random_germinated)
+
+summary(elongated_type2_model)
+```
+
+```{r}
+emmeans::contrast(
+  emmeans::emmeans(elongated_type2_model, ~ Type),
+  method = "pairwise",
+  adjust = "tukey"
+)
+```
+
+```{r}
+predictions <- emmeans::emmeans(elongated_type2_model, ~ Type, type = "response") 
+cld_result <- multcomp::cld(predictions, Letters = letters, adjust = "tukey")
+
+ggplot(cld_result |> as.data.frame(), aes(x = Type, y = prob)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), 
+                width = 0.2) +
+  geom_text(aes(label = trimws(.group), 
+                y = asymp.UCL + 0.1), 
+            size = 5) +
+  labs(x = "Surface Type",
+       y = "Probability of Elongation") +
+  theme_minimal() +
+  ylim(0, 1) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title = element_text(size = 25, family = "Times New Roman")
+  ) 
+```
+
+
+### Shoot Axis
+
+```{r}
+# hist(tplant_F6_random_germinated$n_shoot_axis)
+# left skewed so choosing negative binomial family for glmm
+```
+
+```{r}
+# axis2_model <- glmmTMB::glmmTMB(n_shoot_axis ~ Type + (1|Tray)+ (1|Pop),
+#                       data = tplant_F6_random_germinated,
+#                       family = glmmTMB::nbinom2())
+# 
+# 
+# summary(axis2_model)
+```
+
+### Leaf morphology
+
+#### smooth x serrated x elongated x oval
+
+```{r}
+tplant_F6_random_germinated <- tplant_F6_random_germinated |>
+  mutate(leaf_morph = case_when(serrated == 1 & elongated == 1 ~ "Serrated & Elongated",
+                                serrated == 0 & elongated == 1 ~ "Smooth & Elongated",
+                                serrated == 1 & elongated == 0 ~ "Serrated & Oval",
+                                serrated == 0 & elongated == 0 ~ "Smooth & Oval",
+                                T ~ NA))
+```
+
+```{r}
+leaf_type_table2 <- table(tplant_F6_random_germinated$leaf_morph,
+                          tplant_F6_random_germinated$Type)
+print(leaf_type_table2)
+
+# Perform the chi-square test
+chi_test2 <- chisq.test(leaf_type_table2)
+print(chi_test2)
+# not significant, not enough plants with smooth leaf margin
+```
+
+not. significant, and not enough values (multiple below 5).
+
+#### !(smooth) x serrated x elongated x oval
+
+Model without problematic smooth leaf margin type, which is underrepresented:
+
+```{r}
+tplant_F6_random_germinated <- tplant_F6_random_germinated |>
+  mutate(
+    leaf_morph_no_smooth = case_when(
+      serrated == 1 & elongated == 1 ~ "Serrated & Elongated",
+      serrated == 1 &
+        elongated == 0 ~ "Serrated & Oval",
+      T ~ NA
     )
   )
 ```
 
+```{r}
+leaf_type_table3 <- table(tplant_F6_random_germinated$leaf_morph_no_smooth,
+                          tplant_F6_random_germinated$Type)
+print(leaf_type_table3)
+
+# Perform the chi-square test
+chi_test2 <- chisq.test(leaf_type_table3)
+print(chi_test2)
+```
+
+not. sign.
 
 ```{r}
-hist(dormancy_count$seed_count_germinated)
+leaf_edge_shape_proportions <- tplant_F6_random_germinated |> 
+  mutate(serrated_plot = case_when(serrated == 1 ~ "S",
+                                   serrated == 0 ~ "G"),
+         elongated_plot = case_when(elongated == 1 ~ "L",
+                                    elongated == 0 ~ "O")) |>  # Fixed: changed + to |>
+  mutate(Leaf_edge_shape = paste0(elongated_plot, serrated_plot)) |>
+  count(Type, Leaf_edge_shape, name = "count") |>  # Fixed: changed leaf_morph to Leaf_edge_shape
+  group_by(Type) |> 
+  mutate(proportion = round(count / sum(count), 2)) |> 
+  select(-count) |> 
+  pivot_wider(
+    names_from = Leaf_edge_shape, 
+    values_from = proportion,
+    names_prefix = "prop_",  
+    values_fill = 0
+  ) |> 
+  ungroup()
+
+leaf_edge_shape_long <- leaf_edge_shape_proportions |> 
+  pivot_longer(
+    cols = c(prop_LG, prop_LS, prop_OG, prop_OS),
+    names_to = "Leaf_edge_shape",
+    values_to = "Proportion"
+  )
+
+ggplot(leaf_edge_shape_long, 
+       aes(x = Type, y = Proportion, fill = Leaf_edge_shape)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  scale_fill_manual(
+  values = c("prop_LG" = "#440154", "prop_LS" = "#31688e",
+             "prop_OG" = "#35b779", "prop_OS" = "#fde725"),
+  labels = c("Long Smooth", "Long Serrated", "Oval Smooth", "Oval Serrated")
+) +
+  labs(x = "Type", y = "Proportion of Leaf Morphology", fill = "") +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title = element_text(size = 25, family = "Times New Roman"),
+    legend.text = element_text(size = 15, family = "Times New Roman")
+  )
+
+
+
+```
+
+### MANOVA
+
+Is there a Population-level difference between the observed traits between the types of Environment?
+
+```{r}
+# compute a ratio of leaf shape and leaf edge for each population from the individuals in each population
+ratio_trait_per_pop2 <- tplant_F6_random_germinated |>
+  drop_na(elongated, serrated) |> # remove plants, which could not be categorized
+  group_by(Pop, Type, height_stem) |> # group by Population
+  summarise(
+    # compute the log ratio of elongated leaf shape over oval leaf shape
+    n_L = sum(elongated == 1), # sum up the count of elongated leaf per population
+    n_O = sum(elongated == 0), # sum up the count of oval leaf per population
+    # avoid division by 0 by adding 0.01 (laplace smoothing)
+    log_ratio_L_O = log((n_L + 0.01) / (n_O + 0.01)),
+    # zero means same proportion, positive number means more elongated leaf shape (L), negative oval leaf shape (O)
+    
+    # compute the log ratio of serrated leaf edge over not serrated leaf edge
+    n_S = sum(serrated == 1),# sum up the count of serrated leaf per population
+    n_G = sum(serrated == 0),# sum up the count of not serrated leaf per population
+    log_ratio_S_G = log((n_S + 0.01) / (n_G + 0.01)),
+    ) |>
+  ungroup() |>
+  mutate(Type = as.factor(Type)) 
+```
+
+#### MANOVA Assumptions
+
+```{r}
+table(ratio_trait_per_pop2$Type)
+
+colnames(ratio_trait_per_pop2)
+
+boxplot(log_ratio_L_O ~ Type, data = ratio_trait_per_pop2) # outlier
+boxplot(log_ratio_S_G ~ Type, data = ratio_trait_per_pop2) # outlier
+boxplot(height_stem ~ Type, data = ratio_trait_per_pop2) # no outlier
+
+library(mvnormtest)
+
+by(ratio_trait_per_pop2[,c("log_ratio_L_O","log_ratio_S_G", "height_stem")], ratio_trait_per_pop2$Type, 
+   function(x) mshapiro.test(t(x)))
+# violation of normality 
+```
+
+MANOVA assumptions not met (normality violation). Using PERMANOVA instead.
+
+#### PERMANOVA
+
+```{r}
+# Permutational MANOVA (PERMANOVA)
+perm_result <- vegan::adonis2(
+  ratio_trait_per_pop2[,c("log_ratio_L_O","log_ratio_S_G", "height_stem")] ~ Type, 
+  data = ratio_trait_per_pop2, 
+  method = "euclidean",
+  permutations = 999
+)
+
+perm_result
+```
+
+not sign. different.
+
+### Leaf morphology
+```{r}
+tplant_F6_random_germinated <- tplant_F6_random_germinated |>
+  mutate(leaf_morph = case_when(serrated == 1 & elongated == 1 ~ "Serrated & Elongated",
+                                serrated == 0 & elongated == 1 ~ "Smooth & Elongated",
+                                serrated == 1 & elongated == 0 ~ "Serrated & Oval",
+                                serrated == 0 & elongated == 0 ~ "Smooth & Oval",
+                                T ~ NA))
 ```
 
 ```{r}
-hist(dormancy_germ_ratio_no_fungi$germ_ratio)
+leaf_type_table2 <- table(tplant_F6_random_germinated$leaf_morph, tplant_F6_random_germinated$Type)
+print(leaf_type_table2)
+```
+
+```{r}
+leaf_type_table2_df <- as.data.frame(leaf_type_table2) |>
+  rename(Type = Var2,
+         Morphology = Var1)
+
+ggplot(leaf_type_table2_df, 
+       aes(x = Type, y = Freq, fill = Morphology)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  scale_fill_manual(
+    values = c("Serrated & Elongated" = "#6a176e", "Serrated & Oval" = "#f8cd37",
+               "Smooth & Elongated" = "#bc3754", "Smooth & Oval" = "#f37819")) +
+  labs(x = "Type", y = "Count of Trait Combination", fill = "Leaf Morphology:") +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(size = 25, family = "Times New Roman"),
+    axis.title = element_text(size = 25, family = "Times New Roman")
+  )
+```
+
+### Correlation
+```{r}
+tplant_F6_random_germinated_renamed <- tplant_F6_random_germinated |>
+  rename_with(~ paste0(.x, "_F6"), -c(ID, ID_F5_parent))
+
+tplant_renamed <- tplant |>
+  rename_with(~ paste0(.x, "_F5"), -c(ID))
+
+F5_and_F6_joined <- tplant_F6_random_germinated_renamed |>
+  left_join(
+    tplant_renamed,
+    by = c("ID_F5_parent" = "ID")
+  ) |>
+  rename(Type = Type_F6,
+         Pop = Pop_F6)
+```
+
+```{r}
+ratio_trait_per_pop_F6 <- tplant_F6_random_germinated |>
+  drop_na(elongated, serrated) |> # remove plants, which could not be categorized
+  group_by(Pop, Type) |> # group by Population
+  summarise(
+    # compute the log ratio of elongated leaf shape over oval leaf shape
+    n_L = sum(elongated == T), # sum up the count of elongated leaf per population
+    n_O = sum(elongated == F), # sum up the count of oval leaf per population
+    # avoid division by 0 by adding 0.01 (laplace smoothing)
+    log_ratio_L_O = log((n_L + 0.01) / (n_O + 0.01)),
+    # zero means same proportion, positive number means more elongated leaf shape (L), negative oval leaf shape (O)
+    
+    # compute the log ratio of serrated leaf edge over not serrated leaf edge
+    n_S = sum(serrated == T),# sum up the count of serrated leaf per population
+    n_G = sum(serrated == F),# sum up the count of not serrated leaf per population
+    log_ratio_S_G = log((n_S + 0.01) / (n_G + 0.01)),
+  ) |>
+  ungroup()
+```
+
+```{r}
+pop_ratio_joined <- ratio_trait_per_pop_F6 |>
+  left_join(ratio_trait_per_pop, by = "Pop", suffix = c("_F6", "_F5"))
+```
+
+```{r}
+# # find duplicates in col
+# tplant %>%
+#   group_by(ID) %>%
+#   filter(n() > 1) %>%
+#   ungroup() |>
+#   pull(ID)
+```
+
+### Leaf shape
+```{r}
+corr_elon <- glm(log_ratio_L_O_F5 ~ log_ratio_L_O_F6, data = pop_ratio_joined,
+                 family = gaussian())
+
+summary(corr_elon)
+```
+
+```{r}
+ggplot(data = pop_ratio_joined, aes(x = log_ratio_L_O_F5, y = log_ratio_L_O_F6)) +
+  geom_point(aes(color = Type_F6)) + 
+  geom_smooth(method = "lm", se = F)
+```
+
+### Leaf edge
+```{r}
+corr_edge <- glm(log_ratio_S_G_F5 ~ log_ratio_S_G_F6, data = pop_ratio_joined,
+                 family = gaussian())
+
+summary(corr_edge)
+```
+
+```{r}
+ggplot(data = pop_ratio_joined, aes(x = log_ratio_S_G_F5, y = log_ratio_S_G_F6, color = )) +
+  geom_point(aes(color = Type_F6)) + 
+  geom_smooth(method = "lm", se = F)
 ```
 

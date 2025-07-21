@@ -1,0 +1,492 @@
+Site_ID,Area,Localization_ID,Type,Destroyed,Outliers_soil,Sowing_1st,Sowing_2nd,Germ_2ndyear,Presence_April_22,Presence_April_23,Presence_April_24,Persistence_1,Persistence_2,Feb_22,April_22,October_22,November_22,April_23,FT-04-23,Cohort,First_FT_julianday,100_FT_julianday,FT_variation,harvested_leaves,harvested_seeds,FT_10-2023,EndMarch_24
+1,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,20,4,15,14,16,14,spring,79,119,41,07/04/23,28/05/23,0,15
+2,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,No,Yes,No,1,NA,0,0,0,0,1,1,spring,96,96,1,07/04/23,,0,0
+3,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,4,3,1,2,2,autumn,79,96,18,07/04/23,,0,1
+4,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,0,0,1,1,0,0,autumn,NA,NA,NA,,,0,0
+5,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,10,5,43,32,0,0,autumn,NA,NA,NA,,,0,0
+6,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,5,2,0,0,0,0,autumn,NA,NA,NA,,,0,0
+7,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,1,24,22,4,3,autumn,79,119,41,07/04/23,,1,39
+8,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,5,6,7,3,0,autumn,96,96,1,07/04/23,,0,11
+9,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,1,1,0,0,0,0,autumn,NA,NA,NA,,,0,0
+10,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,2,1,6,4,1,0,autumn,119,119,1,07/04/23,,0,0
+11,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,Yes,3,3,5,0,0,0,0,0,autumn,NA,NA,NA,,,0,1
+12,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,1,0,0,14,0,0,autumn,NA,NA,NA,,,0,0
+13,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,0,0,0,2,0,spring,119,119,1,07/04/23,,0,4
+14,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,1,1,16,11,2,2,autumn,87,87,1,07/04/23,,0,3
+15,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,3,2,0,0,0,0,autumn,NA,NA,NA,,,0,0
+16,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,Yes,3,3,2,3,0,3,0,0,autumn,NA,NA,NA,,,0,2
+17,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,2,0,2,3,1,1,autumn,85,85,1,07/04/23,,0,0
+18,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,Yes,3,3,20,7,33,28,0,0,autumn,NA,NA,NA,,,0,2
+19,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,10,3,27,25,1,0,autumn,119,119,1,07/04/23,,0,1
+20,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,2,3,1,2,1,autumn,96,119,24,07/04/23,,0,1
+21,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,2,3,2,0,0,0,autumn,NA,NA,NA,,,0,0
+22,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,5,5,11,11,2,0,autumn,119,119,1,07/04/23,,0,0
+23,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,10,4,30,60,17,17,autumn,71,85,15,07/04/23,Few but too early ,0,14
+24,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,5,24,25,10,10,autumn,-61,79,141,07/04/23,28/05/23,5,50
+25,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,2,2,10,15,1,0,autumn,96,119,24,07/04/23,,0,0
+26,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,No,Yes,3,3,6,0,0,0,0,0,autumn,NA,NA,NA,,,0,2
+27,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,7,13,12,1,1,autumn,-61,119,181,07/04/23,,0,27
+28,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,6,7,19,2,2,autumn,79,96,18,07/04/23,,0,4
+29,Marsdof,147,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,2,4,9,8,4,4,autumn,79,81,3,07/04/23,,0,11
+30,Marsdof,62,grass,Exist,,09/2021,no,No,Yes,No,No,1,1,5,8,0,0,0,0,autumn,NA,NA,NA,,,0,0
+31,Marsdof,62,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+32,Marsdof,62,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+33,Marsdof,62,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,15,26,26,21,38,38,spring,79,96,18,07/04/23,Too late,0,10
+34,Marsdof,63,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,1,0
+35,Marsdof,63,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,1,1,0,0,11,11,spring,79,96,18,07/04/23,Too late,0,4
+36,Marsdof,63,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+37,Marsdof,63,grass,Exist,,09/2021,no,No,Yes,Yes,No,2,2,1,1,1,1,3,3,spring,96,96,1,07/04/23,,0,0
+38,Marsdof,63,grass,Exist,,09/2021,no,No,No,Yes,Yes,2,NA,0,0,0,0,1,1,spring,96,96,1,07/04/23,,0,2
+39,Marsdof,63,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+40,Marsdof,63,grass,Exist,,09/2021,no,No,Yes,Yes,No,2,2,3,5,1,2,3,1,spring,85,119,35,07/04/23,,0,0
+41,Marsdof,63,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,10,11,3,1,8,8,spring,85,89,5,07/04/23,Too late,0,1
+42,Marsdof,63,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+43,Marsdof,63,grass,Exist,,09/2021,no,No,Yes,No,Yes,3,3,1,5,0,0,0,0,autumn,NA,NA,NA,,,0,1
+44,Marsdof,69,pavement,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+45,Marsdof,68,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,15,33,60,71,165,160,spring,59,89,31,07/04/23,28/05/23 few ,0,71
+46,Marsdof,69,pavement,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+47,Marsdof,68,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,0,2,4,4,6,6,spring,-61,-61,1,07/04/23,,0,8
+48,Marsdof,69,pavement,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+49,Marsdof,68,grass,02/2022,Not sampled,09/2021,no,No,Yes,NA,NA,1,1,0,1,0,0,,0,NA,NA,NA,NA,,,NA,NA
+50,Marsdof,69,pavement,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+51,Marsdof,69,pavement,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+52,Marsdof,68,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+53,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+54,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+55,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+56,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+57,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+58,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+59,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+60,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+61,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+62,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+63,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+64,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+65,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+66,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+67,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+68,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+69,Marsdof,148,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+70,Marsdof,148,grass,Exist,,09/2021,no,No,Yes,No,No,1,1,0,1,0,0,0,0,autumn,NA,NA,NA,,,0,0
+71,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+72,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+73,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+74,Marsdof,75,grass,Exist,,09/2021,no,No,No,Yes,No,1,NA,0,0,0,0,3,3,spring,96,96,1,,,0,0
+75,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+76,Marsdof,75,grass,Exist,,09/2021,no,No,No,Yes,No,1,NA,0,0,0,0,0,0,autumn,96,96,1,,,0,0
+77,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+78,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+79,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+80,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+81,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+82,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+83,Marsdof,75,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+84,Stadium,86,grass,10/2022,,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+85,Stadium,86,grass,10/2022,,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+86,Stadium,86,grass,10/2022,,09/2021,no,No,Yes,NA,NA,1,1,20,66,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+87,Stadium,86,grass,10/2022,,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+88,Stadium,86,grass,10/2022,,09/2021,no,No,Yes,NA,NA,1,1,5,16,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+89,Stadium,86,grass,10/2022,,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+90,Stadium,86,grass,10/2022,,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+91,Stadium,86,grass,10/2022,,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+92,Stadium,86,grass,10/2022,,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+93,Stadium,86,grass,10/2022,,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+94,Stadium,87,pavement,Exist,,09/2021,no,No,No,No,Yes,1,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,15
+95,Stadium,87,pavement,Exist,,09/2021,07/2022,No,No,Yes,No,1,NA,0,0,21,0,75,75,spring,79,100,22,11/04/23,28/05/23,5,0
+96,Stadium,87,pavement,Exist,,09/2021,07/2022,No,Yes,Yes,Yes,3,3,3,2,14,2,52,52,spring,74,100,27,11/04/23,28/05/23,0,18
+97,Stadium,87,pavement,Exist,,09/2021,no,No,No,No,Yes,1,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,3,1
+98,Stadium,87,pavement,Exist,,09/2021,no,No,No,Yes,Yes,2,NA,0,0,0,0,15,15,spring,79,100,22,11/04/23,28/05/23 few ,0,11
+99,Stadium,87,pavement,Exist,,09/2021,07/2022,No,No,Yes,No,1,NA,0,0,0,0,7,7,spring,82,100,19,11/04/23,,0,0
+100,Stadium,87,pavement,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,40,6,211,211,spring,74,89,16,11/04/23,28/05/23,0,54
+101,Stadium,87,pavement,Exist,,09/2021,no,No,No,Yes,No,1,NA,0,0,0,0,5,5,spring,82,100,19,11/04/23,,2,0
+102,Stadium,87,pavement,Exist,,09/2021,no,Yes,No,Yes,Yes,2,NA,0,0,4,0,29,27,spring,74,119,46,11/04/23,28/05/23 few ,0,30
+103,Stadium,87,pavement,Exist,,09/2021,07/2022,No,Yes,Yes,Yes,3,3,3,7,5,0,30,28,spring,79,89,11,11/04/23,,0,4
+104,Stadium,87,pavement,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,0,1,0,0,28,28,spring,74,82,9,12/04/23,28/05/23 few ,0,3
+105,Stadium,87,pavement,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,2,6,0,20,18,spring,79,89,11,12/04/23,,0,1
+106,Stadium,87,pavement,Exist,,09/2021,07/2022,No,No,Yes,No,1,NA,0,0,100,40,264,244,spring,74,119,46,12/04/23,,0,0
+107,Stadium,87,pavement,Exist,,09/2021,no,No,No,Yes,No,1,NA,0,0,0,0,10,9,spring,79,100,22,12/04/23,,0,0
+108,Stadium,87,pavement,Exist,,09/2021,no,Yes,No,No,No,0,NA,0,0,2,2,0,0,autumn,NA,NA,NA,,,0,0
+109,Stadium,87,pavement,Exist,,09/2021,07/2022,No,No,No,No,0,NA,0,0,40,14,0,0,autumn,NA,NA,NA,,,0,0
+110,Stadium,87,pavement,Exist,,09/2021,07/2022,No,No,No,No,0,NA,0,0,100,42,0,0,autumn,NA,NA,NA,,,0,0
+111,Stadium,87,pavement,Exist,,09/2021,no,Yes,No,No,No,0,NA,0,0,1,0,0,0,autumn,NA,NA,NA,,,0,0
+112,Stadium,85,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,13,5,1,18,18,spring,79,89,11,07/04/23,,0,6
+113,Stadium,85,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,20,11,25,5,114,114,spring,59,89,31,07/04/23,28/05/23 few ,0,22
+114,Stadium,85,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,20,26,20,12,50,50,spring,59,100,42,07/04/23,28/05/23 few ,0,7
+115,Stadium,85,pavement,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,2,5,4,3,0,0,autumn,NA,NA,NA,,,0,0
+116,Stadium,85,pavement,Exist,Not sampled,09/2021,no,Yes,No,Yes,No,1,NA,0,0,6,9,52,49,spring,59,89,31,07/04/23,28/05/23 few ,0,0
+117,Stadium,85,pavement,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+118,Stadium,85,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,5,12,3,0,11,11,spring,59,100,42,07/04/23,,0,0
+119,Stadium,85,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,5,6,7,0,34,34,spring,59,82,24,07/04/23,,0,0
+120,Stadium,85,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,10,15,5,3,24,20,spring,59,82,24,07/04/23,,0,2
+121,Stadium,85,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,10,12,2,39,39,spring,59,82,24,07/04/23,,0,4
+122,Stadium,85,pavement,Exist,Wrong number,09/2021,no,No,Yes,Yes,Yes,3,3,10,25,35,35,35,35,autumn,59,82,24,07/04/23,,0,17
+123,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+124,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+125,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+126,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+127,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+128,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+129,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+130,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+131,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+132,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+133,Stadium,82,pavement,Exist,,09/2021,no,Yes,No,No,No,0,NA,0,0,5,0,0,0,autumn,NA,NA,NA,,,0,0
+134,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+135,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+136,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+137,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+138,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+139,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+140,Stadium,82,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+141,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+142,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+143,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+144,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+145,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+146,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+147,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+148,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+149,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+150,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+151,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+152,Stadium,77,grass,Exist,,09/2021,no,Yes,No,Yes,No,1,NA,0,0,9,0,17,0,spring,74,89,16,31/03,Too late,0,0
+153,Stadium,77,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+154,Stadium,79,pavement,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+155,Stadium,79,pavement,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+156,Stadium,79,pavement,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+157,Stadium,79,pavement,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,2,5,0,0,0,0,autumn,NA,NA,NA,,,0,0
+158,Stadium,79,pavement,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+159,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,0,3,5,0,22,22,spring,59,100,42,11/04/23,,0,15
+160,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,0,2,2,0,23,21,spring,89,119,31,11/04/23,,0,3
+161,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,No,2,2,2,4,4,4,34,34,spring,79,89,11,11/04/23,,0,0
+162,Stadium,80,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+163,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,No,Yes,3,3,3,1,2,0,0,0,autumn,NA,NA,NA,,,0,5
+164,Stadium,80,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+165,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,20,50,4,3,45,45,spring,79,100,22,11/04/23,,0,47
+166,Stadium,80,Tree bed,Exist,,09/2021,no,No,No,No,Yes,1,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,3
+167,Stadium,80,Tree bed,Exist,,09/2021,no,No,No,No,Yes,1,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,36
+168,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,20,38,3,1,131,131,spring,59,89,31,11/04/23,28/05/23,0,530
+169,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,20,20,35,0,58,58,spring,74,100,27,11/04/23,28/05/23,0,402
+170,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,No,2,2,5,21,0,22,8,8,spring,-61,100,162,11/04/23,,0,0
+171,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,No,2,2,1,5,0,0,8,8,spring,79,100,22,11/04/23,,0,0
+172,Stadium,80,Tree bed,Exist,,09/2021,no,No,No,Yes,Yes,2,NA,0,0,0,0,26,26,spring,82,100,19,11/04/23,,0,26
+173,Stadium,80,Tree bed,Exist,,09/2021,no,No,No,Yes,Yes,2,NA,0,0,0,0,15,15,spring,82,100,19,11/04/23,,0,42
+174,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,5,3,2,3,10,10,spring,74,89,16,11/04/23,,0,5
+175,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,1,2,3,3,73,73,spring,74,89,16,11/04/23,"28/05/23 one, too late ",0,2
+176,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,50,50,7,9,81,81,spring,74,89,16,11/04/23,28/05/23,0,41
+177,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,50,51,25,17,244,244,spring,74,100,27,11/04/23,"28/05/23 one, too late ",0,205
+178,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,No,No,1,1,5,29,0,0,0,0,autumn,NA,NA,NA,,,0,0
+179,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,5,2,8,1,30,30,spring,74,100,27,11/04/23,,10,18
+180,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,5,2,3,0,10,10,spring,89,89,1,11/04/23,,0,20
+181,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,50,26,20,29,54,54,spring,59,100,42,11/04/23,"28/05/23 one, too late ",0,7
+182,Stadium,80,Tree bed,Exist,,09/2021,no,No,No,Yes,Yes,2,NA,0,0,0,0,17,17,spring,79,100,22,11/04/23,,0,12
+183,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,5,6,0,0,33,33,spring,74,100,27,11/04/23,,4,82
+184,Stadium,80,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,20,20,0,0,151,151,spring,74,100,27,11/04/23,28/05/23,0,184
+185,Stadium,84,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+186,Stadium,84,pavement,Exist,,09/2021,no,Yes,No,Yes,No,1,NA,0,0,3,2,5,5,spring,100,100,1,12/04/23,,0,0
+187,Stadium,84,pavement,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,35,5,49,45,spring,59,100,42,12/04/23,28/05/23 few ,0,5
+188,Stadium,84,pavement,Exist,,09/2021,07/2022,No,Yes,Yes,Yes,3,3,2,4,9,2,25,19,spring,79,119,41,12/04/23,,1,5
+189,Stadium,84,pavement,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,3,9,19,7,16,16,autumn,59,89,31,12/04/23,28/05/23 few ,0,8
+190,Stadium,84,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+191,Stadium,84,pavement,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,20,9,48,47,spring,82,100,19,12/04/23,,2,58
+192,Stadium,84,pavement,Exist,,09/2021,07/2022,No,No,Yes,No,1,NA,0,0,13,7,22,22,spring,82,100,19,12/04/23,,0,0
+193,Stadium,84,pavement,Exist,,09/2021,no,No,No,Yes,No,1,NA,0,0,0,0,4,4,spring,89,100,12,12/04/23,,0,0
+194,Stadium,84,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+195,Stadium,84,pavement,Exist,,09/2021,07/2022,No,No,No,Yes,1,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,3
+196,Stadium,84,pavement,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,16,4,26,25,spring,82,89,8,12/04/23,,0,8
+197,Stadium,84,pavement,Exist,,09/2021,no,No,No,No,Yes,1,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,1
+198,Stadium,84,pavement,Exist,,09/2021,no,Yes,No,Yes,No,1,NA,0,0,3,0,5,5,spring,79,100,22,12/04/23,,0,0
+199,Stadium,84,pavement,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,30,12,92,89,spring,74,119,46,12/04/23,28/05/23,0,76
+200,Stadium,84,pavement,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,25,6,24,23,autumn,89,100,12,12/04/23,,0,4
+201,Stadium,84,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+202,Stadium,84,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+203,Stadium,84,pavement,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,14,2,31,31,spring,79,100,22,12/04/23,,0,3
+204,Stadium,84,pavement,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,9,1,27,27,spring,79,89,11,12/04/23,,0,2
+205,Stadium,84,pavement,Exist,,09/2021,no,Yes,No,Yes,No,1,NA,0,0,7,2,17,17,spring,79,100,22,12/04/23,Too late,0,0
+206,Sülz 1,140,wall,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,3,21,13,5,1,1,autumn,98,98,1,09/04/23,,0,1
+207,Sülz 1,140,wall,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+208,Sülz 1,141,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+209,Sülz 1,141,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+210,Sülz 1,142,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+211,Sülz 1,57,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+212,Sülz 1,57,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+213,Sülz 1,15,pavement,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,20,9,6,12,7,2,spring,73,119,47,09/04/23,Too Late ,0,1
+214,Sülz 1,17,pavement,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,20,2,14,46,8,8,autumn,71,88,18,destroyed ,,0,6
+215,Sülz 1,143,Tree bed,05/2022,Not sampled,09/2021,no,No,Yes,NA,NA,1,1,5,3,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+216,Sülz 1,144,Tree bed,Exist,,09/2021,no,No,Yes,Yes,No,2,2,50,2,9,15,17,17,spring,73,98,26,09/04/23,26/05/23 noted 215,0,0
+217,Sülz 1,20,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+218,Sülz 1,20,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+219,Sülz 1,20,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+220,Sülz 1,20,Tree bed,Exist,,09/2021,no,No,Yes,No,No,1,1,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+221,Sülz 1,20,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+222,Sülz 1,20,Tree bed,Exist,,09/2021,no,No,Yes,Yes,No,2,2,5,3,21,8,17,16,autumn,98,98,1,09/04/23,26/05/23,0,0
+223,Sülz 1,20,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+224,Sülz 1,20,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+225,Sülz 1,20,Tree bed,Exist,,09/2021,no,No,Yes,No,No,1,1,0,1,0,0,0,0,autumn,NA,NA,NA,,,0,0
+226,Sülz 1,21,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+227,Sülz 1,21,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+228,Sülz 1,21,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+229,Sülz 1,21,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+230,Sülz 1,21,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+231,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,Yes,No,No,1,1,1,1,0,0,0,0,autumn,NA,NA,NA,,,0,0
+232,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,20,16,0,0,51,0,spring,119,119,1,09/04/23,26/05/23,0,74
+233,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,5,5,0,0,12,0,spring,119,119,1,09/04/23,,0,28
+234,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+235,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,Yes,No,No,1,1,1,1,0,0,0,0,autumn,NA,NA,NA,,,0,0
+236,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,Yes,No,No,1,1,5,3,0,0,0,0,autumn,NA,NA,NA,,,0,0
+237,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+238,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+239,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+240,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+241,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,Yes,No,Yes,3,3,3,3,0,0,0,0,autumn,NA,NA,NA,,,0,1
+242,Sülz 1,22.1,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,0,1,0,0,3,0,spring,119,119,1,09/04/23,,0,1
+243,Sülz 1,22.2,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+244,Sülz 1,22.3,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+245,Sülz 1,22.3,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+246,Sülz 1,22.3,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+247,Sülz 1,22.3,grass,Exist,,09/2021,no,No,Yes,No,Yes,3,3,3,1,0,0,0,0,autumn,NA,NA,NA,,,2,1
+248,Sülz 1,24.1,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+249,Sülz 1,24.1,pavement,Exist,,09/2021,no,No,Yes,No,No,1,1,1,1,1,1,0,0,autumn,NA,NA,NA,,,0,0
+250,Sülz 1,24.2,pavement,Exist,Not sampled,09/2021,no,No,No,Yes,No,1,NA,0,0,0,0,5,5,spring,79,88,10,09/04/23,26/05/23,0,0
+251,Sülz 1,24.2,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+252,Sülz 1,25,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+253,Sülz 1,25,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+254,Sülz 1,26.1,wall,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+255,Sülz 1,26.2,grass,Exist,,09/2021,no,No,No,Yes,Yes,2,NA,0,0,0,0,6,5,spring,88,97,10,09/04/23,,0,99
+256,Sülz 1,26.2,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,50,28,40,43,57,55,spring,79,119,41,09/04/23,26/05/23,0,58
+257,Sülz 1,29,wall,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,1,1,0,0,0,0,autumn,NA,NA,NA,,,0,0
+258,Sülz 1,29,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,30,38,90,142,58,57,autumn,71,97,27,09/04/23,26/05/23,0,28
+259,Sülz 1,145,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,15,12,2,1,1,1,autumn,97,97,1,09/04/23,,0,0
+260,Sülz 1,145,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,15,12,1,1,2,1,spring,97,119,23,09/04/23,,0,0
+261,Sülz 1,145,wall,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+262,Sülz 2,146,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+263,Sülz 2,146,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,25,14,4,6,0,0,autumn,79,97,19,08/04/23,,0,28
+264,Sülz 2,146,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,25,4,14,18,5,5,autumn,89,97,9,08/04/23,,0,8
+265,Sülz 2,146,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,25,28,55,92,64,62,spring,59,119,61,08/04/23,30/05/23 1 too late,0,248
+266,Sülz 2,146,Tree bed,Exist,,09/2021,no,No,Yes,No,No,1,1,1,1,0,0,0,0,autumn,NA,NA,NA,08/04/23,,0,0
+267,Sülz 2,146,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,100,31,13,14,10,10,autumn,81,97,17,08/04/23,,0,234
+268,Sülz 2,146,Tree bed,Exist,,09/2021,no,No,Yes,No,No,1,1,15,2,0,0,0,0,autumn,NA,NA,NA,08/04/23,,0,0
+269,Sülz 2,146,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+270,Sülz 2,146,Tree bed,Exist,,09/2021,no,No,Yes,No,No,1,1,2,1,0,0,0,0,autumn,NA,NA,NA,08/04/23,,0,0
+271,Sülz 2,146,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,08/04/23,,0,0
+272,Sülz 2,33,grass,02/2022,,09/2021,no,No,Yes,NA,NA,1,1,20,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+273,Sülz 2,34.1,wall,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,10,4,0,0,5,0,spring,119,119,1,08/04/23,,0,0
+274,Sülz 2,34.1,wall,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,2,0,0,0,0,0,autumn,NA,NA,NA,08/04/23,,0,0
+275,Sülz 2,37,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+276,Sülz 2,37,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+277,Sülz 2,37,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+278,Sülz 2,38,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+279,Sülz 2,41,pavement,Exist,,09/2021,no,No,Yes,Yes,No,2,2,5,1,0,0,1,0,spring,119,119,1,08/04/23,,0,0
+280,Sülz 2,41,pavement,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,1,0,0,0,1,1,spring,97,97,1,08/04/23,,0,7
+281,Sülz 2,41,pavement,Exist,,09/2021,no,No,Yes,No,No,1,1,5,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+282,Sülz 2,41,pavement,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,5,4,5,4,4,2,autumn,89,119,31,08/04/23,30/05/23 1 too late,0,24
+283,Sülz 2,41,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,15,5,2,2,1,0,autumn,119,119,1,08/04/23,30/05/23 1 too late,0,1
+284,Sülz 2,35,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+285,Sülz 2,35,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+286,Sülz 2,35,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+287,Sülz 2,35,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+288,Sülz 2,35,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+289,Sülz 2,35,Tree bed,Exist,Wrong number,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+290,Sülz 2,35,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+291,Sülz 2,35,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+292,Sülz 2,35,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+293,Sülz 2,35,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+294,Sülz 2,35,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+295,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+296,Sülz 2,60,Tree bed,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+297,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,Yes,1,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,13
+298,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,Yes,1,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,2
+299,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+300,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+301,Sülz 2,60,Tree bed,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,16,14,20,17,spring,82,119,38,08/04/23,30/05/23,0,37
+302,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+303,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+304,Sülz 2,60,Tree bed,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,0,0,5,0,spring,119,119,1,08/04/23,,0,6
+305,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,Yes,1,NA,0,0,2,0,0,0,autumn,NA,NA,NA,08/04/23,,0,2
+306,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+307,Sülz 2,60,Tree bed,Exist,,09/2021,07/2022,No,Yes,Yes,Yes,3,3,0,1,11,11,11,9,autumn,90,119,30,08/04/23,Too early,0,3
+308,Sülz 2,60,Tree bed,Exist,,09/2021,07/2022,No,No,Yes,Yes,2,NA,0,0,0,0,2,0,spring,119,119,1,08/04/23,,0,52
+309,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+310,Sülz 2,60,Tree bed,Exist,Not sampled,09/2021,07/2022,Yes,No,No,Yes,1,NA,0,0,1,0,0,0,autumn,NA,NA,NA,08/04/23,,0,7
+311,Sülz 2,60,Tree bed,Exist,,09/2021,07/2022,No,Yes,Yes,Yes,3,3,0,1,2,1,7,4,spring,90,119,30,08/04/23,Not found ,0,4
+312,Sülz 2,60,Tree bed,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+313,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+314,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,Yes,No,Yes,3,3,0,1,0,0,0,0,autumn,NA,NA,NA,,,0,1
+315,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,0,10,8,12,51,49,spring,79,97,19,08/04/23,30/05/23,0,4
+316,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,Yes,Yes,No,2,2,2,11,7,7,28,28,spring,79,97,19,08/04/23,30/05/23,0,0
+317,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+318,Sülz 2,60,Tree bed,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+319,Sülz 2,42-45,pavement,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,50,6,11,18,15,6,spring,79,119,41,08/04/23,30/05/23,0,3
+320,Sülz 2,42-45,pavement,Exist,,09/2021,no,No,Yes,Yes,No,2,2,3,3,3,4,2,0,autumn,90,119,30,08/04/23,,0,0
+321,Sülz 2,42-45,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+322,Sülz 2,42-45,pavement,Exist,,09/2021,no,No,No,No,Yes,1,NA,0,0,3,0,0,0,autumn,NA,NA,NA,,,0,52
+323,Sülz 2,46,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+324,Sülz 2,46,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+325,Sülz 2,46,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+326,Sülz 2,46,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+327,Sülz 2,46,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+328,Sülz 2,50,pavement,Exist,,09/2021,no,No,Yes,No,No,1,1,0,1,0,0,0,0,autumn,NA,NA,NA,,,0,0
+329,Sülz 2,50,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+330,Sülz 2,51,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+331,Sülz 2,52,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+332,Sülz 2,52,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+333,Sülz 2,52,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+334,Sülz 2,53,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,1,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+335,Sülz 2,54,grass,Exist,,09/2021,no,No,Yes,No,No,1,1,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+336,Sülz 2,54,grass,Exist,,09/2021,no,No,Yes,No,No,1,1,0,0,2,0,0,0,autumn,NA,NA,NA,,,0,0
+337,Sülz 2,54,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+338,Sülz 2,54,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+339,Sülz 2,54,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+340,Sülz 2,54,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+341,Maarweg,166,pavement,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+342,Maarweg,169,pavement,Exist,Wrong number,09/2021,no,No,Yes,No,Yes,3,3,50,49,2,2,0,0,autumn,NA,NA,NA,destroyed ,,0,1
+343,Maarweg,169,pavement,Exist,Not sampled,09/2021,no,No,Yes,No,Yes,3,3,3,7,0,0,0,0,autumn,NA,NA,NA,,,0,2
+344,Maarweg,168,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,2,4,13,9,117,116,spring,74,94,21,04/04/23,Too Late ,0,7
+345,Maarweg,168,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,10,17,0,60,197,196,spring,80,94,15,04/04/23,28/05/23 Few  ,0,183
+346,Maarweg,168,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,15,22,1,18,99,99,spring,80,89,10,04/04/23,28/05/23 Few  ,0,106
+347,Maarweg,168,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,15,70,0,18,190,186,spring,80,119,40,04/04/23,28/05/23 Few  ,0,127
+348,Maarweg,168,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,15,35,22,14,37,37,spring,80,94,15,04/04/23,,0,122
+349,Maarweg,170,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+350,Maarweg,170,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+351,Maarweg,170,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+352,Maarweg,170,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+353,Maarweg,171,wall,Exist,,09/2021,no,No,No,Yes,Yes,2,NA,0,0,0,0,2,1,spring,82,119,38,05/04/23,,0,8
+354,Maarweg,171,wall,Exist,,09/2021,no,No,No,No,Yes,1,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,3
+355,Maarweg,171,wall,Exist,,09/2021,no,No,No,No,No,0,NA,0,1,0,0,0,0,autumn,NA,NA,NA,0,,0,0
+356,Maarweg,171,wall,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+357,Maarweg,171,wall,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,0,2,9,11,15,13,spring,80,119,40,05/04/23,28/05/23,11,14
+358,Maarweg,172,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,10,27,3,5,24,19,spring,80,119,40,05/04/23,Too early,0,7
+359,Maarweg,172,grass,Exist,,09/2021,no,No,No,Yes,Yes,2,NA,0,0,0,0,41,37,spring,74,119,46,05/04/23,Too early,0,1
+360,Maarweg,172,grass,Exist,,09/2021,no,No,No,Yes,Yes,2,NA,0,0,0,0,4,4,spring,82,94,13,05/04/23,,0,3
+361,Maarweg,172,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,1,3,0,0,7,5,spring,80,119,40,05/04/23,02/06/23,0,1
+362,Maarweg,172,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,10,7,0,0,17,16,spring,82,94,13,05/04/23,,0,1
+363,Maarweg,172,grass,Exist,,09/2021,no,No,No,Yes,No,1,NA,0,0,0,0,1,1,spring,94,94,1,05/04/23,,0,0
+364,Maarweg,173,grass,04/2024,,09/2021,no,No,Yes,Yes,NA,2,2,0,11,10,7,18,17,NA,80,94,15,05/04/23,,NA,NA
+365,Maarweg,173,grass,04/2024,,09/2021,no,No,No,No,NA,0,NA,0,2,0,0,0,0,NA,NA,NA,NA,,,NA,NA
+366,Maarweg,173,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+367,Maarweg,173,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+368,Maarweg,173,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+369,Maarweg,174,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,5,16,13,28,25,24,spring,80,82,3,05/04/23,28/05/23 1 rest mold,0,21
+370,Maarweg,174,grass,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+371,Maarweg,175,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,15,22,32,101,32,32,autumn,74,82,9,05/04/23,Too early,0,115
+372,Maarweg,175,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,2,3,2,2,2,2,autumn,80,82,3,05/04/23,,0,1
+373,Maarweg,176,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,1,0,60,71,3,3,autumn,82,94,13,05/04/23,,0,2
+374,Maarweg,176,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,4,3,5,2,2,autumn,80,82,3,05/04/23,,0,6
+375,Maarweg,177,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,5,19,12,14,14,14,spring,80,94,15,05/04/23,,0,0
+376,Maarweg,177,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,5,16,3,2,2,1,autumn,89,119,31,05/04/23,,0,1
+377,Maarweg,177,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,5,8,0,3,6,5,spring,80,94,15,05/04/23,,0,0
+378,Maarweg,177,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,5,15,9,7,20,18,spring,80,119,40,05/04/23,Too late,0,0
+379,Maarweg,177,pavement,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+380,Maarweg,178,grass,09/2022,,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+381,Maarweg,178,grass,09/2022,,09/2021,no,No,Yes,NA,NA,1,1,2,7,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+382,Maarweg,178,grass,09/2022,,09/2021,no,No,No,NA,NA,0,NA,0,1,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+383,Maarweg,179,grass,Exist,,09/2021,no,No,No,Yes,Yes,2,NA,0,0,0,0,3,2,spring,80,94,15,05/04/23,,0,2
+384,Maarweg,179,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,destroyed,,0,0
+385,Maarweg,180,Tree bed,10/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+386,Maarweg,180,Tree bed,Exist,Not sampled,09/2021,no,No,Yes,No,No,1,1,0,0,NA,NA,0,0,autumn,NA,NA,NA,,,0,0
+387,Maarweg,180,Tree bed,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,2,NA,NA,0,0,autumn,NA,NA,NA,,,1,0
+388,Maarweg,180,Tree bed,Exist,Not sampled,09/2021,no,No,No,No,Yes,1,NA,0,0,NA,NA,0,0,autumn,NA,NA,NA,Thaliana observed,,0,4
+389,Maarweg,180,Tree bed,Exist,Not sampled,09/2021,no,No,No,No,Yes,1,NA,0,0,NA,NA,0,0,autumn,NA,NA,NA,,,0,2
+390,Maarweg,180,Tree bed,Exist,Not sampled,09/2021,no,No,No,No,No,0,NA,0,0,NA,NA,0,0,autumn,NA,NA,NA,,,0,0
+391,Maarweg,181,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+392,Maarweg,181,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+393,Maarweg,181,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+394,Maarweg,182,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+395,Maarweg,182,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+396,Maarweg,182,grass,02/2022,Not sampled,09/2021,no,No,Yes,NA,NA,1,1,5,60,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+397,Maarweg,182,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+398,Maarweg,183,grass,Exist,,09/2021,no,No,No,Yes,No,1,NA,0,0,0,0,4,4,spring,94,94,1,05/04/23,,0,0
+399,Maarweg,183,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+400,Maarweg,183,grass,Exist,,09/2021,no,No,Yes,No,No,1,1,5,1,0,0,0,0,autumn,NA,NA,NA,,,0,0
+401,Maarweg,183,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+402,Maarweg,183,grass,Exist,,09/2021,no,No,Yes,No,Yes,3,3,3,3,0,0,0,0,autumn,NA,NA,NA,,,0,1
+403,Maarweg,183,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,20,8,21,14,55,54,spring,74,94,21,05/04/23,Too late,0,26
+404,Maarweg,183,grass,Exist,,09/2021,no,No,Yes,Yes,Yes,3,3,3,6,5,5,40,40,spring,74,94,21,05/04/23,Too late,0,1
+405,Maarweg,184,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,2,1,1,3,3,3,spring,80,94,15,05/04/23,28/05/23,0,0
+406,Maarweg,184,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,20,11,3,4,14,12,spring,74,119,46,05/04/23,28/05/23,0,175
+407,Maarweg,184,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,50,30,6,17,25,25,spring,80,94,15,31/03,28/05,0,82
+408,Maarweg,184,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,Yes,3,3,50,39,0,1,1,1,spring,82,82,1,31/03,,0,3
+409,Maarweg,184,pavement,Exist,Not sampled,09/2021,no,No,Yes,Yes,No,2,2,15,11,0,1,4,4,spring,80,94,15,31/03,,0,0
+410,Maarweg,185,grass,02/2022,Not sampled,09/2021,no,No,No,NA,NA,0,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA,,,NA,NA
+411,Maarweg,185,grass,Exist,,09/2021,no,No,No,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+412,Rhein,164,wall,Exist,Not sampled,07/2022,no,No,NA,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+413,Rhein,162,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,2,5,13,6,spring,86,119,34,06/04/23,,0,0
+414,Rhein,162,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,20,28,45,41,spring,79,91,13,06/04/23,,0,1
+417,Rhein,157,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,21,25,6,6,autumn,88,95,8,06/04/23,,0,0
+418,Rhein,157,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,5,10,22,18,spring,81,119,39,06/04/23,,0,0
+419,Rhein,156,wall,Exist,Not sampled,07/2022,no,No,NA,No,No,0,NA,0,0,4,1,0,0,autumn,NA,NA,NA,,,0,0
+420,Rhein,155,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,2,1,3,1,spring,95,119,25,06/04/23,,0,0
+421,Rhein,154,wall,Exist,Not sampled,07/2022,no,No,NA,No,No,0,NA,0,0,0,0,0,0,autumn,NA,NA,NA,,,0,0
+422,Rhein,153,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,110,96,185,170,spring,59,119,61,06/04/23,25/05/23,0,0
+423,Rhein,152,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,90,51,220,210,spring,76,119,44,06/04/23,25/05/23,0,4
+424,Rhein,150,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,275,82,423,370,spring,59,119,61,06/04/23,25/05/23,0,0
+425,Rhein,151,wall,Exist,Not sampled,07/2022,no,No,NA,No,No,0,NA,0,0,65,217,0,0,autumn,NA,NA,NA,,,0,0
+426,Rhein,149,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,40,41,80,75,spring,76,119,44,06/04/23,25/05/23,0,0
+427,Rhein,149,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,2,0,6,6,spring,83,95,13,06/04/23,,0,0
+428,Rhein,147,wall,Exist,Not sampled,09/2021,no,Yes,No,Yes,Yes,2,NA,0,0,11,13,16,13,spring,79,119,41,06/04/23,25/05/23,0,13
+429,Rhein,147,wall,Exist,Not sampled,09/2021,no,Yes,No,Yes,Yes,2,NA,0,0,3,4,4,4,spring,76,95,20,06/04/23,,0,3
+431,Rhein,147,wall,Exist,Not sampled,09/2021,no,No,No,Yes,No,1,NA,0,0,2,6,14,14,spring,76,91,16,06/04/23,25/05/23,0,0
+433,Zollstock,189,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,35,8,20,16,autumn,81,119,39,03/04/23,26/05/23,0,119
+434,Zollstock,189,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,6,7,15,3,,86,119,34,03/04/23,26/05/23,0,277
+435,Zollstock,189,wall,Exist,Not sampled,07/2022,no,No,NA,No,No,0,NA,0,0,0,1,0,0,,NA,NA,NA,03/04/23,,0,0
+436,Zollstock,189,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,2,2,2,0,,119,119,1,03/04/23,,0,0
+437,Zollstock,189,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,12,4,12,10,,81,119,39,03/04/23,,0,1
+438,Zollstock,189,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,11,19,23,20,,81,119,39,03/04/23,26/05/23,0,20
+439,Zollstock,189,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,5,26,7,4,,119,119,1,03/04/23,,0,5
+440,Zollstock,189,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,4,4,NA,0,,90,119,30,,,0,0
+441,Zollstock,190,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,100,49,59,52,,59,119,61,03/04/23,26/05/23,0,4
+442,Zollstock,190,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,30,5,25,11,,81,119,39,03/04/23,,8,0
+443,Zollstock,190,pavement,Exist,Not sampled,07/2022,no,No,NA,No,No,0,NA,0,0,5,12,0,0,,NA,NA,NA,03/04/23,,0,0
+444,Zollstock,190,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,9,20,14,3,,81,119,39,03/04/23,,0,0
+445,Zollstock,191,grass,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,10,0,14,13,,86,90,5,03/04/23,Already Rippen ,0,9
+446,Zollstock,191,grass,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,0,0,10,1,,90,119,30,03/04/23,,0,3
+447,Zollstock,191,grass,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,20,50,19,17,,78,119,42,03/04/23,Already Rippen ,0,4
+448,Zollstock,192,grass,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,40,36,76,75,,81,92,12,03/04/23,Already Rippen ,0,176
+449,Zollstock,192,grass,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,30,7,25,23,,81,119,39,03/04/23,26/05/23,1,16
+450,Zollstock,192,grass,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,15,0,1,0,,119,119,1,03/04/23,,0,43
+451,Zollstock,193,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,475,85,54,51,,59,90,32,03/04/23,26/05/23,0,75
+452,Zollstock,194,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,200,227,61,53,,71,119,49,03/04/23,26/05/23,0,30
+453,Zollstock,194,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,125,135,96,93,,59,90,32,03/04/23,26/05/23,1,2
+454,Zollstock,195,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,10,35,48,45,,86,119,34,03/04/23,26/05/23,0,11
+455,Zollstock,195,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,0,2,6,5,,86,92,7,03/04/23,,0,1
+456,Zollstock,195,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,0,2,5,1,,78,119,42,03/04/23,,0,1
+457,Zollstock,196,Tree bed,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,90,48,85,83,,59,90,32,03/04/23,26/05/23,0,0
+458,Zollstock,196,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,13,36,35,32,,59,119,61,03/04/23,,0,6
+459,Zollstock,198,grass,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,25,27,102,97,,71,119,49,04/04/2023,,0,0
+460,Zollstock,198,grass,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,150,69,220,220,,59,88,30,04/04/23,Mown,0,0
+461,Zollstock,199,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,80,80,115,115,,71,88,18,04/04/23,Mown,0,1
+462,Zollstock,199,grass,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,17,79,65,65,,73,92,20,04/04/23,26/05/23,0,0
+463,Zollstock,199,grass,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,150,238,284,270,,59,119,61,04/04/23,,0,72
+464,Zollstock,210,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,20,13,2,1,,92,119,28,03/04/2023,,1,0
+465,Zollstock,210,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,5,11,41,36,,59,119,61,03/04/2023,26/05/2023,0,34
+466,Zollstock,210,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,275,83,216,210,,59,119,61,03/04/2023,26/05/2023,0,51
+467,Zollstock,210,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,15,26,5,2,,81,119,39,03/04/2023,,0,7
+468,Zollstock,212,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,5,9,15,10,,78,119,42,03/04/2023,,0,1
+469,Zollstock,212,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,1,0,6,1,,92,119,28,03/04/2023,,0,0
+470,Zollstock,212,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,0,3,12,4,,88,119,32,03/04/2023,,0,25
+471,Zollstock,212,pavement,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,1,0,21,5,,78,119,42,03/04/2023,Not found,0,26
+472,Sülz 3,201,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,7,39,96,94,,78,119,42,04/04/23,,0,252
+473,Sülz 3,201,wall,04/2023,Not sampled,07/2022,no,No,NA,No,NA,0,NA,0,0,20,64,0,0,NA,NA,NA,NA,,,NA,NA
+474,Sülz 3,201,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,60,281,94,35,,71,119,49,04/04/23,26/05/23,0,104
+475,Sülz 3,202,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,10,35,15,14,,82,93,12,04/04/23,,0,56
+476,Sülz 3,202,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,90,40,73,70,,80,119,40,04/04/23,26/05/23,0,125
+477,Sülz 3,202,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,5,38,1,1,,78,87,10,04/04/23,,0,36
+478,Sülz 3,202,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,400,697,37,14,,78,87,10,04/04/23,,0,7
+479,Sülz 3,203,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,80,76,62,62,,71,93,23,04/04/23,,0,76
+480,Sülz 3,203,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,110,101,37,37,,78,92,15,04/04/23,26/05/23,0,57
+481,Sülz 3,204,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,30,102,56,56,,73,93,21,04/04/23,26/05/23,0,15
+482,Sülz 3,204,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,25,105,57,52,,59,119,61,04/04/23,Too Green,0,64
+483,Sülz 3,204,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,17,95,143,120,,78,119,42,04/04/23,26/05/23,0,20
+484,Sülz 3,204,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,17,59,19,18,,80,85,6,04/04/23,,0,85
+485,Sülz 4,204,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,20,19,3,1,,87,119,33,04/04/23,,0,0
+486,Sülz 3,206,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,90,694,234,196,,59,119,61,04/04/23,26/05/23,1,278
+487,Sülz 3,206,wall,04/2023,Not sampled,07/2022,no,No,NA,No,Yes,1,NA,0,0,700,0,0,0,NA,NA,NA,NA,,,0,8
+488,Sülz 3,206,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,50,94,3,1,,92,119,28,04/04/23,,0,6
+489,Sülz 3,206,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,23,44,15,15,,80,93,14,04/04/23,,0,8
+490,Sülz 3,207,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,45,110,34,33,,82,92,11,04/04/23,,0,3
+491,Sülz 3,208,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,75,113,72,70,,80,119,40,04/04/23,26/05/23,0,62
+492,Sülz 3,209,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,1,32,36,35,,59,92,34,04/04/23,,0,0
+493,Sülz 3,209,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,3,28,6,2,,85,119,35,04/04/23,,0,0
+494,Sülz 3,209,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,No,1,NA,0,0,2,14,13,6,,59,119,61,04/04/23,,0,0
+495,Sülz 3,209,wall,Exist,Not sampled,07/2022,no,No,NA,Yes,Yes,2,NA,0,0,50,52,25,23,,59,119,61,04/04/23,,0,11
