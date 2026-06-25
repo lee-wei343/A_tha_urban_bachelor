@@ -52,7 +52,7 @@ prepare_f6_germinated <- function() {
     mutate(
       light_till_ft       = as.integer(ft - brought_to_greenhouse),
       stratification_days = as.integer(brought_to_greenhouse - sowing_date_then_stratification),
-      ft_early            = if_else(light_till_ft >= 1, 1L, 0L),
+      ft_early            = case_when(light_till_ft >= 1 ~ 1L, TRUE ~ 0L),
       light_till_ft_maxed = replace_na(light_till_ft, 100L),
       n_shoot_axis        = replace_na(n_shoot_axis, 0L),
       height_stem         = replace_na(height_stem, 0L)
