@@ -1,0 +1,20 @@
+# R / RStudio
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Quarto / knitr caches and rendered outputs
+/*_cache/
+/*_files/
+analysis/*_cache/
+analysis/*_files/
+*.html
+
+# renv (keep lockfile, ignore the library)
+renv/library/
+renv/staging/
+renv/python/
+
+# generated figures
+figures/
