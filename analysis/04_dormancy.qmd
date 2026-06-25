@@ -1,0 +1,160 @@
+---
+title: "Dormancy / germination by environment"
+format:
+  html:
+    embed-resources: true
+    toc: true
+editor: visual
+---
+
+```{r}
+#| message: false
+library(tidyverse)
+library(DHARMa)
+library(mmrm)
+library(here)
+source(here("R/helpers.R"))
+set.seed(123)
+```
+
+Loads the cleaned dormancy table, attaches F6 plant IDs (many-to-many
+join via `id_f5_parent`), excludes strong-fungi rows, and computes
+`germ_ratio` and `weeks_elapsed`. See `R/helpers.R` for details.
+
+```{r}
+#| message: false
+dormancy_for_analysis <- prepare_dormancy_for_analysis()
+```
+
+## Dormancy model
+
+mmrm = Mixed model for repeated measurements.
+
+### Pop
+
+#### glm (run 3 only)
+
+```{r}
+dormancy_pop_model <- glm(
+  germ_ratio ~ pop, family = gaussian(),
+  data = dormancy_for_analysis |> filter(run == 3)
+)
+summary(dormancy_pop_model)
+```
+
+```{r}
+car::Anova(dormancy_pop_model, type = "III")
+```
+
+#### MMRM
+
+```{r}
+mmrm_dormancy_pop_model <- mmrm(
+  germ_ratio ~ pop + us(run | id),
+  data = dormancy_for_analysis
+)
+summary(mmrm_dormancy_pop_model)
+```
+
+```{r}
+car::Anova(mmrm_dormancy_pop_model, type = "III")
+```
+
+### Ecotype
+
+#### MMRM
+
+```{r}
+mmrm_dormancy_type_model <- mmrm(
+  germ_ratio ~ ecotype + us(run | id),
+  data = dormancy_for_analysis
+)
+summary(mmrm_dormancy_type_model)
+```
+
+```{r}
+car::Anova(mmrm_dormancy_type_model, type = "III")
+```
+
+```{r}
+time_summary <- dormancy_for_analysis |>
+  group_by(run, ecotype) |>
+  summarise(
+    mean_germ = mean(germ_ratio, na.rm = TRUE),
+    se_germ   = sd  (germ_ratio, na.rm = TRUE) / sqrt(n()),
+    n         = n(),
+    .groups = "drop"
+  ) |>
+  mutate(weeks_elapsed = case_when(
+    run == "1" ~ 0,
+    run == "2" ~ 3,
+    run == "3" ~ 6
+  ))
+```
+
+```{r}
+ggplot(time_summary, aes(x = weeks_elapsed, y = mean_germ, color = ecotype)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = mean_germ - se_germ, ymax = mean_germ + se_germ),
+                width = 0.2) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(breaks = c(0, 3, 6),
+                     labels = c("Run 1", "Run 2", "Run 3")) +
+  scale_color_manual(values = ecotype_colors) +
+  labs(
+    x     = "Time (weeks)",
+    y     = "Mean Germination Ratio",
+    title = "Dormancy Loss Over Time by Environment Type"
+  ) +
+  theme_minimal()
+```
+
+## Dormancy model per run
+
+### Run 1
+
+```{r}
+dormancy_model_run_1 <- lme4::glmer(
+  germ_ratio ~ ecotype + (1 | pop) + (1 | group),
+  family = gaussian(),
+  data   = dormancy_for_analysis |> filter(run == 1)
+)
+summary(dormancy_model_run_1)
+```
+
+### Run 2
+
+```{r}
+dormancy_model_run_2 <- lme4::glmer(
+  germ_ratio ~ ecotype + (1 | pop) + (1 | group),
+  family = gaussian(),
+  data   = dormancy_for_analysis |> filter(run == 2)
+)
+summary(dormancy_model_run_2)
+```
+
+### Run 3
+
+```{r}
+dormancy_model_run_3 <- lme4::glmer(
+  germ_ratio ~ ecotype + (1 | pop) + (1 | group),
+  family = gaussian(),
+  data   = dormancy_for_analysis |> filter(run == 3)
+)
+summary(dormancy_model_run_3)
+```
+
+```{r}
+emmeans::contrast(
+  emmeans::emmeans(dormancy_model_run_3, ~ ecotype),
+  method = "pairwise", adjust = "tukey"
+)
+```
+
+```{r}
+# overdispersion?
+simulation_out2 <- simulateResiduals(fittedModel = dormancy_model_run_3)
+testDispersion(simulation_out2)
+# no overdispersion
+```

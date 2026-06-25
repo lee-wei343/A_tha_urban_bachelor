@@ -1,0 +1,68 @@
+---
+title: "F6 flowering time by environment"
+format:
+  html:
+    embed-resources: true
+    toc: true
+editor: visual
+---
+
+```{r}
+#| message: false
+library(tidyverse)
+library(DHARMa)
+library(here)
+source(here("R/helpers.R"))
+set.seed(123)
+```
+
+Load the F6 generation, filter to plants that germinated by 2025-07-04,
+and derive the flowering-time / stratification columns used below.
+
+```{r}
+#| message: false
+tplant_F6_germinated <- prepare_f6_germinated()
+```
+
+## Binary early- vs late-flowering
+
+```{r}
+ft_model <- lme4::glmer(
+  ft_early ~ ecotype + (1 | pop) + (1 | tray) + (1 | stratification_days),
+  family = binomial(),
+  data   = tplant_F6_germinated
+)
+# Tray and stratification as random effects did not influence the model
+summary(ft_model)
+```
+
+```{r}
+plot(ft_model)
+```
+
+```{r}
+# overdispersion?
+simulation_out <- simulateResiduals(fittedModel = ft_model)
+testDispersion(simulation_out)
+# no overdispersion
+```
+
+## Maxed flowering time
+
+Non-germinated plants' flowering time is capped at 100 (see
+`light_till_ft_maxed` in `R/helpers.R`).
+
+### Ecotype
+
+```{r}
+ft_maxed_type_model <- lme4::glmer(
+  light_till_ft_maxed ~ ecotype + (1 | pop) + (1 | tray) + (1 | stratification_days),
+  family = poisson(),
+  data   = tplant_F6_germinated
+)
+summary(ft_maxed_type_model)
+```
+
+```{r}
+car::Anova(ft_maxed_type_model, type = "III")
+```

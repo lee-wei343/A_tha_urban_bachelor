@@ -1,0 +1,435 @@
+---
+title: "F5 leaf morphology and shoot axis by environment"
+format:
+  html:
+    embed-resources: true
+    toc: true
+editor: visual
+---
+
+```{r}
+#| message: false
+library(tidyverse)
+library(DHARMa)
+library(here)
+source(here("R/helpers.R"))
+set.seed(123)
+```
+
+```{r}
+#| message: false
+tplant <- load_tplant_F5()
+```
+
+## EDA of leaf shape and leaf edge per environment
+
+### Populations per ecotype
+
+```{r}
+pop_per_eco <- tplant |>
+  distinct(pop, .keep_all = TRUE) |>
+  select(pop, ecotype) |>
+  group_by(ecotype) |>
+  summarise(n_pop_per_eco = n())
+
+ggplot(pop_per_eco, aes(y = n_pop_per_eco, x = ecotype, fill = ecotype)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = ecotype_colors) +
+  theme_thesis() +
+  theme(legend.position = "none") +
+  labs(y = "Number of Populations per Type")
+```
+
+### Replicates per ecotype
+
+```{r}
+repl_per_eco <- tplant |>
+  select(replicate, ecotype) |>
+  group_by(ecotype) |>
+  summarise(n_repl_per_eco = n())
+
+ggplot(repl_per_eco, aes(y = n_repl_per_eco, x = ecotype, fill = ecotype)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = ecotype_colors) +
+  theme_thesis() +
+  theme(legend.position = "none") +
+  labs(y = "Total Individuals of the Populations by Type")
+```
+
+### Leaf shape proportions per ecotype
+
+```{r}
+leaf_shape_proportions <- tplant |>
+  drop_na(leaf_shape) |>
+  count(ecotype, leaf_shape, name = "count") |>
+  group_by(ecotype) |>
+  mutate(proportion = round(count / sum(count), 2)) |>
+  select(-count) |>
+  pivot_wider(
+    names_from   = leaf_shape,
+    values_from  = proportion,
+    names_prefix = "prop_",
+    values_fill  = 0
+  ) |>
+  ungroup()
+
+leaf_shape_long <- leaf_shape_proportions |>
+  select(ecotype, any_of(c("prop_L", "prop_O"))) |>
+  pivot_longer(
+    cols      = c(prop_L, prop_O),
+    names_to  = "leaf_shape",
+    values_to = "proportion"
+  )
+
+ggplot(leaf_shape_long, aes(x = ecotype, y = proportion, fill = leaf_shape)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  scale_fill_manual(
+    values = c("prop_L" = "#6a176e", "prop_O" = "#f8cd37"),
+    labels = c("Elongated", "Oval")
+  ) +
+  labs(x = "Type", y = "Proportion", fill = "Leaf Shape") +
+  theme_thesis() +
+  theme(legend.position = "top")
+```
+
+### Leaf edge proportions per ecotype
+
+```{r}
+leaf_edge_proportions <- tplant |>
+  drop_na(leaf_edge) |>
+  count(ecotype, leaf_edge, name = "count") |>
+  group_by(ecotype) |>
+  mutate(proportion = round(count / sum(count), 2)) |>
+  select(-count) |>
+  pivot_wider(
+    names_from   = leaf_edge,
+    values_from  = proportion,
+    names_prefix = "prop_",
+    values_fill  = 0
+  ) |>
+  ungroup()
+
+leaf_edge_long <- leaf_edge_proportions |>
+  select(ecotype, any_of(c("prop_G", "prop_S"))) |>
+  pivot_longer(
+    cols      = c(prop_G, prop_S),
+    names_to  = "leaf_edge",
+    values_to = "proportion"
+  )
+
+ggplot(leaf_edge_long, aes(x = ecotype, y = proportion, fill = leaf_edge)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  scale_fill_manual(
+    values = c("prop_G" = "#6a176e", "prop_S" = "#f8cd37"),
+    labels = c("Not Serrated", "Serrated")
+  ) +
+  labs(x = "Type", y = "Proportion", fill = "Leaf Edge") +
+  theme_thesis() +
+  theme(legend.position = "top")
+```
+
+### Leaf edge x shape combinations per ecotype
+
+```{r}
+leaf_edge_shape_proportions <- tplant |>
+  drop_na(leaf_edge, leaf_shape) |>
+  mutate(leaf_edge_shape = paste0(leaf_shape, leaf_edge)) |>
+  count(ecotype, leaf_edge_shape, name = "count") |>
+  group_by(ecotype) |>
+  mutate(proportion = round(count / sum(count), 2)) |>
+  select(-count) |>
+  pivot_wider(
+    names_from   = leaf_edge_shape,
+    values_from  = proportion,
+    names_prefix = "prop_",
+    values_fill  = 0
+  ) |>
+  ungroup() |>
+  select(ecotype, any_of(c("prop_LG", "prop_LS", "prop_OG", "prop_OS")))
+
+leaf_edge_shape_long <- leaf_edge_shape_proportions |>
+  pivot_longer(
+    cols      = c(prop_LG, prop_LS, prop_OG, prop_OS),
+    names_to  = "leaf_edge_shape",
+    values_to = "proportion"
+  )
+
+ggplot(leaf_edge_shape_long, aes(x = ecotype, y = proportion, fill = leaf_edge_shape)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  scale_fill_manual(
+    values = c("prop_LG" = "#440154", "prop_LS" = "#31688e",
+               "prop_OG" = "#35b779", "prop_OS" = "#fde725"),
+    labels = c("Long Smooth", "Long Serrated", "Oval Smooth", "Oval Serrated")
+  ) +
+  labs(x = "Type", y = "Proportion", fill = "Leaf Edge Shape") +
+  theme_thesis() +
+  theme(legend.position = "top")
+```
+
+### Mean shoot axis per ecotype
+
+```{r}
+axis_per_eco <- tplant |>
+  select(n_shoot_axis, ecotype) |>
+  drop_na(ecotype, n_shoot_axis) |>
+  group_by(ecotype) |>
+  summarise(mean_axis = round(mean(n_shoot_axis), 1))
+
+ggplot(axis_per_eco, aes(y = mean_axis, x = ecotype, fill = ecotype)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = ecotype_colors) +
+  theme_thesis() +
+  theme(legend.position = "none") +
+  labs(y = "Average Shoot Axis per Type")
+```
+
+### Distribution of sampled populations across ecotypes
+
+```{r}
+dist_sampled_pop_per_eco <- tplant |>
+  filter(pop_above_3, sampletype != "Not_sampled") |>
+  distinct(pop, .keep_all = TRUE) |>
+  group_by(ecotype) |>
+  summarise(n_sampled_pop = n())
+
+ggplot(dist_sampled_pop_per_eco, aes(y = n_sampled_pop, x = ecotype, fill = ecotype)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = ecotype_colors) +
+  theme_thesis() +
+  theme(legend.position = "none") +
+  labs(y = "Populations with Leafs Sampled from")
+```
+
+## MANOVA
+
+Is there a population-level difference in the observed traits across environment types? Because the ~2000 plants are nested in populations, individuals from the same population are non-independent. To address this, a per-population ratio of leaf edge, leaf shape and height is computed.
+
+```{r}
+ratio_trait_per_pop <- tplant |>
+  drop_na(leaf_shape, leaf_edge) |>
+  group_by(pop, ecotype) |>
+  summarise(
+    n_l                    = sum(leaf_shape == "L"),
+    n_o                    = sum(leaf_shape == "O"),
+    log_ratio_l_o          = log((n_l + 0.01) / (n_o + 0.01)),
+    n_s                    = sum(leaf_edge  == "S"),
+    n_g                    = sum(leaf_edge  == "G"),
+    log_ratio_s_g          = log((n_s + 0.01) / (n_g + 0.01)),
+    above_18cm             = sum(is_above_18cm),
+    below_18cm             = sum(!is_above_18cm),
+    log_ratio_plant_height = log((above_18cm + 0.01) / (below_18cm + 0.01)),
+    .groups = "drop"
+  ) |>
+  mutate(ecotype = as.factor(ecotype))
+```
+
+### MANOVA assumptions
+
+```{r}
+table(ratio_trait_per_pop$ecotype)
+colnames(ratio_trait_per_pop)
+
+boxplot(log_ratio_l_o          ~ ecotype, data = ratio_trait_per_pop)
+boxplot(log_ratio_s_g          ~ ecotype, data = ratio_trait_per_pop)
+boxplot(log_ratio_plant_height ~ ecotype, data = ratio_trait_per_pop)
+
+library(mvnormtest)
+
+by(
+  ratio_trait_per_pop[, c("log_ratio_l_o", "log_ratio_s_g", "log_ratio_plant_height")],
+  ratio_trait_per_pop$ecotype,
+  function(x) mshapiro.test(t(x))
+)
+# Normality violated
+
+library(biotools)
+boxM(
+  ratio_trait_per_pop[, c("log_ratio_l_o", "log_ratio_s_g", "log_ratio_plant_height")],
+  ratio_trait_per_pop$ecotype
+)
+
+pairs(ratio_trait_per_pop[, c("log_ratio_l_o", "log_ratio_s_g", "log_ratio_plant_height")])
+cor  (ratio_trait_per_pop[, c("log_ratio_l_o", "log_ratio_s_g", "log_ratio_plant_height")])
+```
+
+MANOVA assumptions are not met (normality violation). Using PERMANOVA instead.
+
+### PERMANOVA
+
+```{r}
+perm_result <- vegan::adonis2(
+  ratio_trait_per_pop[, c("log_ratio_l_o", "log_ratio_s_g", "log_ratio_plant_height")] ~ ecotype,
+  data = ratio_trait_per_pop,
+  method = "euclidean",
+  permutations = 999
+)
+
+print(perm_result)
+```
+
+#### Pairwise PERMANOVA
+
+```{r}
+library(pairwiseAdonis) # https://github.com/pmartinezarbizu/pairwiseAdonis
+
+pairwise_result <- pairwise.adonis2(
+  ratio_trait_per_pop[, c("log_ratio_l_o", "log_ratio_s_g", "log_ratio_plant_height")] ~ ecotype,
+  data = ratio_trait_per_pop,
+  method = "euclidean",
+  p.adjust.m = "bonferroni"
+)
+pairwise_result
+```
+
+## Leaf shape
+
+Is there a difference in observed leaf shape (Elongated vs Oval) between environment types, controlling for the random effects of tray and population?
+
+### Pop
+
+```{r}
+elongated_pop_model <- glm(elongated ~ pop, family = "quasibinomial", data = tplant)
+summary(elongated_pop_model)
+```
+
+```{r}
+anova(elongated_pop_model, test = "F")
+```
+
+### Type
+
+```{r}
+elongated_type_model <- lme4::glmer(
+  elongated ~ ecotype + (1 | pop) + (1 | tray),
+  family = binomial(), data = tplant
+)
+summary(elongated_type_model)
+```
+
+```{r}
+emmeans::contrast(
+  emmeans::emmeans(elongated_type_model, ~ ecotype),
+  method = "pairwise", adjust = "tukey"
+)
+```
+
+```{r}
+predictions <- emmeans::emmeans(elongated_type_model, ~ ecotype, type = "response")
+cld_result  <- multcomp::cld(predictions, Letters = letters, adjust = "tukey")
+```
+
+```{r}
+ggplot(cld_result |> as.data.frame(), aes(x = ecotype, y = prob)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), width = 0.2) +
+  geom_text(aes(label = trimws(.group), y = asymp.UCL + 0.1), size = 5) +
+  labs(x = "Surface Type", y = "Probability of Elongation") +
+  theme_thesis() +
+  ylim(0, 1) +
+  theme(legend.position = "none")
+```
+
+## Leaf edge
+
+Is there a difference in observed leaf edge (Serrated vs Smooth) between environment types, controlling for tray and population?
+
+### Pop
+
+```{r}
+serrated_pop_model <- glm(serrated ~ pop, family = "quasibinomial", data = tplant)
+summary(serrated_pop_model)
+```
+
+```{r}
+anova(serrated_pop_model, test = "F")
+```
+
+### Type
+
+```{r}
+serrated_type_model <- lme4::glmer(
+  serrated ~ ecotype + (1 | pop) + (1 | tray),
+  family = binomial(), data = tplant
+)
+summary(serrated_type_model)
+```
+
+```{r}
+emmeans::contrast(
+  emmeans::emmeans(serrated_type_model, ~ ecotype),
+  method = "pairwise", adjust = "tukey"
+)
+```
+
+```{r}
+predictions <- emmeans::emmeans(serrated_type_model, ~ ecotype, type = "response")
+cld_result  <- multcomp::cld(predictions, Letters = letters, adjust = "tukey")
+
+ggplot(cld_result |> as.data.frame(), aes(x = ecotype, y = prob)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), width = 0.2) +
+  geom_text(aes(label = trimws(.group), y = asymp.UCL + 0.1), size = 5) +
+  labs(x = "Surface Type", y = "Probability of Serration") +
+  theme_thesis() +
+  ylim(0, 1) +
+  theme(legend.position = "none")
+```
+
+## Shoot axis
+
+```{r}
+# hist(tplant$n_shoot_axis)
+# left skewed so choosing negative binomial family for glmm
+```
+
+```{r}
+# axis_model <- glmmTMB::glmmTMB(n_shoot_axis ~ ecotype + (1 | tray) + (1 | pop),
+#                                data = tplant,
+#                                family = glmmTMB::nbinom2())
+#
+# summary(axis_model)
+```
+
+## Leaf morphology (combined)
+
+```{r}
+tplant <- tplant |>
+  mutate(leaf_morph = case_when(
+    serrated == 1 & elongated == 1 ~ "Serrated & Elongated",
+    serrated == 0 & elongated == 1 ~ "Smooth & Elongated",
+    serrated == 1 & elongated == 0 ~ "Serrated & Oval",
+    serrated == 0 & elongated == 0 ~ "Smooth & Oval",
+    TRUE                           ~ NA_character_
+  ))
+```
+
+```{r}
+leaf_type_table <- table(tplant$leaf_morph, tplant$ecotype)
+print(leaf_type_table)
+
+chi_test <- chisq.test(leaf_type_table)
+print(chi_test)
+```
+
+```{r}
+leaf_type_table_df <- as.data.frame(leaf_type_table) |>
+  rename(ecotype = Var2, morphology = Var1)
+
+ggplot(leaf_type_table_df, aes(x = ecotype, y = Freq, fill = morphology)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  scale_fill_manual(values = c(
+    "Serrated & Elongated" = "#6a176e",
+    "Serrated & Oval"      = "#f8cd37",
+    "Smooth & Elongated"   = "#bc3754",
+    "Smooth & Oval"        = "#f37819"
+  )) +
+  labs(x = "Type", y = "Count of Trait Combination", fill = "Leaf Morphology:") +
+  theme_thesis() +
+  theme(legend.position = "top")
+```
+
+```{r}
+corrplot::corrplot(chi_test$residuals, is.cor = FALSE)
+```
+
+Red circle means avoided by plant, blue circle means preferred.

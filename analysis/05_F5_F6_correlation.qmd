@@ -1,0 +1,97 @@
+---
+title: "F5 vs F6 population-level trait correlation"
+format:
+  html:
+    embed-resources: true
+    toc: true
+editor: visual
+---
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+source(here("R/helpers.R"))
+set.seed(123)
+```
+
+```{r}
+#| message: false
+tplant_F5            <- load_tplant_F5()
+tplant_F6_germinated <- prepare_f6_germinated()
+```
+
+## Per-population trait ratios
+
+### F5
+
+```{r}
+ratio_per_pop_F5 <- tplant_F5 |>
+  drop_na(leaf_shape, leaf_edge) |>
+  group_by(pop, ecotype) |>
+  summarise(
+    n_l           = sum(leaf_shape == "L"),
+    n_o           = sum(leaf_shape == "O"),
+    log_ratio_l_o = log((n_l + 0.01) / (n_o + 0.01)),
+    n_s           = sum(leaf_edge  == "S"),
+    n_g           = sum(leaf_edge  == "G"),
+    log_ratio_s_g = log((n_s + 0.01) / (n_g + 0.01)),
+    .groups = "drop"
+  )
+```
+
+### F6
+
+```{r}
+ratio_per_pop_F6 <- tplant_F6_germinated |>
+  drop_na(elongated, serrated) |>
+  group_by(pop, ecotype) |>
+  summarise(
+    n_l           = sum(elongated == 1),
+    n_o           = sum(elongated == 0),
+    log_ratio_l_o = log((n_l + 0.01) / (n_o + 0.01)),
+    n_s           = sum(serrated  == 1),
+    n_g           = sum(serrated  == 0),
+    log_ratio_s_g = log((n_s + 0.01) / (n_g + 0.01)),
+    .groups = "drop"
+  )
+```
+
+### Joined (one row per population)
+
+```{r}
+pop_ratio_joined <- ratio_per_pop_F6 |>
+  left_join(ratio_per_pop_F5, by = "pop", suffix = c("_F6", "_F5"))
+```
+
+## Leaf shape
+
+```{r}
+corr_elon <- glm(log_ratio_l_o_F5 ~ log_ratio_l_o_F6,
+                 data = pop_ratio_joined, family = gaussian())
+summary(corr_elon)
+```
+
+```{r}
+ggplot(pop_ratio_joined, aes(x = log_ratio_l_o_F5, y = log_ratio_l_o_F6)) +
+  geom_point(aes(color = ecotype_F6)) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_manual(values = ecotype_colors) +
+  theme_minimal()
+```
+
+## Leaf edge
+
+```{r}
+corr_edge <- glm(log_ratio_s_g_F5 ~ log_ratio_s_g_F6,
+                 data = pop_ratio_joined, family = gaussian())
+summary(corr_edge)
+```
+
+```{r}
+ggplot(pop_ratio_joined, aes(x = log_ratio_s_g_F5, y = log_ratio_s_g_F6)) +
+  geom_point(aes(color = ecotype_F6)) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_manual(values = ecotype_colors) +
+  theme_minimal()
+```

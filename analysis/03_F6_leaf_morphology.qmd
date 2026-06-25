@@ -1,0 +1,334 @@
+---
+title: "F6 leaf morphology by environment"
+format:
+  html:
+    embed-resources: true
+    toc: true
+editor: visual
+---
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+source(here("R/helpers.R"))
+set.seed(123)
+```
+
+```{r}
+#| message: false
+tplant_F6_germinated <- prepare_f6_germinated()
+```
+
+The F6 raw data contains some leaf-edge values beyond the F5 vocabulary:
+`WS` (weak serrated) and `H` (half serrated). For the binary serrated /
+smooth analyses below they are treated as serrated. The cleaned F6 table
+preserved the raw values, so we re-derive `serrated` here from a
+simplified edge classification.
+
+```{r}
+tplant_F6_germinated <- tplant_F6_germinated |>
+  mutate(
+    leaf_edge_simple = case_when(
+      leaf_edge %in% c("WS", "H") ~ "S",
+      TRUE                         ~ leaf_edge
+    ),
+    serrated = case_when(
+      leaf_edge_simple == "S" ~ 1L,
+      leaf_edge_simple == "G" ~ 0L,
+      TRUE                    ~ NA_integer_
+    )
+  )
+```
+
+## Leaf edge
+
+### Pop
+
+```{r}
+serrated_pop2_model <- glm(
+  serrated ~ pop, family = "quasibinomial",
+  data = tplant_F6_germinated
+)
+summary(serrated_pop2_model)
+```
+
+```{r}
+anova(serrated_pop2_model, test = "F")
+```
+
+### Type
+
+```{r}
+serrated_type2_model <- lme4::glmer(
+  serrated ~ ecotype + (1 | tray) + (1 | pop),
+  family = binomial(),
+  data   = tplant_F6_germinated
+)
+summary(serrated_type2_model)
+```
+
+```{r}
+emmeans::contrast(
+  emmeans::emmeans(serrated_type2_model, ~ ecotype),
+  method = "pairwise", adjust = "tukey"
+)
+```
+
+```{r}
+predictions <- emmeans::emmeans(serrated_type2_model, ~ ecotype, type = "response")
+cld_result  <- multcomp::cld(predictions, Letters = letters, adjust = "tukey")
+
+ggplot(cld_result |> as.data.frame(), aes(x = ecotype, y = prob)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), width = 0.2) +
+  geom_text(aes(label = trimws(.group), y = asymp.UCL - 0.1), size = 5) +
+  labs(x = "Surface Type", y = "Probability of Serration") +
+  theme_thesis() +
+  ylim(0, 1) +
+  theme(legend.position = "none")
+```
+
+## Leaf shape
+
+`elongated` is already encoded in the cleaned F6 table from `leaf_shape ∈ {L, O}`; non-standard values (e.g. `OL`, `O+L`) became NA during cleaning.
+
+### Pop
+
+```{r}
+elongated_pop2_model <- glm(
+  elongated ~ pop, family = "quasibinomial",
+  data = tplant_F6_germinated
+)
+summary(elongated_pop2_model)
+```
+
+```{r}
+anova(elongated_pop2_model, test = "F") # genetic component
+```
+
+### Type
+
+```{r}
+elongated_type2_model <- lme4::glmer(
+  elongated ~ ecotype + (1 | tray) + (1 | pop),
+  family = binomial(),
+  data   = tplant_F6_germinated
+)
+summary(elongated_type2_model)
+```
+
+```{r}
+emmeans::contrast(
+  emmeans::emmeans(elongated_type2_model, ~ ecotype),
+  method = "pairwise", adjust = "tukey"
+)
+```
+
+```{r}
+predictions <- emmeans::emmeans(elongated_type2_model, ~ ecotype, type = "response")
+cld_result  <- multcomp::cld(predictions, Letters = letters, adjust = "tukey")
+
+ggplot(cld_result |> as.data.frame(), aes(x = ecotype, y = prob)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), width = 0.2) +
+  geom_text(aes(label = trimws(.group), y = asymp.UCL + 0.1), size = 5) +
+  labs(x = "Surface Type", y = "Probability of Elongation") +
+  theme_thesis() +
+  ylim(0, 1) +
+  theme(legend.position = "none")
+```
+
+## Shoot axis
+
+```{r}
+# hist(tplant_F6_germinated$n_shoot_axis)
+# left skewed so choosing negative binomial family for glmm
+```
+
+```{r}
+# axis2_model <- glmmTMB::glmmTMB(n_shoot_axis ~ ecotype + (1 | tray) + (1 | pop),
+#                                 data = tplant_F6_germinated,
+#                                 family = glmmTMB::nbinom2())
+# summary(axis2_model)
+```
+
+## Combined leaf morphology
+
+### Smooth × serrated × elongated × oval
+
+```{r}
+tplant_F6_germinated <- tplant_F6_germinated |>
+  mutate(leaf_morph = case_when(
+    serrated == 1 & elongated == 1 ~ "Serrated & Elongated",
+    serrated == 0 & elongated == 1 ~ "Smooth & Elongated",
+    serrated == 1 & elongated == 0 ~ "Serrated & Oval",
+    serrated == 0 & elongated == 0 ~ "Smooth & Oval",
+    TRUE                           ~ NA_character_
+  ))
+```
+
+```{r}
+leaf_type_table2 <- table(tplant_F6_germinated$leaf_morph,
+                          tplant_F6_germinated$ecotype)
+print(leaf_type_table2)
+
+chi_test2 <- chisq.test(leaf_type_table2)
+print(chi_test2)
+# Smooth-leaf rows are sparse
+```
+
+Not significant — too few plants with smooth leaf margin.
+
+### Excluding the underrepresented smooth class
+
+```{r}
+tplant_F6_germinated <- tplant_F6_germinated |>
+  mutate(leaf_morph_no_smooth = case_when(
+    serrated == 1 & elongated == 1 ~ "Serrated & Elongated",
+    serrated == 1 & elongated == 0 ~ "Serrated & Oval",
+    TRUE                           ~ NA_character_
+  ))
+```
+
+```{r}
+leaf_type_table3 <- table(tplant_F6_germinated$leaf_morph_no_smooth,
+                          tplant_F6_germinated$ecotype)
+print(leaf_type_table3)
+
+chi_test3 <- chisq.test(leaf_type_table3)
+print(chi_test3)
+```
+
+Not significant.
+
+### Proportional bar plot
+
+```{r}
+leaf_edge_shape_proportions <- tplant_F6_germinated |>
+  mutate(
+    serrated_plot  = case_when(serrated  == 1 ~ "S", serrated  == 0 ~ "G"),
+    elongated_plot = case_when(elongated == 1 ~ "L", elongated == 0 ~ "O"),
+    leaf_edge_shape = paste0(elongated_plot, serrated_plot)
+  ) |>
+  count(ecotype, leaf_edge_shape, name = "count") |>
+  group_by(ecotype) |>
+  mutate(proportion = round(count / sum(count), 2)) |>
+  select(-count) |>
+  pivot_wider(
+    names_from   = leaf_edge_shape,
+    values_from  = proportion,
+    names_prefix = "prop_",
+    values_fill  = 0
+  ) |>
+  ungroup()
+
+leaf_edge_shape_long <- leaf_edge_shape_proportions |>
+  select(ecotype, any_of(c("prop_LG", "prop_LS", "prop_OG", "prop_OS"))) |>
+  pivot_longer(
+    cols      = c(prop_LG, prop_LS, prop_OG, prop_OS),
+    names_to  = "leaf_edge_shape",
+    values_to = "proportion"
+  )
+
+ggplot(leaf_edge_shape_long, aes(x = ecotype, y = proportion, fill = leaf_edge_shape)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  scale_fill_manual(
+    values = c("prop_LG" = "#440154", "prop_LS" = "#31688e",
+               "prop_OG" = "#35b779", "prop_OS" = "#fde725"),
+    labels = c("Long Smooth", "Long Serrated", "Oval Smooth", "Oval Serrated")
+  ) +
+  labs(x = "Type", y = "Proportion of Leaf Morphology", fill = "") +
+  theme_thesis() +
+  theme(legend.position = "top")
+```
+
+## MANOVA
+
+Is there a population-level difference in observed traits across environment types?
+
+```{r}
+ratio_trait_per_pop2 <- tplant_F6_germinated |>
+  drop_na(elongated, serrated) |>
+  group_by(pop, ecotype, height_stem) |>
+  summarise(
+    n_l           = sum(elongated == 1),
+    n_o           = sum(elongated == 0),
+    log_ratio_l_o = log((n_l + 0.01) / (n_o + 0.01)),
+    n_s           = sum(serrated  == 1),
+    n_g           = sum(serrated  == 0),
+    log_ratio_s_g = log((n_s + 0.01) / (n_g + 0.01)),
+    .groups = "drop"
+  ) |>
+  mutate(ecotype = as.factor(ecotype))
+```
+
+### MANOVA assumptions
+
+```{r}
+table(ratio_trait_per_pop2$ecotype)
+colnames(ratio_trait_per_pop2)
+
+boxplot(log_ratio_l_o ~ ecotype, data = ratio_trait_per_pop2)
+boxplot(log_ratio_s_g ~ ecotype, data = ratio_trait_per_pop2)
+boxplot(height_stem   ~ ecotype, data = ratio_trait_per_pop2)
+
+library(mvnormtest)
+by(
+  ratio_trait_per_pop2[, c("log_ratio_l_o", "log_ratio_s_g", "height_stem")],
+  ratio_trait_per_pop2$ecotype,
+  function(x) mshapiro.test(t(x))
+)
+# Normality violated
+```
+
+MANOVA assumptions are not met. Using PERMANOVA instead.
+
+### PERMANOVA
+
+```{r}
+perm_result <- vegan::adonis2(
+  ratio_trait_per_pop2[, c("log_ratio_l_o", "log_ratio_s_g", "height_stem")] ~ ecotype,
+  data = ratio_trait_per_pop2,
+  method = "euclidean",
+  permutations = 999
+)
+
+perm_result
+```
+
+Not significantly different.
+
+## Leaf morphology summary
+
+```{r}
+tplant_F6_germinated <- tplant_F6_germinated |>
+  mutate(leaf_morph = case_when(
+    serrated == 1 & elongated == 1 ~ "Serrated & Elongated",
+    serrated == 0 & elongated == 1 ~ "Smooth & Elongated",
+    serrated == 1 & elongated == 0 ~ "Serrated & Oval",
+    serrated == 0 & elongated == 0 ~ "Smooth & Oval",
+    TRUE                           ~ NA_character_
+  ))
+
+leaf_type_table4 <- table(tplant_F6_germinated$leaf_morph,
+                          tplant_F6_germinated$ecotype)
+print(leaf_type_table4)
+```
+
+```{r}
+leaf_type_table4_df <- as.data.frame(leaf_type_table4) |>
+  rename(ecotype = Var2, morphology = Var1)
+
+ggplot(leaf_type_table4_df, aes(x = ecotype, y = Freq, fill = morphology)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  scale_fill_manual(values = c(
+    "Serrated & Elongated" = "#6a176e",
+    "Serrated & Oval"      = "#f8cd37",
+    "Smooth & Elongated"   = "#bc3754",
+    "Smooth & Oval"        = "#f37819"
+  )) +
+  labs(x = "Type", y = "Count of Trait Combination", fill = "Leaf Morphology:") +
+  theme_thesis() +
+  theme(legend.position = "top")
+```
