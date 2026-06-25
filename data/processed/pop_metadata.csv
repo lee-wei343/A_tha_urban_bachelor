@@ -1,0 +1,492 @@
+pop,ecotype
+1,Wall
+2,Wall
+3,Wall
+4,Wall
+5,Wall
+6,Wall
+7,Wall
+8,Wall
+9,Wall
+10,Wall
+11,Wall
+12,Wall
+13,Wall
+14,Wall
+15,Wall
+16,Wall
+17,Wall
+18,Wall
+19,Wall
+20,Wall
+21,Wall
+22,Wall
+23,Wall
+24,Wall
+25,Wall
+26,Wall
+27,Wall
+28,Wall
+29,Wall
+30,Grass
+31,Grass
+32,Grass
+33,Grass
+34,Grass
+35,Grass
+36,Grass
+37,Grass
+38,Grass
+39,Grass
+40,Grass
+41,Grass
+42,Grass
+43,Grass
+44,Pavement
+45,Grass
+46,Pavement
+47,Grass
+48,Pavement
+49,Grass
+50,Pavement
+51,Pavement
+52,Grass
+53,Grass
+54,Grass
+55,Grass
+56,Grass
+57,Grass
+58,Grass
+59,Grass
+60,Grass
+61,Grass
+62,Grass
+63,Grass
+64,Grass
+65,Grass
+66,Grass
+67,Grass
+68,Grass
+69,Grass
+70,Grass
+71,Grass
+72,Grass
+73,Grass
+74,Grass
+75,Grass
+76,Grass
+77,Grass
+78,Grass
+79,Grass
+80,Grass
+81,Grass
+82,Grass
+83,Grass
+84,Grass
+85,Grass
+86,Grass
+87,Grass
+88,Grass
+89,Grass
+90,Grass
+91,Grass
+92,Grass
+93,Grass
+94,Pavement
+95,Pavement
+96,Pavement
+97,Pavement
+98,Pavement
+99,Pavement
+100,Pavement
+101,Pavement
+102,Pavement
+103,Pavement
+104,Pavement
+105,Pavement
+106,Pavement
+107,Pavement
+108,Pavement
+109,Pavement
+110,Pavement
+111,Pavement
+112,Pavement
+113,Pavement
+114,Pavement
+115,Pavement
+116,Pavement
+117,Pavement
+118,Pavement
+119,Pavement
+120,Pavement
+121,Pavement
+122,Pavement
+123,Pavement
+124,Pavement
+125,Pavement
+126,Pavement
+127,Pavement
+128,Pavement
+129,Pavement
+130,Pavement
+131,Pavement
+132,Pavement
+133,Pavement
+134,Pavement
+135,Pavement
+136,Pavement
+137,Pavement
+138,Pavement
+139,Pavement
+140,Pavement
+141,Grass
+142,Grass
+143,Grass
+144,Grass
+145,Grass
+146,Grass
+147,Grass
+148,Grass
+149,Grass
+150,Grass
+151,Grass
+152,Grass
+153,Grass
+154,Pavement
+155,Pavement
+156,Pavement
+157,Pavement
+158,Pavement
+159,Tree Bed
+160,Tree Bed
+161,Tree Bed
+162,Tree Bed
+163,Tree Bed
+164,Tree Bed
+165,Tree Bed
+166,Tree Bed
+167,Tree Bed
+168,Tree Bed
+169,Tree Bed
+170,Tree Bed
+171,Tree Bed
+172,Tree Bed
+173,Tree Bed
+174,Tree Bed
+175,Tree Bed
+176,Tree Bed
+177,Tree Bed
+178,Tree Bed
+179,Tree Bed
+180,Tree Bed
+181,Tree Bed
+182,Tree Bed
+183,Tree Bed
+184,Tree Bed
+185,Pavement
+186,Pavement
+187,Pavement
+188,Pavement
+189,Pavement
+190,Pavement
+191,Pavement
+192,Pavement
+193,Pavement
+194,Pavement
+195,Pavement
+196,Pavement
+197,Pavement
+198,Pavement
+199,Pavement
+200,Pavement
+201,Pavement
+202,Pavement
+203,Pavement
+204,Pavement
+205,Pavement
+206,Wall
+207,Wall
+208,Grass
+209,Grass
+210,Pavement
+211,Grass
+212,Grass
+213,Pavement
+214,Pavement
+215,Tree Bed
+216,Tree Bed
+217,Tree Bed
+218,Tree Bed
+219,Tree Bed
+220,Tree Bed
+221,Tree Bed
+222,Tree Bed
+223,Tree Bed
+224,Tree Bed
+225,Tree Bed
+226,Tree Bed
+227,Tree Bed
+228,Tree Bed
+229,Tree Bed
+230,Tree Bed
+231,Tree Bed
+232,Tree Bed
+233,Tree Bed
+234,Tree Bed
+235,Tree Bed
+236,Tree Bed
+237,Tree Bed
+238,Tree Bed
+239,Tree Bed
+240,Tree Bed
+241,Tree Bed
+242,Tree Bed
+243,Pavement
+244,Grass
+245,Grass
+246,Grass
+247,Grass
+248,Pavement
+249,Pavement
+250,Pavement
+251,Pavement
+252,Pavement
+253,Pavement
+254,Wall
+255,Grass
+256,Grass
+257,Wall
+258,Wall
+259,Wall
+260,Wall
+261,Wall
+262,Tree Bed
+263,Tree Bed
+264,Tree Bed
+265,Tree Bed
+266,Tree Bed
+267,Tree Bed
+268,Tree Bed
+269,Tree Bed
+270,Tree Bed
+271,Tree Bed
+272,Grass
+273,Wall
+274,Wall
+275,Grass
+276,Grass
+277,Grass
+278,Tree Bed
+279,Pavement
+280,Pavement
+281,Pavement
+282,Pavement
+283,Pavement
+284,Tree Bed
+285,Tree Bed
+286,Tree Bed
+287,Tree Bed
+288,Tree Bed
+289,Tree Bed
+290,Tree Bed
+291,Tree Bed
+292,Tree Bed
+293,Tree Bed
+294,Tree Bed
+295,Tree Bed
+296,Tree Bed
+297,Tree Bed
+298,Tree Bed
+299,Tree Bed
+300,Tree Bed
+301,Tree Bed
+302,Tree Bed
+303,Tree Bed
+304,Tree Bed
+305,Tree Bed
+306,Tree Bed
+307,Tree Bed
+308,Tree Bed
+309,Tree Bed
+310,Tree Bed
+311,Tree Bed
+312,Tree Bed
+313,Tree Bed
+314,Tree Bed
+315,Tree Bed
+316,Tree Bed
+317,Tree Bed
+318,Tree Bed
+319,Pavement
+320,Pavement
+321,Pavement
+322,Pavement
+323,Grass
+324,Grass
+325,Grass
+326,Grass
+327,Grass
+328,Pavement
+329,Pavement
+330,Grass
+331,Pavement
+332,Pavement
+333,Pavement
+334,Grass
+335,Grass
+336,Grass
+337,Grass
+338,Grass
+339,Grass
+340,Grass
+341,Pavement
+342,Pavement
+343,Pavement
+344,Pavement
+345,Pavement
+346,Pavement
+347,Pavement
+348,Pavement
+349,Grass
+350,Grass
+351,Grass
+352,Grass
+353,Wall
+354,Wall
+355,Wall
+356,Wall
+357,Wall
+358,Grass
+359,Grass
+360,Grass
+361,Grass
+362,Grass
+363,Grass
+364,Grass
+365,Grass
+366,Grass
+367,Grass
+368,Grass
+369,Grass
+370,Grass
+371,Pavement
+372,Pavement
+373,Pavement
+374,Pavement
+375,Pavement
+376,Pavement
+377,Pavement
+378,Pavement
+379,Pavement
+380,Grass
+381,Grass
+382,Grass
+383,Grass
+384,Grass
+385,Tree Bed
+386,Tree Bed
+387,Tree Bed
+388,Tree Bed
+389,Tree Bed
+390,Tree Bed
+391,Grass
+392,Grass
+393,Grass
+394,Grass
+395,Grass
+396,Grass
+397,Grass
+398,Grass
+399,Grass
+400,Grass
+401,Grass
+402,Grass
+403,Grass
+404,Grass
+405,Pavement
+406,Pavement
+407,Pavement
+408,Pavement
+409,Pavement
+410,Grass
+411,Grass
+412,Wall
+413,Wall
+414,Wall
+417,Wall
+418,Wall
+419,Wall
+420,Wall
+421,Wall
+422,Wall
+423,Wall
+424,Wall
+425,Wall
+426,Wall
+427,Wall
+428,Wall
+429,Wall
+431,Wall
+433,Wall
+434,Wall
+435,Wall
+436,Wall
+437,Wall
+438,Wall
+439,Wall
+440,Wall
+441,Pavement
+442,Pavement
+443,Pavement
+444,Pavement
+445,Grass
+446,Grass
+447,Grass
+448,Grass
+449,Grass
+450,Grass
+451,Pavement
+452,Pavement
+453,Pavement
+454,Pavement
+455,Pavement
+456,Pavement
+457,Tree Bed
+458,Pavement
+459,Grass
+460,Grass
+461,Pavement
+462,Grass
+463,Grass
+464,Pavement
+465,Pavement
+466,Pavement
+467,Pavement
+468,Pavement
+469,Pavement
+470,Pavement
+471,Pavement
+472,Wall
+473,Wall
+474,Wall
+475,Wall
+476,Wall
+477,Wall
+478,Wall
+479,Wall
+480,Wall
+481,Wall
+482,Wall
+483,Wall
+484,Wall
+485,Wall
+486,Wall
+487,Wall
+488,Wall
+489,Wall
+490,Wall
+491,Wall
+492,Wall
+493,Wall
+494,Wall
+495,Wall
