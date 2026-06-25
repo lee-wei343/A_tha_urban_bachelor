@@ -15,15 +15,30 @@ analysis/       One Quarto document per research question.
 figures/        Generated plots (gitignored).
 ```
 
-## Reproducing the cleaned datasets
+## Setup
 
-Requires R (≥ 4.2). Install the dependencies the pipeline uses:
+All R packages used by the pipeline and the analysis docs can be
+installed via mamba (conda-forge), plus two that are not on conda-forge:
 
-```r
-install.packages(c("tidyverse", "janitor", "here", "stringi"))
+```bash
+mamba install -c conda-forge \
+    r-base quarto \
+    r-tidyverse r-janitor r-here r-stringi \
+    r-dharma r-mvnormtest r-vegan \
+    r-lme4 r-emmeans r-multcomp r-multcompview r-car r-mmrm r-corrplot \
+    r-remotes
 ```
 
-Then from the repo root:
+Then install the two CRAN/GitHub-only packages via R:
+
+```bash
+Rscript -e 'install.packages("biotools", repos="https://cloud.r-project.org")'
+Rscript -e 'remotes::install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")'
+```
+
+## Reproducing the cleaned datasets
+
+From the repo root:
 
 ```bash
 Rscript scripts/00_run_all.R
@@ -43,19 +58,7 @@ need to rebuild one output.
 ## Running the analyses
 
 The analysis Quarto documents read from `data/processed/`, so the
-cleaning pipeline must have run at least once. They use additional
-packages on top of those above:
-
-```r
-install.packages(c(
-  "DHARMa", "mvnormtest", "biotools", "vegan",
-  "lme4", "emmeans", "multcomp", "car", "mmrm", "corrplot"
-))
-# Plus pairwiseAdonis from github:
-# remotes::install_github("pmartinezarbizu/pairwiseAdonis/pairwiseAdonis")
-```
-
-Render an analysis doc with:
+cleaning pipeline must have run at least once. Render a doc with:
 
 ```bash
 quarto render analysis/01_F5_leaf_morphology.qmd
